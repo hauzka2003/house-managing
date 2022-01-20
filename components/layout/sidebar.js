@@ -47,7 +47,7 @@ function SideBar() {
       "rgba(50, 50, 93, 0.25) 30px 30px 30px -15px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset",
   };
   const [clicked, onClicked] = useState(router.pathname);
-  const [isExpanded, setExpanded] = useState(false);
+  const [isExpanded, setExpanded] = useState(true);
   useEffect(() => {
     onClicked(router.pathname);
   }, [router.pathname]);

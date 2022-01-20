@@ -9,7 +9,13 @@ const links = ["/", "/log-in", "/plans", "/support", "/contact", "/about-us"];
 function Layout({ children }) {
   const router = useRouter();
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: "rgba(255,238,214,0.4)",
+      }}
+    >
       {links.indexOf(router.pathname) != -1 ? (
         <Header />
       ) : (
@@ -18,7 +24,12 @@ function Layout({ children }) {
           <WelcomeTab />
         </div>
       )}
-      <div style={{ marginTop: "3rem", overflow: "hidden", height: "90vh" }}>
+      <div
+        style={{
+          marginTop: links.indexOf(router.pathname) !== -1 && "3rem",
+          overflow: "hidden",
+        }}
+      >
         {children}
       </div>
     </div>

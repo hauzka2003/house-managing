@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 .searchbox {
   position: relative;
   width: 30px;
@@ -28,8 +29,8 @@
   align-items: center;
   position: absolute;
   display: flex;
-  top: 32px;
-  left: 25%;
+  top: 50%;
+  left: 50%;
   color: #555;
   height: 40px;
   width: 180px;
@@ -38,6 +39,8 @@
   background-color: #efeff0;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1), 5px 5px 5px rgba(0, 0, 0, 0.1),
     5px 5px 5px rgba(0, 0, 0, 0.1), 5px 5px 5px rgba(0, 0, 0, 0.1);
+  font-family: "Montserrat", sans-serif;
+  transform: translate(-50%, -50%);
 }
 .dropmenu {
   z-index: 2;
@@ -57,6 +60,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  font-family: "Montserrat", sans-serif;
 }
 .box {
   width: 100%;

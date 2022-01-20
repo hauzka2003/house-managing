@@ -1,5 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&display=swap");
+
 .container {
   display: flex;
-  justify-content: space-between;
   width: 100%;
+  margin-top: 1rem;
+  position: relative;
+}
+.totalpeople {
+  font-size: 2rem;
+  font-family: "Mochiy Pop P One", sans-serif;
+  color: #555;
 }
