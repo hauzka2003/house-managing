@@ -64,13 +64,6 @@ function LogIn(props) {
     state;
   async function signInHandler(e) {
     e.preventDefault();
-    // const { user } = supabase.auth.signIn({
-    //   email: userName,
-    //   password: password,
-    // });
-    // if (user) {
-    //   router.push({ pathname: "/dashboard" });
-    // }
     const user = await signIn(userName, password);
     console.log("user: ", user);
     if (user) {
