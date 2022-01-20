@@ -12,6 +12,7 @@ import LogOutIcon from "../icons/log-out";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useUser } from "../../store/user";
+import { supabase } from "../../utils/supabase";
 const links = [
   { name: "/dashboard", icon: "HomeIcon" },
   { name: "/tenant", icon: "PeopleIcon" },
@@ -48,6 +49,12 @@ function SideBar() {
   };
   const [clicked, onClicked] = useState(router.pathname);
   const [isExpanded, setExpanded] = useState(true);
+  async function onLogOut() {
+    const { error } = await supabase.auth.signOut();
+    if (!error) {
+      router.push("/");
+    }
+  }
   useEffect(() => {
     onClicked(router.pathname);
   }, [router.pathname]);
@@ -176,8 +183,8 @@ function SideBar() {
             </SideLink>
           </div>
         </div>
-        <SideLink
-          to={"/dashboard/log-out"}
+        <div
+          onClick={onLogOut}
           style={{ marginBottom: "1.5rem", paddingLeft: "10px" }}
         >
           <motion.div
@@ -195,7 +202,7 @@ function SideBar() {
             <LogOutIcon style={iconsStyle} />
             <div className={styles.text}>Log out</div>
           </motion.div>
-        </SideLink>
+        </div>
       </ul>
     </motion.nav>
   );
