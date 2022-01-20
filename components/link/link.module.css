@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap");
+.link {
+  padding: 1rem;
+  position: relative;
+  text-align: center;
+  align-self: center;
+}
+.underline {
+  position: absolute;
+  width: 0;
+  bottom: 0;
+  height: 2px;
+  background-color: black;
+  left: 0;
+}
+.underline1 {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  height: 2px;
+  background-color: black;
+  left: 0;
+}

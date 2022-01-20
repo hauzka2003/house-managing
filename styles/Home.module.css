@@ -1,0 +1,7 @@
+.loginpage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #03a9f4;
+  min-height: calc(100vh - 3rem);
+}

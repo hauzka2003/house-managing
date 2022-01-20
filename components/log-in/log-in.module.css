@@ -1,0 +1,91 @@
+.container {
+  position: relative;
+  width: 800px;
+  height: 450px;
+  margin: 20px;
+}
+.smallcontainer {
+  position: absolute;
+  top: 40px;
+  width: 100%;
+  height: 380px;
+  background-color: rgba(225, 225, 225, 0.2);
+  box-shadow: 0 5px 45px rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+}
+.smallcontainer .box {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.box h2 {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.signinbtn {
+  cursor: pointer;
+  padding: 10px 20px;
+  background: #fff;
+  color: #333;
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+.formbox {
+  position: absolute;
+  width: 50%;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #fff;
+  z-index: 4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 5px 45px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+.formbox .form {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  padding: 50px;
+}
+.formbox .form form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.formbox .form form h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+.input {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 10px;
+  font-size: 16px;
+  outline: none;
+  border: 1px solid #333;
+}
+.loginbtn {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 10px;
+  font-size: 16px;
+  outline: none;
+  background-color: #03a9f4;
+  border: none;
+  color: #fff;
+  max-width: 100px;
+  cursor: pointer;
+  border-radius: 5px;
+}

@@ -1,0 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&family=Rubik:wght@300&display=swap");
+.backdrop {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  z-index: 100;
+}
+.container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.font {
+  font-family: "Roboto Mono", monospace;
+  font-family: "Rubik", sans-serif;
+}
