@@ -46,13 +46,13 @@ function TenantsFilter() {
         <AnimatePresence>
           {isShowed ? (
             <ArrowUpIcon
-              style={{ width: "22px", translateX: "40px" }}
+              style={{ width: "22px", position: "absolute", right: "15px" }}
               initial={{ opacity: 0, y: 10 }}
               animate={isShowed ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
             />
           ) : (
             <ArrowDownIcon
-              style={{ width: "22px", translateX: "40px" }}
+              style={{ width: "22px", position: "absolute", right: "15px" }}
               initial={{ opacity: 0, y: -10 }}
               animate={!isShowed ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
             />
