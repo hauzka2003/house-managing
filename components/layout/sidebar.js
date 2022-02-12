@@ -1,4 +1,5 @@
 import HomeIcon from "../icons/home";
+import BulbIcon from "../icons/bulb";
 import PersonIcon from "../icons/person";
 import SideLink from "../link/side-link";
 import styles from "./sidebar.module.css";
@@ -179,6 +180,23 @@ function SideBar() {
               >
                 <SettingsIcon style={iconsStyle} />
                 <div className={styles.text}>Setting</div>
+              </motion.div>
+            </SideLink>
+            <SideLink to={"/dashboard/AI-assistant"}>
+              <motion.div
+                className={styles.link}
+                onClick={() => {
+                  onClicked("/dashboard/AI");
+                }}
+                animate={
+                  clicked == "/dashboard/AI"
+                    ? blackColor
+                    : { color: "white", backgroundColor: "#6f73d2" }
+                }
+                whileHover={hover}
+              >
+                <BulbIcon style={iconsStyle} />
+                <div className={styles.text}>AI assistant</div>
               </motion.div>
             </SideLink>
           </div>

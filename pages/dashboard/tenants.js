@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import TenantsSearchBar from "../../components/tenants/search_bar";
+import StatisticSide from "../../components/tenants/statistic";
 import TotalPeople from "../../components/tenants/total_people";
 import styles from "../../styles/tenants.module.css";
 function TenantsPage() {
@@ -14,7 +15,9 @@ function TenantsPage() {
         <TotalPeople />
         <TenantsSearchBar />
       </div>
-      <div className={styles.rightside}></div>
+      <div className={styles.rightside}>
+        <StatisticSide />
+      </div>
     </motion.div>
   );
 }
