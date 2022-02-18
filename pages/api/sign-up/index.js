@@ -15,6 +15,22 @@ export default async function handler(req, res) {
         .status(400)
         .json({ message: "Invalid user name", localStatus: 3 });
     }
+    const { data, error: firstError } = await supabase
+      .from("profile")
+      .select("username")
+      .match({ username: userName });
+    if (firstError) {
+      return res.status(400).send({
+        message: "Fail to connect to server",
+        localStatus: 4,
+        error: firstError,
+      });
+    }
+    if (data.length > 0) {
+      return res
+        .status(200)
+        .send({ message: "Username already existed", localStatus: 1 });
+    }
     const { error, session, user } = await supabase.auth.signUp(
       {
         email: email,
@@ -31,6 +47,48 @@ export default async function handler(req, res) {
         message: "Fail to sign up to server",
         localStatus: 4,
         error: error,
+      });
+    }
+    console.log("user ID: ", user.id);
+    const { error: UNerror } = await supabase
+      .from("profile")
+      .update({
+        username: userName,
+      })
+      .eq("id", user.id);
+    if (UNerror.length === 0) {
+      return res.status(200).send({
+        message: "Email already existed",
+        localStatus: 3,
+        userId: user.id,
+      });
+    }
+
+    if (UNerror) {
+      return res.status(400).send({
+        message: "Fail to connect to server",
+        localStatus: 3,
+        error: UNerror,
+      });
+    }
+    const { error: upEmailError } = await supabase
+      .from("profile")
+      .update({
+        email: user.email,
+      })
+      .eq("id", user.id);
+    if (upEmailError.length === 0) {
+      return res.status(200).send({
+        message: "Email already existed",
+        localStatus: 3,
+        userId: user.id,
+      });
+    }
+    if (upEmailError) {
+      return res.status(400).send({
+        message: "Fail to connect to server",
+        localStatus: 4,
+        error: upEmailError,
       });
     }
     res

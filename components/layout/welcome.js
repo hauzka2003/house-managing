@@ -45,7 +45,7 @@ function WelcomeTab() {
   return (
     <>
       <AnimatePresence>
-        {showed && (
+        {user && showed && (
           <motion.div className={styles.backdrop} exit={{ opacity: 0 }}>
             <motion.div className={styles.container}>
               <motion.span
@@ -55,7 +55,7 @@ function WelcomeTab() {
                 exit={{ fontSize: "2rem" }}
                 className={styles.font}
               >
-                {greet},{""}
+                {greet},{" "}
               </motion.span>
               <AnimatePresence>
                 {showedUN && (

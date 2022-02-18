@@ -13,7 +13,8 @@ function StatisticSide() {
             zIndex: -1,
             width: "300px",
             height: "300px",
-            transformOrigin: "150px 150px",
+            color:
+              " linear-gradient(90deg, hsla(123, 60%, 62%, 1) 0%, hsla(159, 63%, 71%, 1) 100%)",
           }}
           // animate={{ rotate: 360 }}
         />
@@ -21,10 +22,11 @@ function StatisticSide() {
         <div>On Time</div>
         <div className={styles.percentage_number}>80%</div>
         <div className={styles.dynamicbox}>
-          <div>+23%</div>
+          <div className={styles.dynamic_percentage}>+23%</div>
           <ArrowUp style={{ width: "20px", color: "#43B929" }} />
         </div>
       </div>
+      <div>Rental Money</div>
     </div>
   );
 }

@@ -1,10 +1,22 @@
 import styles from "./log-in.module.css";
 import { useState, useReducer } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import BetterLink from "../link/better-link";
 import { supabase } from "../../utils/supabase";
 import { useRouter } from "next/router";
 import { useUser } from "../../store/user";
+import ErrorModal from "../layout/error_notify";
+
+function frontUserCheck(userName, password) {
+  if (
+    userName.trim() === "" ||
+    password.trim() === "" ||
+    userName.length <= 6
+  ) {
+    return false;
+  }
+  return true;
+}
 function loginReducer(state, action) {
   switch (action.type) {
     case "userName": {
@@ -57,27 +69,85 @@ function LogIn(props) {
   const router = useRouter();
   const { signIn } = useUser();
   const [moved, toggle] = useState(false);
-  const [isMatched, setIsMatched] = useState();
+  const [enteredUserName, setEnteredUserName] = useState("");
+  const [UNMatch, setUNMatch] = useState(false);
+  const [modalShowed, setModalShowed] = useState();
   props.onMoved(moved);
   const [state, dispatch] = useReducer(loginReducer, initialState);
   const { userName, password, email, signUpUN, signUpPass, confirmPass } =
     state;
   async function signInHandler(e) {
     e.preventDefault();
-    const user = await signIn(userName, password);
+    if (!frontUserCheck(userName, password)) {
+      setModalShowed("Please fill in all fields");
+      return;
+    }
+    let data;
+    if (!userName.includes("@")) {
+      const responses = await fetch("/api/sign-in", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userName }),
+      });
+      data = await responses.json();
+      if (
+        data.localStatus == 1 ||
+        data.localStatus == 3 ||
+        data.localStatus == 4
+      ) {
+        console.log("something went wrong");
+        return;
+      }
+    }
+    const user = await signIn(data?.email ?? userName, password);
+    if (user?.status === 400) {
+      setModalShowed("Incorrect email or password");
+      return;
+    }
     console.log("user: ", user);
     if (user) {
       router.push("/dashboard");
     }
   }
+  async function checkUserName(userName, onBlur) {
+    if (onBlur) {
+      if (userName === enteredUserName) {
+        return;
+      }
+      setEnteredUserName(userName);
+    }
+    if (userName.length <= 6 || userName.trim() === "") {
+      setModalShowed("Username must be at least 7 characters");
+      return false;
+    }
+    const res = await fetch(`/api/sign-up/user_name`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userName }),
+    });
+    const data = await res.json();
+    if (data.localStatus === 1) {
+      setModalShowed("Username existed");
+      return false;
+    }
+    return true;
+  }
   async function signUnpHandler(e) {
     e.preventDefault();
+    setModalShowed("Waiting for server response");
+    if (!(await checkUserName(signUpUN))) {
+      console.log("username not available");
+      return;
+    }
     if (signUpPass !== confirmPass) {
-      console.log("ngu");
-      setIsMatched(false);
+      setModalShowed("Password is not matched");
+      return;
     }
     const data = { email, password: signUpPass, userName: signUpUN };
-    console.log(data);
     const res = await fetch("/api/sign-up", {
       method: "POST",
       headers: {
@@ -86,10 +156,21 @@ function LogIn(props) {
       body: JSON.stringify(data),
     });
     const fetchedData = await res.json();
-    console.log(fetchedData);
+    console.log("fetchedData: ", fetchedData);
+    if (fetchedData.localStatus === 3) {
+      setModalShowed("Email existed");
+      return;
+    }
+    setModalShowed("Sign up successfully");
   }
+
   return (
     <div className={styles.container}>
+      <AnimatePresence>
+        {modalShowed && (
+          <ErrorModal error={modalShowed} setClose={setModalShowed} />
+        )}
+      </AnimatePresence>
       <div className={styles.smallcontainer}>
         <div className={`${styles.signin} ${styles.box}`}>
           <h2>Already have an account?</h2>
@@ -128,7 +209,7 @@ function LogIn(props) {
             <h3>Sign In</h3>
             <input
               type="text"
-              placeholder="Username"
+              placeholder="Username or Email"
               className={styles.input}
               onChange={(e) => {
                 dispatch({ type: "userName", value: e.target.value });
@@ -160,6 +241,7 @@ function LogIn(props) {
           <form onSubmit={signUnpHandler}>
             <h3>Sign Up</h3>
             <input
+              onBlur={() => checkUserName(signUpUN, "onBlur")}
               type="text"
               placeholder="Username"
               className={styles.input}

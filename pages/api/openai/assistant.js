@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   });
   const openai = new OpenAIApi(configuration);
 
-  const completion = await openai.createCompletion("text-babbage-001", {
+  const completion = await openai.createCompletion("text-davinci-001", {
     prompt: prompt,
     max_tokens: 100,
     temperature: 0.7,
