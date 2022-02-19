@@ -1,11 +1,10 @@
 import styles from "./log-in.module.css";
 import { useState, useReducer } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import BetterLink from "../link/better-link";
-import { supabase } from "../../utils/supabase";
 import { useRouter } from "next/router";
 import { useUser } from "../../store/user";
-import ErrorModal from "../layout/error_notify";
+import { useErrorModal } from "../../store/error_modal";
 
 function frontUserCheck(userName, password) {
   if (
@@ -71,15 +70,16 @@ function LogIn(props) {
   const [moved, toggle] = useState(false);
   const [enteredUserName, setEnteredUserName] = useState("");
   const [UNMatch, setUNMatch] = useState(false);
-  const [modalShowed, setModalShowed] = useState();
+  const { setError } = useErrorModal();
   props.onMoved(moved);
   const [state, dispatch] = useReducer(loginReducer, initialState);
   const { userName, password, email, signUpUN, signUpPass, confirmPass } =
     state;
+
   async function signInHandler(e) {
     e.preventDefault();
     if (!frontUserCheck(userName, password)) {
-      setModalShowed("Please fill in all fields");
+      setError("Please fill in all fields");
       return;
     }
     let data;
@@ -97,13 +97,13 @@ function LogIn(props) {
         data.localStatus == 3 ||
         data.localStatus == 4
       ) {
-        console.log("something went wrong");
+        setError("Wrong username or password");
         return;
       }
     }
     const user = await signIn(data?.email ?? userName, password);
     if (user?.status === 400) {
-      setModalShowed("Incorrect email or password");
+      setError("Incorrect email or password");
       return;
     }
     console.log("user: ", user);
@@ -119,7 +119,7 @@ function LogIn(props) {
       setEnteredUserName(userName);
     }
     if (userName.length <= 6 || userName.trim() === "") {
-      setModalShowed("Username must be at least 7 characters");
+      setError("Username must be at least 7 characters");
       return false;
     }
     const res = await fetch(`/api/sign-up/user_name`, {
@@ -131,20 +131,20 @@ function LogIn(props) {
     });
     const data = await res.json();
     if (data.localStatus === 1) {
-      setModalShowed("Username existed");
+      setError("Username existed");
       return false;
     }
     return true;
   }
   async function signUnpHandler(e) {
     e.preventDefault();
-    setModalShowed("Waiting for server response");
+    setError("Waiting for server response");
     if (!(await checkUserName(signUpUN))) {
       console.log("username not available");
       return;
     }
     if (signUpPass !== confirmPass) {
-      setModalShowed("Password is not matched");
+      setError("Password is not matched");
       return;
     }
     const data = { email, password: signUpPass, userName: signUpUN };
@@ -158,19 +158,14 @@ function LogIn(props) {
     const fetchedData = await res.json();
     console.log("fetchedData: ", fetchedData);
     if (fetchedData.localStatus === 3) {
-      setModalShowed("Email existed");
+      setError("Email existed");
       return;
     }
-    setModalShowed("Sign up successfully");
+    setError("Sign up successfully");
   }
 
   return (
     <div className={styles.container}>
-      <AnimatePresence>
-        {modalShowed && (
-          <ErrorModal error={modalShowed} setClose={setModalShowed} />
-        )}
-      </AnimatePresence>
       <div className={styles.smallcontainer}>
         <div className={`${styles.signin} ${styles.box}`}>
           <h2>Already have an account?</h2>

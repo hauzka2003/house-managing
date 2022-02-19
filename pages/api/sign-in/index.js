@@ -21,7 +21,8 @@ export default async function handler(req, res) {
         .status(400)
         .send({ message: "Cannot connect to database", localStatus: 3 });
     }
-    if (!data) {
+    console.log(data);
+    if (data.length === 0) {
       return res
         .status(200)
         .send({ message: "Unknown username", localStatus: 4 });

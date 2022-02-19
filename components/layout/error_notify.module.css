@@ -1,12 +1,68 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Serif&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap");
+
 .container {
   display: flex;
   position: absolute;
-  top: 50%;
-  left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
-  height: 200px;
+  width: 400px;
+  height: 300px;
   background-color: white;
   border-radius: 10px;
-  z-index: 10;
+  z-index: 100;
+}
+.backdrop {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #0d1317;
+  z-index: 99;
+}
+.innercontainer {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.topbackground {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: flex;
+  width: 100%;
+  height: 45%;
+  justify-content: center;
+  align-items: center;
+  background-color: #e85e6c;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 55%;
+}
+
+.quote {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #868784;
+  margin-top: 1rem;
+}
+
+.error {
+  font-family: "Roboto Serif", sans-serif;
+}
+.closebtn {
+  cursor: pointer;
+  color: white;
+  margin-bottom: 2rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  background-color: #e85e6c;
+  font-family: "Libre Baskerville", serif;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 8px, rgba(0, 0, 0, 0.22) 0px 6px 3px;
 }
