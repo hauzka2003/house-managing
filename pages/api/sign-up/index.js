@@ -71,26 +71,6 @@ export default async function handler(req, res) {
         error: UNerror,
       });
     }
-    const { error: upEmailError } = await supabase
-      .from("profile")
-      .update({
-        email: user.email,
-      })
-      .eq("id", user.id);
-    if (upEmailError?.length === 0) {
-      return res.status(200).send({
-        message: "Email already existed",
-        localStatus: 3,
-        userId: user.id,
-      });
-    }
-    if (upEmailError) {
-      return res.status(400).send({
-        message: "Fail to connect to server",
-        localStatus: 4,
-        error: upEmailError,
-      });
-    }
     res
       .status(200)
       .send({ message: "sign up successfully", localStatus: 4, user: user });
