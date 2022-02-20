@@ -1,9 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { supabase } from "../../utils/supabase";
 import { useUser } from "../../store/user";
 import { motion } from "framer-motion";
-import Layout from "../../components/layout/layout";
 function DashBoard({ showed, setShowed }) {
   const { user } = useUser();
   const [loadedName, setLoadedName] = useState();

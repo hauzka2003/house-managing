@@ -1,9 +1,17 @@
 import { useState } from "react";
-
+import { useUser } from "../../store/user";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 function AIAssistantPage() {
   const [prompt, setPrompt] = useState("");
   const [response, setResponse] = useState();
-
+  const { user } = useUser();
+  const router = useRouter();
+  useEffect(() => {
+    if (!user) {
+      router.push("/log-in");
+    }
+  }, [user]);
   async function onSubmit(e) {
     e.preventDefault();
     const data = await fetch("/api/openai/assistant", {

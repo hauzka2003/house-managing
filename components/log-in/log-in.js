@@ -77,9 +77,10 @@ function LogIn(props) {
     state;
 
   async function signInHandler(e) {
+    setError({ message: "wait for us to sign you in", type: "info" });
     e.preventDefault();
     if (!frontUserCheck(userName, password)) {
-      setError("Please fill in all fields");
+      setError({ message: "Please fill in all fields", type: "error" });
       return;
     }
     let data;
@@ -97,17 +98,18 @@ function LogIn(props) {
         data.localStatus == 3 ||
         data.localStatus == 4
       ) {
-        setError("Wrong username or password");
+        setError({ message: "Wrong username or password", type: "error" });
         return;
       }
     }
     const user = await signIn(data?.email ?? userName, password);
     if (user?.status === 400) {
-      setError("Incorrect email or password");
+      setError({ message: "Incorrect email or password", type: "error" });
       return;
     }
     console.log("user: ", user);
     if (user) {
+      setError(null);
       router.push("/dashboard");
     }
   }
@@ -119,7 +121,10 @@ function LogIn(props) {
       setEnteredUserName(userName);
     }
     if (userName.length <= 6 || userName.trim() === "") {
-      setError("Username must be at least 7 characters");
+      setError({
+        message: "Username must be at least 7 characters",
+        type: "error",
+      });
       return false;
     }
     const res = await fetch(`/api/sign-up/user_name`, {
@@ -131,20 +136,20 @@ function LogIn(props) {
     });
     const data = await res.json();
     if (data.localStatus === 1) {
-      setError("Username existed");
+      setError({ message: "Username existed", type: "error" });
       return false;
     }
     return true;
   }
   async function signUnpHandler(e) {
     e.preventDefault();
-    setError("Waiting for server response");
+    setError({ message: "Waiting for server response", type: "info" });
     if (!(await checkUserName(signUpUN))) {
       console.log("username not available");
       return;
     }
     if (signUpPass !== confirmPass) {
-      setError("Password is not matched");
+      setError({ message: "Password is not matched", type: "error" });
       return;
     }
     const data = { email, password: signUpPass, userName: signUpUN };
@@ -158,10 +163,13 @@ function LogIn(props) {
     const fetchedData = await res.json();
     console.log("fetchedData: ", fetchedData);
     if (fetchedData.localStatus === 3) {
-      setError("Email existed");
+      setError({ message: "Email existed", type: "error" });
       return;
     }
-    setError("Sign up successfully");
+    setError({
+      message: "Sign up successfully. Please check your email",
+      type: "success",
+    });
   }
 
   return (

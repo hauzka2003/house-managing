@@ -13,9 +13,9 @@ function ArrowUp({ style, animate, initial, exit }) {
       <path
         fill="none"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="48"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="48"
         d="M112 244l144-144 144 144M256 120v292"
       />
     </motion.svg>

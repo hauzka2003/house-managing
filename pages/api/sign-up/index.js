@@ -56,7 +56,7 @@ export default async function handler(req, res) {
         username: userName,
       })
       .eq("id", user.id);
-    if (UNerror.length === 0) {
+    if (UNerror?.length === 0) {
       return res.status(200).send({
         message: "Email already existed",
         localStatus: 3,
@@ -77,7 +77,7 @@ export default async function handler(req, res) {
         email: user.email,
       })
       .eq("id", user.id);
-    if (upEmailError.length === 0) {
+    if (upEmailError?.length === 0) {
       return res.status(200).send({
         message: "Email already existed",
         localStatus: 3,
