@@ -160,9 +160,13 @@ function LogIn(props) {
       },
       body: JSON.stringify(data),
     });
+    if (res.status === 400) {
+      setError({ message: "Something went wrong with us", type: "error" });
+      return;
+    }
     const fetchedData = await res.json();
     console.log("fetchedData: ", fetchedData);
-    if (fetchedData.localStatus === 3) {
+    if (fetchedData.localStatus === 5) {
       setError({ message: "Email existed", type: "error" });
       return;
     }

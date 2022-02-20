@@ -2,6 +2,7 @@ import { supabase } from "../../../utils/supabase";
 export default async function handler(req, res) {
   if (req.method === "POST") {
     const { email, password, userName } = req.body;
+    console.log(email, password, userName);
     if (!email || !email.includes("@")) {
       return res.status(400).json({ message: "Invalid Email", localStatus: 1 });
     }
@@ -59,15 +60,14 @@ export default async function handler(req, res) {
     if (UNerror?.length === 0) {
       return res.status(200).send({
         message: "Email already existed",
-        localStatus: 3,
-        userId: user.id,
+        localStatus: 5,
       });
     }
 
     if (UNerror) {
       return res.status(400).send({
         message: "Fail to connect to server",
-        localStatus: 3,
+        localStatus: 6,
         error: UNerror,
       });
     }
