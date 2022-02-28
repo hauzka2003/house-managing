@@ -30,7 +30,6 @@ function UDInforBlock({ title, unit, color }) {
 
   return (
     <motion.div
-      key={title}
       className={styles.displaybox}
       whileHover={hover}
       onHoverStart={() => {

@@ -29,7 +29,7 @@ function Layout({ children }) {
       <div
         style={{
           marginTop: links.indexOf(router.pathname) !== -1 && "3rem",
-          overflowX: "hiddenw",
+          overflowX: "hidden",
         }}
       >
         {children}

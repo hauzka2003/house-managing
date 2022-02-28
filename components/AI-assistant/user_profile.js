@@ -62,11 +62,13 @@ function UserProfile() {
       <motion.div className={styles.UserDisplayInfor}>
         {UserDisplayInfor.map((item) => {
           return (
-            <UDInforBlock
-              title={item.title}
-              unit={item.unit}
-              color={item.color}
-            />
+            <div key={item.title}>
+              <UDInforBlock
+                title={item.title}
+                unit={item.unit}
+                color={item.color}
+              />
+            </div>
           );
         })}
       </motion.div>
