@@ -15,6 +15,24 @@ const UserDisplayInfor = [
   { title: "All Responses", unit: "token", color: "#F2F3AE" },
 ];
 
+const variants = {
+  initial: {
+    scale: 1.5,
+    transition: { duration: 1 },
+  },
+  animate: {
+    scale: 1,
+    transition: { duration: 0.2 },
+  },
+  whileHover: {
+    scale: 1.1,
+    transition: { duration: 0.2 },
+  },
+  whileTap: {
+    scale: 0.8,
+  },
+};
+
 function UserProfile() {
   const { navClosed } = useLayout();
   return (
@@ -25,10 +43,11 @@ function UserProfile() {
     >
       <motion.div
         className={styles.total_token}
-        initial={{ scale: 1.5, transition: { duration: 1 } }}
-        animate={{ scale: 1, transition: { duration: 1 } }}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
+        variants={variants}
+        initial="initial"
+        animate="animate"
+        whileHover="whileHover"
+        whileTap="whileTap"
       >
         <BlobIcon
           style={{
