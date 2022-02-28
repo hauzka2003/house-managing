@@ -4,7 +4,7 @@ function ArrowDownIcon({ style, animate, initial, exit }) {
   return (
     <motion.svg
       xmlns="http://www.w3.org/2000/svg"
-      class="ionicon"
+      className="ionicon"
       viewBox="0 0 512 512"
       style={style}
       initial={initial}
@@ -16,7 +16,7 @@ function ArrowDownIcon({ style, animate, initial, exit }) {
         fill="none"
         stroke="currentColor"
         strokeLinecap="round"
-        strokeLineJoin="round"
+        strokeLinejoin="round"
         strokeWidth="48"
         d="M112 184l144 144 144-144"
       />

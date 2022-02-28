@@ -2,10 +2,14 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useUser } from "../../store/user";
 import { motion } from "framer-motion";
+import { useLayout } from "../../store/layout";
 function DashBoard({ showed, setShowed }) {
   const { user } = useUser();
+
   const [loadedName, setLoadedName] = useState();
   const router = useRouter();
+  const { navClosed } = useLayout();
+
   useEffect(() => {
     if (!user) {
       router.push({ pathname: "/log-in" });
@@ -15,9 +19,7 @@ function DashBoard({ showed, setShowed }) {
   }, [user]);
   return (
     <motion.div
-      style={{ marginLeft: "300px" }}
-      // initial={{ x: 100, opacity: 0 }}
-      animate={({ x: 0, opacity: 1 }, showed && { marginLeft: "300px" })}
+      animate={!navClosed ? { marginLeft: "300px" } : { marginLeft: "120px" }}
     >
       {loadedName ?? "ko co veo gi"}
     </motion.div>

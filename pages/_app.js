@@ -5,19 +5,22 @@ import dynamic from "next/dynamic";
 import { UserContextProvider } from "../store/user";
 import { AnimatePresence } from "framer-motion";
 import { ErrorModalContextProvider } from "../store/error_modal";
+import { LayoutContextProvider } from "../store/layout";
 const Layout = dynamic(() => import("../components/layout/layout"));
 function MyApp({ Component, pageProps }) {
   return (
     <>
-      <ErrorModalContextProvider>
-        <UserContextProvider>
-          <AnimatePresence exitBeforeEnter>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </AnimatePresence>
-        </UserContextProvider>
-      </ErrorModalContextProvider>
+      <LayoutContextProvider>
+        <ErrorModalContextProvider>
+          <UserContextProvider>
+            <AnimatePresence exitBeforeEnter>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </AnimatePresence>
+          </UserContextProvider>
+        </ErrorModalContextProvider>
+      </LayoutContextProvider>
     </>
   );
 }

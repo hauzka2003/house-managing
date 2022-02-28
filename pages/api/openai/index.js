@@ -10,7 +10,7 @@ export default async function handler(req, res) {
 
   const completion = await openai.createCompletion("text-davinci-001", {
     prompt: prompt,
-    max_tokens: 100,
+    max_tokens: 300,
     temperature: 0.7,
   });
   // console.log(completion.data.choices);

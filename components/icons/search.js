@@ -4,7 +4,7 @@ function SearchIcon({ style, animate, initial }) {
   return (
     <motion.svg
       xmlns="http://www.w3.org/2000/svg"
-      class="ionicon"
+      className="ionicon"
       viewBox="0 0 512 512"
       style={style}
       initial={initial}

@@ -43,6 +43,8 @@ export default async function handler(req, res) {
         },
       }
     );
+    console.log("error", error);
+
     if (error) {
       return res.status(400).send({
         message: "Fail to sign up to server",
