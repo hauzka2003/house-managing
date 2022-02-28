@@ -14,6 +14,8 @@ function Layout({ children }) {
         display: "flex",
         flexDirection: "column",
         backgroundColor: "rgba(255,238,214,0.4)",
+        height: "100vh",
+        width: "100vw",
       }}
     >
       {links.indexOf(router.pathname) != -1 ? (
@@ -27,7 +29,7 @@ function Layout({ children }) {
       <div
         style={{
           marginTop: links.indexOf(router.pathname) !== -1 && "3rem",
-          overflow: "hidden",
+          overflowX: "hiddenw",
         }}
       >
         {children}
