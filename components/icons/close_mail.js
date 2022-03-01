@@ -23,9 +23,9 @@ function CloseaMailIcon({ style }) {
       <path
         fill="none"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="32"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="32"
         d="M112 160l144 112 144-112"
       />
     </svg>
