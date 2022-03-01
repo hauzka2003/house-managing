@@ -20,9 +20,14 @@ function TenantsPage() {
   return (
     <motion.div
       // style={{ marginLeft: "300px" }}
-      // initial={{ x: 100, opacity: 0 }}
-      animate={!navClosed ? { marginLeft: "300px" } : { marginLeft: "120px" }}
+      initial={{ x: 100, opacity: 0 }}
+      animate={
+        !navClosed
+          ? { marginLeft: "300px", x: 0, opacity: 1 }
+          : { marginLeft: "120px", x: 0, opacity: 1 }
+      }
       className={styles.container}
+      exit={{ x: 100, opacity: 0 }}
     >
       <div className={styles.maincomp}>
         <TotalPeople />

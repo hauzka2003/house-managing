@@ -10,10 +10,14 @@ function AIPage() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        // width: "100vw",
-        // height: "100vh",
       }}
-      animate={!navClosed ? { marginLeft: "150px" } : { marginLeft: "20px" }}
+      initial={{ x: -100, opacity: 0 }}
+      animate={
+        !navClosed
+          ? { marginLeft: "150px", x: 0, opacity: 1 }
+          : { marginLeft: "20px", x: 0, opacity: 1 }
+      }
+      exit={{ opacity: 0, x: 100, transition: { duration: 0.5 } }}
     >
       <UserProfile />
     </motion.div>

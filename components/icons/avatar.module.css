@@ -1,0 +1,11 @@
+.container {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  /* background-color: #0d1317; */
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  margin-right: 10px;
+  margin-left: 20px;
+}

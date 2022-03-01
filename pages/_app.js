@@ -3,11 +3,11 @@ import "../styles/globals.css";
 import dynamic from "next/dynamic";
 // import SideBar from "../components/layout/sidebar";
 import { UserContextProvider } from "../store/user";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ErrorModalContextProvider } from "../store/error_modal";
 import { LayoutContextProvider } from "../store/layout";
 const Layout = dynamic(() => import("../components/layout/layout"));
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, router }) {
   return (
     <>
       <LayoutContextProvider>
@@ -15,7 +15,9 @@ function MyApp({ Component, pageProps }) {
           <UserContextProvider>
             <AnimatePresence exitBeforeEnter>
               <Layout>
-                <Component {...pageProps} />
+                <motion.div key={router.route}>
+                  <Component {...pageProps} />
+                </motion.div>
               </Layout>
             </AnimatePresence>
           </UserContextProvider>

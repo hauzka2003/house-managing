@@ -1,38 +1,44 @@
 import Header from "./header";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import PageTitle from "./page_title";
+import styles from "./layout.module.css";
+import { AnimatePresence } from "framer-motion";
+
 const SideBar = dynamic(() => import("./sidebar"));
 const WelcomeTab = dynamic(() => import("./welcome.js"));
 const links = ["/", "/log-in", "/plans", "/support", "/contact", "/about-us"];
-function Layout({ children }) {
+
+function Layout({ children, key }) {
   const router = useRouter();
+
   return (
     <div
       style={{
         display: "flex",
         flexDirection: "column",
-        backgroundColor: "rgba(255,238,214,0.4)",
+        backgroundColor: "#f4f4f5",
         height: "100vh",
         width: "100vw",
       }}
+      className={styles.maincontainer}
     >
       {links.indexOf(router.pathname) != -1 ? (
         <Header />
       ) : (
         <div>
+          <PageTitle />
           <SideBar />
           <WelcomeTab />
         </div>
       )}
       <div
         style={{
-          marginTop: links.indexOf(router.pathname) !== -1 && "3rem",
+          marginTop: "3rem",
           overflowX: "hidden",
         }}
       >
-        {children}
+        <AnimatePresence exitBeforeEnter>{children}</AnimatePresence>
       </div>
     </div>
   );

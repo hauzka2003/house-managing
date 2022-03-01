@@ -16,10 +16,9 @@ function SettingPage() {
 
   return (
     <motion.div
+      key="setting"
       animate={!navClosed ? { marginLeft: "300px" } : { marginLeft: "120px" }}
-    >
-      setting
-    </motion.div>
+    ></motion.div>
   );
 }
 

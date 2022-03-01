@@ -50,7 +50,7 @@ const iconsStyle = {
 function SideBar() {
   const router = useRouter();
   const { user } = useUser();
-  const { setNavClosed, navClosed } = useLayout();
+  const { setNavClosed, navClosed, setCurrentPage } = useLayout();
   const [clicked, onClicked] = useState(router.pathname);
 
   async function onLogOut() {
@@ -94,6 +94,7 @@ function SideBar() {
                     onClick={onClicked}
                     clicked={clicked}
                     whileHover={hover}
+                    setCurrentPage={setCurrentPage}
                   >
                     {link.text}
                   </SideBarLink>

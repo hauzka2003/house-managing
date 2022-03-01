@@ -17,6 +17,7 @@ function SideBarLink({
   onClick,
   clicked,
   iconStyle,
+  setCurrentPage,
 }) {
   const animation = useAnimation();
   const { navClosed } = useLayout();
@@ -55,6 +56,7 @@ function SideBarLink({
         className={styles.link}
         onClick={() => {
           onClick(to);
+          setCurrentPage(children);
         }}
         animate={
           clicked == to
