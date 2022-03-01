@@ -13,13 +13,11 @@ function MyApp({ Component, pageProps, router }) {
       <LayoutContextProvider>
         <ErrorModalContextProvider>
           <UserContextProvider>
-            <AnimatePresence exitBeforeEnter>
-              <Layout>
-                <motion.div key={router.route}>
-                  <Component {...pageProps} />
-                </motion.div>
-              </Layout>
-            </AnimatePresence>
+            <Layout>
+              <motion.div key={router.route}>
+                <Component {...pageProps} />
+              </motion.div>
+            </Layout>
           </UserContextProvider>
         </ErrorModalContextProvider>
       </LayoutContextProvider>
