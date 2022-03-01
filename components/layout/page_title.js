@@ -5,7 +5,7 @@ import SettingsIcon from "../icons/setting";
 import CloseaMailIcon from "../icons/close_mail";
 import BellIcon from "../icons/bell";
 import { useUser } from "../../store/user";
-import DarkIcon from "../icons/dark_icon";
+// import DarkIcon from "../icons/dark_icon";
 import AvatarUser from "../icons/avatar";
 import { useRouter } from "next/router";
 
@@ -50,7 +50,7 @@ function PageTitle() {
           <BellIcon style={iconsStyle} />
         </div>
 
-        <DarkIcon />
+        {/* <DarkIcon /> */}
         <SettingsIcon
           style={iconsStyle}
           onClick={() => {

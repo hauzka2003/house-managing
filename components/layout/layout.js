@@ -38,7 +38,7 @@ function Layout({ children, key }) {
           overflowX: "hidden",
         }}
       >
-        <AnimatePresence exitBeforeEnter>{children}</AnimatePresence>
+        {children}
       </div>
     </div>
   );

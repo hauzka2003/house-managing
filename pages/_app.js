@@ -14,9 +14,9 @@ function MyApp({ Component, pageProps, router }) {
         <ErrorModalContextProvider>
           <UserContextProvider>
             <Layout>
-              <motion.div key={router.route}>
-                <Component {...pageProps} />
-              </motion.div>
+              {/* <motion.div key={router.route}> */}
+              <Component {...pageProps} />
+              {/* </motion.div> */}
             </Layout>
           </UserContextProvider>
         </ErrorModalContextProvider>
