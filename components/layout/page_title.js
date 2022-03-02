@@ -1,6 +1,6 @@
 import { useLayout } from "../../store/layout";
 import styles from "./navigation.module.css";
-import { motion, useAnimation } from "framer-motion";
+import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import SettingsIcon from "../icons/setting";
 import CloseaMailIcon from "../icons/close_mail";
 import BellIcon from "../icons/bell";
@@ -43,7 +43,17 @@ function PageTitle() {
           : { left: "300px", width: "calc(100% - 300px)", y: 0 }
       }
     >
-      <div className={styles.title}>{currentPage}</div>
+      <AnimatePresence exitBeforeEnter>
+        <motion.div
+          className={styles.title}
+          key={currentPage}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          {currentPage}
+        </motion.div>
+      </AnimatePresence>
       <div className={styles.user}>
         <div className={styles.notification}>
           <CloseaMailIcon style={iconsStyle} />

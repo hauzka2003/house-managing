@@ -15,9 +15,9 @@ function MyApp({ Component, pageProps, router }) {
           <UserContextProvider>
             <Layout>
               <AnimatePresence exitBeforeEnter>
-                <motion.div key={router.route}>
-                  <Component {...pageProps} />
-                </motion.div>
+                {/* <motion.div key={router.pathname}> */}
+                <Component {...pageProps} key={router.pathname} />
+                {/* </motion.div> */}
               </AnimatePresence>
             </Layout>
           </UserContextProvider>
