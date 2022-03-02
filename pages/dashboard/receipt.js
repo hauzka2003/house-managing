@@ -17,7 +17,7 @@ function ReceiptPage() {
     <motion.div
       animate={!navClosed ? { marginLeft: "300px" } : { marginLeft: "120px" }}
     >
-      receipt
+      {/* receipt */}
     </motion.div>
   );
 }

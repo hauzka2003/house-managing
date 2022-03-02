@@ -1,13 +1,24 @@
 import { motion } from "framer-motion";
 
-function SettingsIcon({ style, animation, draw }) {
+function SettingsIcon({
+  style,
+  animation,
+  draw,
+  onClick,
+  whileHover,
+  whileTap,
+}) {
   return (
     <motion.svg
       xmlns="http://www.w3.org/2000/svg"
       className="ionicon"
       viewBox="0 0 512 512"
       style={style}
+      initial={{ originX: "50%", originY: "50%" }}
       animate={animation}
+      onClick={onClick}
+      whileHover={whileHover}
+      whileTap={whileTap}
     >
       <title>Settings</title>
       <motion.path
