@@ -18,7 +18,7 @@ function ProfitPage() {
     <motion.div
       animate={!navClosed ? { marginLeft: "300px" } : { marginLeft: "120px" }}
     >
-      {/* profit */}
+      profit
     </motion.div>
   );
 }

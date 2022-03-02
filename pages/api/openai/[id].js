@@ -26,7 +26,6 @@ function getRowName(name) {
   if (name === "All Responses") {
     return "all_res";
   }
-  return name;
 }
 
 export default async function handler(req, res) {

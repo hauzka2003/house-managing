@@ -21,7 +21,7 @@ function DashBoard({ showed, setShowed }) {
     <motion.div
       animate={!navClosed ? { marginLeft: "300px" } : { marginLeft: "120px" }}
     >
-      {/* {loadedName ?? "ko co veo gi"} */}
+      {loadedName ?? "ko co veo gi"}
     </motion.div>
   );
 }

@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import BlobIcon from "../icons/blob";
 import UDInforBlock from "./user_display";
 import { useLayout } from "../../store/layout";
-import { useEffect, useState } from "react";
 
 const UserDisplayInfor = [
   { title: "Using", unit: "time", color: "#BEDCFE" },
@@ -16,47 +15,8 @@ const UserDisplayInfor = [
   { title: "All Responses", unit: "token", color: "#F2F3AE" },
 ];
 
-const variants = {
-  initial: {
-    scale: 1.5,
-    transition: { duration: 1 },
-  },
-  animate: {
-    scale: 1,
-    transition: { duration: 0.2 },
-  },
-  whileHover: {
-    scale: 1.1,
-    transition: { duration: 0.2 },
-  },
-  whileTap: {
-    scale: 0.8,
-  },
-};
-
 function UserProfile() {
   const { navClosed } = useLayout();
-  const [fetchedData, setFetchedData] = useState();
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    fetch("/api/openai/totalTokens", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setFetchedData(data?.data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setFetchedData(err);
-      });
-  }, []);
-
   return (
     <motion.div
       className={styles.container}
@@ -65,11 +25,10 @@ function UserProfile() {
     >
       <motion.div
         className={styles.total_token}
-        variants={variants}
-        initial="initial"
-        animate="animate"
-        whileHover="whileHover"
-        whileTap="whileTap"
+        initial={{ scale: 1.5, transition: { duration: 1 } }}
+        animate={{ scale: 1, transition: { duration: 1 } }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
       >
         <BlobIcon
           style={{
@@ -93,31 +52,10 @@ function UserProfile() {
         />
         <div className={styles.total_token_quote1}>You have</div>
         <div className={styles.total_token_quote2}>
-          {!isLoading && (
-            <motion.span
-              className={styles.tokensvalue}
-              initial={{
-                opacity: 0,
-                transition: { duration: 1 },
-              }}
-              animate={{
-                opacity: 1,
-                transition: { duration: 1 },
-              }}
-            >
-              {fetchedData}
-            </motion.span>
-          )}
-          {isLoading && (
-            <div className={styles.lds_circle}>
-              <div style={{ backgroundColor: "white" }} />
-            </div>
-          )}
-          {!isLoading && (
-            <span className={styles.token} initial={{ y: -100 }}>
-              {fetchedData > 1 ? "tokens" : "token"}
-            </span>
-          )}
+          3921
+          <motion.span className={styles.token} initial={{ y: -100 }}>
+            Tokens
+          </motion.span>
         </div>
         <div className={styles.total_token_quote3}>to go</div>
       </motion.div>

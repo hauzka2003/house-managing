@@ -1,6 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap");
-
 .nav {
   display: flex;
   justify-content: space-between;
@@ -26,40 +23,4 @@
   font-size: 1.3rem;
   margin-right: 4rem;
   align-self: center;
-}
-
-.pagetitle {
-  z-index: 10;
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  position: fixed;
-  left: 300px;
-  height: 50px;
-  border-bottom-left-radius: 10px;
-  /* background-color: #6f73d2; */
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-}
-
-.title {
-  margin-left: 2rem;
-  color: #333;
-  font-size: 1.5rem;
-  font-family: "Josefin Sans", sans-serif;
-}
-
-.user {
-  margin-right: 2rem;
-  display: flex;
-  align-items: center;
-}
-
-.userName {
-  font-family: "Roboto Slab", serif;
-  font-size: 1.1rem;
-}
-
-.notification {
-  width: 200px;
-  /* margin-left: 10rem; */
 }

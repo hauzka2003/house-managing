@@ -17,7 +17,9 @@ function SettingPage() {
   return (
     <motion.div
       animate={!navClosed ? { marginLeft: "300px" } : { marginLeft: "120px" }}
-    ></motion.div>
+    >
+      setting
+    </motion.div>
   );
 }
 

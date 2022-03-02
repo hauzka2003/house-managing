@@ -19,7 +19,9 @@ function BuildingPage() {
       // initial={{ x: 100, opacity: 0 }}
       animate={!navClosed ? { marginLeft: "300px" } : { marginLeft: "120px" }}
       // exit={{ x: -100, opacity: 0 }}
-    ></motion.div>
+    >
+      building
+    </motion.div>
   );
 }
 

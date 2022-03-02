@@ -14,7 +14,6 @@
   margin: auto;
   z-index: 1;
   margin-top: 3rem;
-  cursor: pointer;
 }
 .container {
   width: 100%;
@@ -68,7 +67,7 @@
   justify-content: center;
   position: relative;
   flex-wrap: wrap;
-  margin: 2px auto;
+  margin: 0px auto;
   margin-top: 100px;
 }
 
@@ -130,8 +129,4 @@
   100% {
     transform: rotateY(3600deg);
   }
-}
-
-.tokensvalue {
-  margin-right: 10px;
 }

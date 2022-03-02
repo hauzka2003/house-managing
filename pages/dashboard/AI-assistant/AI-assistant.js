@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useUser } from "../../../store/user";
-
 function AIAssistantPage() {
   const [prompt, setPrompt] = useState("");
   const [response, setResponse] = useState();
@@ -16,7 +15,7 @@ function AIAssistantPage() {
   }, [user]);
   async function onSubmit(e) {
     e.preventDefault();
-    const data = await fetch("/api/openai/assistant", {
+    const data = await fetch("/api/openai/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -6,7 +6,6 @@ function UDInforBlock({ title, unit, color }) {
   const [isHover, setIsHover] = useState(false);
   const [fetchedValue, setFetchedValue] = useState();
   const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
     fetch(`/api/openai/${title}`, {
       method: "GET",
@@ -16,12 +15,8 @@ function UDInforBlock({ title, unit, color }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        setFetchedValue(data?.data);
-        console.log(data.data);
+        setFetchedValue(data.data);
         setIsLoading(false);
-      })
-      .catch((err) => {
-        setFetchedValue(err);
       });
   }, []);
 
@@ -90,7 +85,7 @@ function UDInforBlock({ title, unit, color }) {
               </div>
             )}
           </span>
-          {!isLoading && <span>{fetchedValue > 1 ? unit + "s" : unit}</span>}
+          <span>{fetchedValue > 1 ? unit + "s" : unit}</span>
         </div>
       </motion.div>
     </motion.div>
