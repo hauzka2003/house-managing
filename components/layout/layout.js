@@ -9,7 +9,7 @@ const SideBar = dynamic(() => import("./sidebar"));
 const WelcomeTab = dynamic(() => import("./welcome.js"));
 const links = ["/", "/log-in", "/plans", "/support", "/contact", "/about-us"];
 
-function Layout({ children, key }) {
+function Layout({ children }) {
   const router = useRouter();
 
   return (
