@@ -191,7 +191,7 @@ function LogIn(props) {
           </div>
         </div>
         <div className={`${styles.signup} ${styles.box}`}>
-          <h2>Don't have an account?</h2>
+          <h2>Don&lsquo;t have an account?</h2>
           <div
             className={`${styles.signinbtn}`}
             onClick={() => {
