@@ -59,17 +59,18 @@
 .personal_pro {
   width: 100%;
   padding-top: 2rem;
-  padding-left: 2rem;
+  padding-left: 4rem;
   display: flex;
 }
 
 .personal_pro_info {
+  width: calc(50% - 150px - 2rem);
   text-align: center;
-  margin-left: 4rem;
+  margin-left: 2rem;
   display: flex;
-  align-items: center;
+  justify-content: center;
   flex-direction: column;
-  align-self: center;
+  align-items: center;
 }
 
 .personal_name {
@@ -85,7 +86,8 @@
 }
 .signature_container {
   margin-top: 2rem;
-  margin-left: 4rem;
+  margin-left: 2rem;
+  width: calc(40%);
 }
 
 .signature {
@@ -98,9 +100,10 @@
   padding: 1rem;
   margin-top: 1rem;
   font-weight: 600;
-  width: 400px;
+  width: 100%;
   min-height: 50px;
-  max-width: 400px;
+  min-width: 100px;
+  max-width: 100%;
   max-height: 100px;
   outline: none;
   font-size: 1.1rem;
@@ -118,14 +121,47 @@
 
 .personal_name_input {
   width: 100%;
+  height: 100px;
   display: flex;
 }
 
 .normal_input {
+  text-align: center;
+  margin-top: 0.5rem;
   font-size: 1.1rem;
   border-radius: 5px;
   font-family: "Hubballi", cursive;
   font-weight: 600;
-  width: 300px;
+  width: 70%;
   height: 50px;
+  outline: none;
+  border: none;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.first_name {
+  width: 50%;
+}
+.last_name {
+  width: 50%;
+}
+
+.number_input::-webkit-outer-spin-button,
+.number_input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.number_input {
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  font-family: "Hubballi", cursive;
+  font-weight: 600;
+  width: 70%;
+  height: 50px;
+  outline: none;
+  border: none;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
