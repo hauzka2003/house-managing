@@ -1,5 +1,4 @@
 import styles from "./user_profile.module.css";
-import { useState } from "react";
 import TabsLink from "./tabs_link";
 import AccountTab from "./account";
 import HelpTab from "./help";
@@ -40,6 +39,7 @@ function UserProfile() {
               tab={tab.name}
               style={iconsStyle}
               settingTabState={settingTabState}
+              key={tab.name}
             />
           );
         })}

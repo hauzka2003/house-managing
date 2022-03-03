@@ -11,13 +11,16 @@ function LogInPage() {
   const router = useRouter();
   const { user } = useUser();
   const { error, setError } = useErrorModal();
+
   if (user) {
     router.push("/dashboard");
   }
+
   const [moved, setMoved] = useState(false);
   function onMovedHandler(event) {
     setMoved(event);
   }
+
   return (
     <motion.div
       className={classes.loginpage}

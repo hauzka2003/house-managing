@@ -8,6 +8,7 @@ import { useUser } from "../../store/user";
 // import DarkIcon from "../icons/dark_icon";
 import AvatarUser from "../icons/avatar";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const iconsStyle = {
   minWidth: "25px",
@@ -23,7 +24,11 @@ function PageTitle() {
   const { navClosed, currentPage } = useLayout();
   const { user } = useUser();
   const router = useRouter();
-  const animation = useAnimation();
+  const [userName, setUserName] = useState();
+
+  useEffect(() => {
+    setUserName(user?.user_metadata.userName);
+  }, [user]);
 
   function onClicked(page) {
     router.push(page);
@@ -71,9 +76,7 @@ function PageTitle() {
         />
         <div style={{ display: "flex", alignItems: "center" }}>
           <AvatarUser />
-          <span className={styles.userName}>
-            {user?.user_metadata.userName ?? "Guest"}
-          </span>
+          <span className={styles.userName}>{userName}</span>
         </div>
       </div>
     </motion.div>

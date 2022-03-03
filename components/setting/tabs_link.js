@@ -41,6 +41,7 @@ function TabsLink({ tab, style, index }) {
   return (
     <motion.div
       className={styles.setting_tab}
+      key={tab}
       whileHover={{
         backgroundColor: "#D9D9D9",
         // borderTopRightRadius: "0px",
@@ -48,10 +49,11 @@ function TabsLink({ tab, style, index }) {
         boxShadow:
           "rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px",
       }}
+      initial={{ opacity: 0 }}
       animate={
         settingTabState.currentTab === index
-          ? { backgroundColor: "#D9D9D9" }
-          : {}
+          ? { backgroundColor: "#D9D9D9", opacity: 1 }
+          : { backgroundColor: "#f4f4f5", opacity: 1 }
       }
       onClick={() => {
         setSettingTabState((prev) => {
