@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useLayout } from "../../store/layout";
+import UserProfile from "../../components/setting/user_profile";
 function SettingPage() {
   const { user } = useUser();
   const router = useRouter();
@@ -16,8 +17,17 @@ function SettingPage() {
 
   return (
     <motion.div
-      animate={!navClosed ? { marginLeft: "300px" } : { marginLeft: "120px" }}
-    ></motion.div>
+      style={{ height: "100vh" }}
+      initial={{ x: -100, opacity: 0 }}
+      animate={
+        !navClosed
+          ? { marginLeft: "300px", x: 0, opacity: 1 }
+          : { marginLeft: "120px", x: 0, opacity: 1 }
+      }
+      exit={{ opacity: 0, x: 100, transition: { duration: 0.3 } }}
+    >
+      <UserProfile />
+    </motion.div>
   );
 }
 

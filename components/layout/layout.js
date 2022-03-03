@@ -36,6 +36,7 @@ function Layout({ children }) {
         style={{
           marginTop: "3rem",
           overflowX: "hidden",
+          width: "100%",
         }}
       >
         {children}

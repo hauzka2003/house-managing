@@ -21,7 +21,10 @@ export function LayoutContextProvider({ children }) {
   const [currentPage, setCurrentPage] = useState(
     getTitle(router.pathname.split("/").pop())
   );
-  console.log(currentPage);
+  const [settingTabState, setSettingTabState] = useState({
+    previousTab: null,
+    currentTab: 0,
+  });
 
   useEffect(() => {
     setCurrentPage(getTitle(router.pathname.split("/").pop()));
@@ -47,6 +50,8 @@ export function LayoutContextProvider({ children }) {
     setNavClosed: toggleNav,
     currentPage: currentPage,
     setCurrentPage: letCurrentPage,
+    settingTabState: settingTabState,
+    setSettingTabState: setSettingTabState,
   };
 
   return (
