@@ -4,31 +4,44 @@ import { useLayout } from "../../store/layout";
 import AvatarUser from "../icons/avatar";
 import { useUser } from "../../store/user";
 import { useEffect, useState } from "react";
+import { useErrorModal } from "../../store/error_modal";
 
 function AccountTab() {
   const { settingTabState } = useLayout();
   const { user } = useUser();
+  console.log("user", user);
+  const { setError } = useErrorModal();
   const [avatar, setAvatar] = useState(null);
-  const [name, setName] = useState({ userName: null });
-  const [phone_number, setPhoneNumber] = useState({
-    phone: null,
-  });
-  const [first_name, setFirstName] = useState({
-    firstName: null,
-  });
-  const [last_name, setLastName] = useState({
-    lastName: null,
-  });
-  const [signature, setSignature] = useState({
-    signature: null,
-  });
-  // const enteredUserName;
-  // const enteredPhoneNumber;
-  // const enteredFirstName;
-  // const enteredLastName;
-  // const enteredSignature;
 
-  async function updateUser(input) {
+  const [name, setName] = useState({ username: user?.username });
+  const [phone_number, setPhoneNumber] = useState({ phone: user?.phone });
+  const [first_name, setFirstName] = useState({ firstName: user?.firstName });
+  const [last_name, setLastName] = useState({ lastName: user?.lastName });
+  const [signature, setSignature] = useState({ signature: user?.signature });
+  const [email, setEmail] = useState({ email: user?.email });
+
+  const [enteredName, setEnteredName] = useState(user?.username);
+  const [enteredPhoneNumber, setEnteredPhoneNumber] = useState(user?.phone);
+  const [enteredFirstName, setEnteredFirstName] = useState(user?.firstName);
+  const [enteredLastName, setEnteredLastName] = useState(user?.lastName);
+  const [enteredSignature, setEnteredSignature] = useState(user?.signature);
+
+  async function updateUser(input, type) {
+    if (type === "signature" && input?.signature === enteredSignature) {
+      return;
+    }
+    if (type === "userName" && input?.username === enteredName) {
+      return;
+    }
+    if (type === "phone" && input?.phone === enteredPhoneNumber) {
+      return;
+    }
+    if (type === "firstName" && input?.firstName === enteredFirstName) {
+      return;
+    }
+    if (type === "lastName" && input?.lastName === enteredLastName) {
+      return;
+    }
     const response = await fetch("/api/setting/account", {
       method: "POST",
       headers: {
@@ -36,41 +49,42 @@ function AccountTab() {
       },
       body: JSON.stringify(input),
     });
-    const data = await response.json();
-    console.log("updatedData: ", data);
-    if (data.status === 200) {
-      return alert("Update success!");
-    }
-  }
-
-  async function getUserData() {
-    const response = await fetch("/api/setting/account", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": user.token,
-      },
-    });
-
-    if (response.status === 400) {
-      console.log("error");
-    }
-
     if (response.status === 200) {
-      response.json().then((data) => {
-        console.log("data", data);
-        setName({ userName: data.userName });
-        setPhoneNumber({ phone: data.phone });
-        setFirstName({ firstName: data.firstName });
-        setLastName({ lastName: data.lastName });
-        setSignature({ signature: data.signature });
+      if (type === "signature") {
+        setEnteredSignature(input.signature);
+      }
+      if (type === "userName") {
+        setEnteredName(input.username);
+      }
+      if (type === "phone") {
+        setEnteredPhoneNumber(input.phone);
+      }
+      if (type === "firstName") {
+        setEnteredFirstName(input.firstName);
+      }
+      if (type === "lastName") {
+        setEnteredLastName(input.lastName);
+      }
+      return setError({
+        message: `update ${type} successfully`,
+        type: "success",
       });
     }
   }
 
   useEffect(() => {
-    getUserData();
-  }, []);
+    setName({ username: user?.username });
+    setPhoneNumber({ phone: user?.phone });
+    setFirstName({ firstName: user?.firstName });
+    setLastName({ lastName: user?.lastName });
+    setSignature({ signature: user?.signature });
+    setEmail({ email: user?.email });
+    setEnteredFirstName(user?.firstName);
+    setEnteredLastName(user?.lastName);
+    setEnteredName(user?.username);
+    setEnteredPhoneNumber(user?.phone);
+    setEnteredSignature(user?.signature);
+  }, [user]);
 
   return (
     <motion.div
@@ -100,13 +114,13 @@ function AccountTab() {
             <span> </span>
             <span>{first_name.firstName ?? ""}</span>
           </div>
-          <div className={styles.user_name}>{name?.userName}</div>
+          <div className={styles.user_name}>{name?.username}</div>
         </div>
         <div className={styles.signature_container}>
           <div className={styles.signature}>Signature</div>
           <textarea
             onBlur={() => {
-              updateUser(signature);
+              updateUser(signature, "signature");
             }}
             onChange={(e) => {
               setSignature({ signature: e.target.value });
@@ -124,7 +138,7 @@ function AccountTab() {
           <div className={styles.first_name}>
             <div className={styles.signature}>First Name</div>
             <input
-              onBlur={() => updateUser(first_name)}
+              onBlur={() => updateUser(first_name, "firstName")}
               className={styles.normal_input}
               placeholder={"First name"}
               onChange={(e) => {
@@ -136,7 +150,7 @@ function AccountTab() {
           <div className={styles.last_name}>
             <div className={styles.signature}>Last Name</div>
             <input
-              onBlur={() => updateUser(last_name)}
+              onBlur={() => updateUser(last_name, "lastName")}
               className={styles.normal_input}
               placeholder={"Last name"}
               onChange={(e) => {
@@ -151,6 +165,7 @@ function AccountTab() {
             <div className={styles.signature}>Email</div>
             <input
               type="email"
+              value={email?.email ?? ""}
               className={styles.normal_input}
               placeholder={"Your Email"}
               disabled
@@ -159,7 +174,7 @@ function AccountTab() {
           <div className={styles.last_name}>
             <div className={styles.signature}>Phone Number</div>
             <input
-              onBlur={() => updateUser(phone_number)}
+              onBlur={() => updateUser(phone_number, "phone")}
               type="number"
               className={styles.number_input}
               placeholder={"Your phone number"}
@@ -174,14 +189,14 @@ function AccountTab() {
           <div className={styles.first_name}>
             <div className={styles.signature}>UserName</div>
             <input
-              onBlur={() => updateUser(name)}
+              onBlur={() => updateUser(name, "userName")}
               type="text"
               className={styles.normal_input}
               placeholder={"Your Username"}
               onChange={(e) => {
-                setName({ userName: e.target.value });
+                setName({ username: e.target.value });
               }}
-              value={name?.userName ?? ""}
+              value={name?.username ?? ""}
             />
           </div>
           <div className={styles.last_name}>

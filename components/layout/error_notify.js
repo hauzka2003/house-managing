@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import styles from "./error_notify.module.css";
 import CheckMarkCircleIcon from "../icons/checkmark_circle";
 import ReloadIcon from "../icons/reload";
-function ErrorModal({ error, setClose }) {
+function ErrorModal({ error, setClose, style }) {
   function getQuote(type) {
     if (type === "error") {
       return "Ooops!";
@@ -44,6 +44,7 @@ function ErrorModal({ error, setClose }) {
     <>
       <motion.div
         className={styles.backdrop}
+        style={style}
         initial={{ scale: 1, opacity: 0.4 }}
         animate={{ scale: 20, opacity: 0.4, transition: { duration: 0.5 } }}
         exit={{ scale: 1, opacity: 0 }}
@@ -52,6 +53,7 @@ function ErrorModal({ error, setClose }) {
         }}
       />
       <motion.div
+        style={style}
         className={styles.container}
         initial={{
           opacity: 0,

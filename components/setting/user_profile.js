@@ -27,7 +27,6 @@ const iconsStyle = {
 
 function UserProfile() {
   const { settingTabState } = useLayout();
-  console.log("settingTabState", settingTabState);
 
   return (
     <div className={styles.setting_container}>

@@ -24,10 +24,11 @@ function PageTitle() {
   const { navClosed, currentPage } = useLayout();
   const { user } = useUser();
   const router = useRouter();
-  const [userName, setUserName] = useState();
+
+  const [userName, setUserName] = useState(user?.username);
 
   useEffect(() => {
-    setUserName(user?.user_metadata.userName);
+    setUserName(user?.username);
   }, [user]);
 
   function onClicked(page) {

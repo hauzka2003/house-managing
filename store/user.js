@@ -20,13 +20,31 @@ export function UserContextProvider({ children }) {
   }
 
   useEffect(() => {
-    const session = supabase.auth.session();
-    setSession(session);
-    setUser(session?.user ?? null);
+    async function getUserProfile() {
+      if (currentUser) {
+        const { data: profile } = await supabase
+          .from("profile")
+          .select("*")
+          .eq("id", user.id)
+          .single();
+        setUser({ ...user, ...profile });
+      }
+    }
+    // const session = supabase.auth.session();
+    // setSession(session);
+    // setUser(session?.user ?? null);
+    getUserProfile();
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         setSession(session);
-        setUser(session?.user ?? null);
+        if (!session) {
+          setUser(null);
+        } else {
+          getUserProfile();
+          setUser((pre) => {
+            return { ...pre, ...session?.user };
+          });
+        }
       }
     );
 
