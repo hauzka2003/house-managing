@@ -22,14 +22,14 @@ const iconsStyle = {
 
 function PageTitle() {
   const { navClosed, currentPage } = useLayout();
-  const { user } = useUser();
+  const { displayName, setDisplayname } = useUser();
   const router = useRouter();
 
-  const [userName, setUserName] = useState(user?.user_metadata?.userName);
+  const [userName, setUserName] = useState(displayName);
 
   useEffect(() => {
-    setUserName(user?.user_metadata?.userName);
-  }, [user]);
+    setUserName(displayName);
+  }, [displayName]);
 
   function onClicked(page) {
     router.push(page);

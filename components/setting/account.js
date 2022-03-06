@@ -15,6 +15,8 @@ function AccountTab() {
 
   const [name, setName] = useState({ userName: user?.user_metadata?.userName });
 
+  const [loginName, setLoginName] = useState();
+
   const [phone_number, setPhoneNumber] = useState({
     phone: user?.user_metadata?.phone,
   });
@@ -42,6 +44,19 @@ function AccountTab() {
   const [enteredSignature, setEnteredSignature] = useState(
     user?.user_metadata?.signature
   );
+
+  async function getloginName() {
+    const response = await fetch("/api/setting/account/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.status === 200) {
+      const data = await response.json();
+      setLoginName(data.data);
+    }
+  }
 
   async function updateUser(input, type) {
     if (type === "signature" && input?.signature === enteredSignature) {
@@ -86,6 +101,10 @@ function AccountTab() {
       type: "success",
     });
   }
+
+  useEffect(() => {
+    getloginName();
+  }, [user]);
 
   return (
     <motion.div
@@ -188,12 +207,12 @@ function AccountTab() {
         </div>
         <div className={styles.personal_name_input}>
           <div className={styles.first_name}>
-            <div className={styles.signature}>UserName</div>
+            <div className={styles.signature}>Display name</div>
             <input
               onBlur={() => updateUser(name, "userName")}
               type="text"
               className={styles.normal_input}
-              placeholder={"Your Username"}
+              placeholder={"Your Display Name"}
               onChange={(e) => {
                 setName({ userName: e.target.value });
               }}
@@ -201,11 +220,13 @@ function AccountTab() {
             />
           </div>
           <div className={styles.last_name}>
-            <div className={styles.signature}>Coming Soon</div>
+            <div className={styles.signature}>UserName</div>
             <input
               type="text"
               className={styles.number_input}
-              placeholder={"You can do nothing in here"}
+              placeholder={"Your UserName"}
+              disabled
+              value={loginName ?? "loading"}
             />
           </div>
         </div>

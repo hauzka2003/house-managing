@@ -7,6 +7,12 @@ const userContext = createContext();
 export function UserContextProvider({ children }) {
   const currentUser = supabase.auth.user();
   const [user, setUser] = useState(currentUser);
+  const [displayName, setDisplayName] = useState(
+    currentUser?.user_metadata?.userName
+  );
+
+  console.log("displayName", displayName);
+
   const router = useRouter();
 
   console.log("user in context: ", user);
@@ -23,25 +29,31 @@ export function UserContextProvider({ children }) {
   }
 
   useEffect(() => {
-    async function getUserProfile() {
-      const sessionUser = supabase.auth.user();
-      if (sessionUser) {
+    async function getUserProfile(user) {
+      // const sessionUser = supabase.auth.user();
+      if (user) {
         const { data: profile } = await supabase
           .from("profile")
           .select("*")
-          .eq("id", sessionUser.id)
+          .eq("id", user.id)
           .single();
-        setUser({ ...sessionUser, ...profile });
+        return setUser({ ...user, ...profile });
       }
     }
 
     getUserProfile();
     const { data: unsubscribe } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        console.log(event);
         if (event === "SIGNED_OUT") {
           return setUser(null);
         }
-        getUserProfile();
+        if (event === "USER_UPDATED") {
+          setDisplayName(session.user?.user_metadata?.userName);
+          return;
+        }
+        setDisplayName(session?.user?.user_metadata?.userName);
+        getUserProfile(session?.user);
       }
     );
   }, []);
@@ -86,6 +98,8 @@ export function UserContextProvider({ children }) {
     signUp: signUp,
     user: user,
     signOut,
+    displayName,
+    setDisplayName,
   };
 
   return (

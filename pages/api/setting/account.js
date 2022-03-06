@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     try {
       data = await supabase
         .from("profile")
-        .select("*")
+        .select("username")
         .eq("id", user.id)
         .single();
     } catch (error) {
@@ -34,15 +34,10 @@ export default async function handler(req, res) {
         error: data.error,
       });
     }
-    console.log(data.data.signature);
+    console.log(data.data);
     return res.status(200).send({
       message: "Success",
-      userName: data.data.username,
-      email: data.data.email,
-      firstName: data.data.firstName,
-      lastName: data.data.lastName,
-      phone: data.data.phone,
-      signature: data.data.signature,
+      data: data.data?.username,
     });
   }
   if (req.method === "POST") {
