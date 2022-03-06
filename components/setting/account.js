@@ -5,6 +5,7 @@ import AvatarUser from "../icons/avatar";
 import { useUser } from "../../store/user";
 import { useEffect, useState } from "react";
 import { useErrorModal } from "../../store/error_modal";
+import { supabase } from "../../utils/supabase";
 
 function AccountTab() {
   const { settingTabState } = useLayout();
@@ -13,18 +14,37 @@ function AccountTab() {
   const { setError } = useErrorModal();
   const [avatar, setAvatar] = useState(null);
 
-  const [name, setName] = useState({ username: user?.username });
-  const [phone_number, setPhoneNumber] = useState({ phone: user?.phone });
-  const [first_name, setFirstName] = useState({ firstName: user?.firstName });
-  const [last_name, setLastName] = useState({ lastName: user?.lastName });
-  const [signature, setSignature] = useState({ signature: user?.signature });
+  console.log(user?.user_metadata?.userName);
+
+  const [name, setName] = useState({ userName: user?.user_metadata?.userName });
+
+  const [phone_number, setPhoneNumber] = useState({
+    phone: user?.user_metadata?.phone,
+  });
+  const [first_name, setFirstName] = useState({
+    firstName: user?.user_metadata?.firstName,
+  });
+  const [last_name, setLastName] = useState({
+    lastName: user?.user_metadata?.lastName,
+  });
+  const [signature, setSignature] = useState({
+    signature: user?.user_metadata?.signature,
+  });
   const [email, setEmail] = useState({ email: user?.email });
 
-  const [enteredName, setEnteredName] = useState(user?.username);
-  const [enteredPhoneNumber, setEnteredPhoneNumber] = useState(user?.phone);
-  const [enteredFirstName, setEnteredFirstName] = useState(user?.firstName);
-  const [enteredLastName, setEnteredLastName] = useState(user?.lastName);
-  const [enteredSignature, setEnteredSignature] = useState(user?.signature);
+  const [enteredName, setEnteredName] = useState(user?.user_metadata?.userName);
+  const [enteredPhoneNumber, setEnteredPhoneNumber] = useState(
+    user?.user_metadata?.phone
+  );
+  const [enteredFirstName, setEnteredFirstName] = useState(
+    user?.user_metadata?.firstName
+  );
+  const [enteredLastName, setEnteredLastName] = useState(
+    user?.user_metadata?.lastName
+  );
+  const [enteredSignature, setEnteredSignature] = useState(
+    user?.user_metadata?.signature
+  );
 
   async function updateUser(input, type) {
     if (type === "signature" && input?.signature === enteredSignature) {
@@ -42,49 +62,33 @@ function AccountTab() {
     if (type === "lastName" && input?.lastName === enteredLastName) {
       return;
     }
-    const response = await fetch("/api/setting/account", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(input),
+    const { error } = await supabase.auth.update({
+      data: { ...input },
     });
-    if (response.status === 200) {
-      if (type === "signature") {
-        setEnteredSignature(input.signature);
-      }
-      if (type === "userName") {
-        setEnteredName(input.username);
-      }
-      if (type === "phone") {
-        setEnteredPhoneNumber(input.phone);
-      }
-      if (type === "firstName") {
-        setEnteredFirstName(input.firstName);
-      }
-      if (type === "lastName") {
-        setEnteredLastName(input.lastName);
-      }
-      return setError({
-        message: `update ${type} successfully`,
-        type: "success",
-      });
+    if (error) {
+      return setError(error);
     }
-  }
 
-  useEffect(() => {
-    setName({ username: user?.username });
-    setPhoneNumber({ phone: user?.phone });
-    setFirstName({ firstName: user?.firstName });
-    setLastName({ lastName: user?.lastName });
-    setSignature({ signature: user?.signature });
-    setEmail({ email: user?.email });
-    setEnteredFirstName(user?.firstName);
-    setEnteredLastName(user?.lastName);
-    setEnteredName(user?.username);
-    setEnteredPhoneNumber(user?.phone);
-    setEnteredSignature(user?.signature);
-  }, [user]);
+    if (type === "signature") {
+      setEnteredSignature(input.signature);
+    }
+    if (type === "userName") {
+      setEnteredName(input.username);
+    }
+    if (type === "phone") {
+      setEnteredPhoneNumber(input.phone);
+    }
+    if (type === "firstName") {
+      setEnteredFirstName(input.firstName);
+    }
+    if (type === "lastName") {
+      setEnteredLastName(input.lastName);
+    }
+    return setError({
+      message: `update ${type} successfully`,
+      type: "success",
+    });
+  }
 
   return (
     <motion.div
@@ -114,7 +118,7 @@ function AccountTab() {
             <span> </span>
             <span>{first_name.firstName ?? ""}</span>
           </div>
-          <div className={styles.user_name}>{name?.username}</div>
+          <div className={styles.user_name}>{name?.userName}</div>
         </div>
         <div className={styles.signature_container}>
           <div className={styles.signature}>Signature</div>
@@ -194,9 +198,9 @@ function AccountTab() {
               className={styles.normal_input}
               placeholder={"Your Username"}
               onChange={(e) => {
-                setName({ username: e.target.value });
+                setName({ userName: e.target.value });
               }}
-              value={name?.username ?? ""}
+              value={name?.userName ?? ""}
             />
           </div>
           <div className={styles.last_name}>

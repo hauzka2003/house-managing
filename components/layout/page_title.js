@@ -25,10 +25,10 @@ function PageTitle() {
   const { user } = useUser();
   const router = useRouter();
 
-  const [userName, setUserName] = useState(user?.username);
+  const [userName, setUserName] = useState(user?.user_metadata?.userName);
 
   useEffect(() => {
-    setUserName(user?.username);
+    setUserName(user?.user_metadata?.userName);
   }, [user]);
 
   function onClicked(page) {
