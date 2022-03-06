@@ -6,6 +6,7 @@ import RedeemTab from "./redeem";
 import SettingTab from "./settings";
 import { AnimatePresence } from "framer-motion";
 import { useLayout } from "../../store/layout";
+import { useEffect, useState } from "react";
 
 const tabs = [
   { name: "Account" },
@@ -27,6 +28,24 @@ const iconsStyle = {
 
 function UserProfile() {
   const { settingTabState } = useLayout();
+  const [loginName, setLoginName] = useState();
+
+  async function getloginName() {
+    const response = await fetch("/api/setting/account/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.status === 200) {
+      const data = await response.json();
+      setLoginName(data.data);
+    }
+  }
+
+  useEffect(() => {
+    getloginName();
+  }, []);
 
   return (
     <div className={styles.setting_container}>
@@ -46,7 +65,7 @@ function UserProfile() {
 
       <AnimatePresence exitBeforeEnter>
         {settingTabState.currentTab == 0 && (
-          <AccountTab key={settingTabState.currentTab} />
+          <AccountTab key={settingTabState.currentTab} loginName={loginName} />
         )}
         {settingTabState.currentTab == 1 && (
           <SettingTab key={settingTabState.currentTab} />

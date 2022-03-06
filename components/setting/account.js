@@ -7,15 +7,13 @@ import { useEffect, useState } from "react";
 import { useErrorModal } from "../../store/error_modal";
 import { supabase } from "../../utils/supabase";
 
-function AccountTab() {
+function AccountTab({ loginName }) {
   const { settingTabState } = useLayout();
   const { user } = useUser();
   const { setError } = useErrorModal();
   const [avatar, setAvatar] = useState(null);
 
   const [name, setName] = useState({ userName: user?.user_metadata?.userName });
-
-  const [loginName, setLoginName] = useState();
 
   const [phone_number, setPhoneNumber] = useState({
     phone: user?.user_metadata?.phone,
@@ -44,19 +42,6 @@ function AccountTab() {
   const [enteredSignature, setEnteredSignature] = useState(
     user?.user_metadata?.signature
   );
-
-  async function getloginName() {
-    const response = await fetch("/api/setting/account/", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (response.status === 200) {
-      const data = await response.json();
-      setLoginName(data.data);
-    }
-  }
 
   async function updateUser(input, type) {
     if (type === "signature" && input?.signature === enteredSignature) {
@@ -101,10 +86,6 @@ function AccountTab() {
       type: "success",
     });
   }
-
-  useEffect(() => {
-    getloginName();
-  }, [user]);
 
   return (
     <motion.div
