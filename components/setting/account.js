@@ -10,11 +10,8 @@ import { supabase } from "../../utils/supabase";
 function AccountTab() {
   const { settingTabState } = useLayout();
   const { user } = useUser();
-  console.log("user", user);
   const { setError } = useErrorModal();
   const [avatar, setAvatar] = useState(null);
-
-  console.log(user?.user_metadata?.userName);
 
   const [name, setName] = useState({ userName: user?.user_metadata?.userName });
 
@@ -50,7 +47,7 @@ function AccountTab() {
     if (type === "signature" && input?.signature === enteredSignature) {
       return;
     }
-    if (type === "userName" && input?.username === enteredName) {
+    if (type === "userName" && input?.userName === enteredName) {
       return;
     }
     if (type === "phone" && input?.phone === enteredPhoneNumber) {
@@ -73,7 +70,7 @@ function AccountTab() {
       setEnteredSignature(input.signature);
     }
     if (type === "userName") {
-      setEnteredName(input.username);
+      setEnteredName(input.userName);
     }
     if (type === "phone") {
       setEnteredPhoneNumber(input.phone);

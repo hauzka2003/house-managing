@@ -1,10 +1,6 @@
 import { supabase } from "../../../utils/supabase";
 import cookie from "cookie";
 
-async function updateUser(input) {
-  await supabase.from("AI_profile").update(input).eq("id", user.id);
-}
-
 export default async function handler(req, res) {
   const { user } = await supabase.auth.api.getUserByCookie(req);
 
@@ -53,11 +49,10 @@ export default async function handler(req, res) {
     console.log(req.body);
     let data;
     try {
-      await supabase
-        .from("profile")
-        .update(req.body)
-        .eq("id", user.id)
-        .single();
+      data = await supabase.auth.api.updateUserById({
+        uid: `${user.id}`,
+        attributes: { user_metadata: req.body },
+      });
     } catch (error) {
       return res.status(400).send({
         message: "Fail to connect to server",

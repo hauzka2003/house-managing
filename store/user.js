@@ -5,8 +5,11 @@ import { useRouter } from "next/router";
 const userContext = createContext();
 
 export function UserContextProvider({ children }) {
-  const [user, setUser] = useState();
+  const currentUser = supabase.auth.user();
+  const [user, setUser] = useState(currentUser);
   const router = useRouter();
+
+  console.log("user in context: ", user);
 
   async function signIn(email, password) {
     const { user, error, session } = await supabase.auth.signIn({
@@ -33,9 +36,14 @@ export function UserContextProvider({ children }) {
     }
 
     getUserProfile();
-    const { data: unsubscribe } = supabase.auth.onAuthStateChange(() => {
-      getUserProfile();
-    });
+    const { data: unsubscribe } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (event === "SIGNED_OUT") {
+          return setUser(null);
+        }
+        getUserProfile();
+      }
+    );
   }, []);
 
   useEffect(() => {
