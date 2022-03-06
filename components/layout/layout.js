@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import PageTitle from "./page_title";
 import styles from "./layout.module.css";
-import { AnimatePresence } from "framer-motion";
+import ErrorModal from "./error_notify";
 
 const SideBar = dynamic(() => import("./sidebar"));
 const WelcomeTab = dynamic(() => import("./welcome.js"));
@@ -30,6 +30,7 @@ function Layout({ children }) {
           <PageTitle />
           <SideBar />
           <WelcomeTab />
+          {/* <ErrorModal /> */}
         </div>
       )}
       <div

@@ -49,16 +49,9 @@ const iconsStyle = {
 
 function SideBar() {
   const router = useRouter();
-  const { user } = useUser();
+  const { signOut } = useUser();
   const { setNavClosed, navClosed, setCurrentPage } = useLayout();
   const [clicked, onClicked] = useState(router.pathname);
-
-  async function onLogOut() {
-    const { error } = await supabase.auth.signOut();
-    if (!error) {
-      router.push("/");
-    }
-  }
 
   useEffect(() => {
     onClicked(router.pathname);
@@ -104,7 +97,7 @@ function SideBar() {
           </div>
         </div>
         <div
-          onClick={onLogOut}
+          onClick={signOut}
           style={{ marginBottom: "1.5rem", paddingLeft: "10px" }}
         >
           <motion.div

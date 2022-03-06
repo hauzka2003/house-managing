@@ -1,11 +1,12 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import { supabase } from "../utils/supabase";
+import { useRouter } from "next/router";
+
 const userContext = createContext();
 
 export function UserContextProvider({ children }) {
-  const currentUser = supabase.auth.user();
-  const [user, setUser] = useState(currentUser);
-  const [session, setSession] = useState();
+  const [user, setUser] = useState();
+  const router = useRouter();
 
   async function signIn(email, password) {
     const { user, error, session } = await supabase.auth.signIn({
@@ -15,42 +16,26 @@ export function UserContextProvider({ children }) {
     if (error) {
       return error;
     }
-
     return user;
   }
 
   useEffect(() => {
     async function getUserProfile() {
-      if (currentUser) {
+      const sessionUser = supabase.auth.user();
+      if (sessionUser) {
         const { data: profile } = await supabase
           .from("profile")
           .select("*")
-          .eq("id", user.id)
+          .eq("id", sessionUser.id)
           .single();
-        setUser({ ...user, ...profile });
+        setUser({ ...sessionUser, ...profile });
       }
     }
-    // const session = supabase.auth.session();
-    // setSession(session);
-    // setUser(session?.user ?? null);
-    getUserProfile();
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        setSession(session);
-        if (!session) {
-          setUser(null);
-        } else {
-          getUserProfile();
-          setUser((pre) => {
-            return { ...pre, ...session?.user };
-          });
-        }
-      }
-    );
 
-    return () => {
-      authListener?.unsubscribe();
-    };
+    getUserProfile();
+    const { data: unsubscribe } = supabase.auth.onAuthStateChange(() => {
+      getUserProfile();
+    });
   }, []);
 
   useEffect(() => {
@@ -82,10 +67,17 @@ export function UserContextProvider({ children }) {
     setUser(user);
   }
 
+  async function signOut() {
+    await supabase.auth.signOut();
+    setUser(null);
+    router.push("/log-in");
+  }
+
   const content = {
     signIn: signIn,
     signUp: signUp,
     user: user,
+    signOut,
   };
 
   return (
