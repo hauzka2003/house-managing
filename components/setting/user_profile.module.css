@@ -38,7 +38,7 @@
 
 .tabs_container {
   width: 100%;
-  height: 1000px;
+  height: 1200px;
   overflow: hidden;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
     rgba(0, 0, 0, 0.22) 0px 15px 12px;
@@ -164,4 +164,72 @@
   outline: none;
   border: none;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.account_security {
+  width: 100%;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  padding-right: 4rem;
+}
+
+.account_security_title {
+  font-weight: 600;
+  font-size: 1.8rem;
+  font-family: "Syne Mono", monospace;
+}
+.account_security_quote {
+  font-weight: 500;
+  font-family: "Playfair Display", serif;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+}
+
+.account_security_button {
+  position: relative;
+  margin-top: 1rem;
+  align-self: center;
+  padding: 10px 20px;
+  /* background-color: #ff5a5f; */
+  font-family: "Syne Mono", monospace;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.changepssw_style {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  background-color: #ff5a5f;
+}
+
+.changepssw_style_left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  background-color: #ff5a5f;
+}
+
+.changepssw_style_bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  background-color: #ff5a5f;
+}
+
+.changepssw_style_right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 1px;
+  background-color: #ff5a5f;
 }

@@ -6,10 +6,11 @@ import { useUser } from "../../store/user";
 import { useEffect, useState } from "react";
 import { useErrorModal } from "../../store/error_modal";
 import { supabase } from "../../utils/supabase";
+import SecuritySection from "./account_security";
 
 function AccountTab({ loginName }) {
   const { settingTabState } = useLayout();
-  const { user } = useUser();
+  const { user, displayName } = useUser();
   const { setError } = useErrorModal();
   const [avatar, setAvatar] = useState(null);
 
@@ -47,7 +48,7 @@ function AccountTab({ loginName }) {
     if (type === "signature" && input?.signature === enteredSignature) {
       return;
     }
-    if (type === "userName" && input?.userName === enteredName) {
+    if (type === "display name" && input?.userName === enteredName) {
       return;
     }
     if (type === "phone" && input?.phone === enteredPhoneNumber) {
@@ -63,13 +64,13 @@ function AccountTab({ loginName }) {
       data: { ...input },
     });
     if (error) {
-      return setError(error);
+      return setError({ message: `Error updating ${type}`, type: "error" });
     }
 
     if (type === "signature") {
       setEnteredSignature(input.signature);
     }
-    if (type === "userName") {
+    if (type === "display name") {
       setEnteredName(input.userName);
     }
     if (type === "phone") {
@@ -86,6 +87,10 @@ function AccountTab({ loginName }) {
       type: "success",
     });
   }
+
+  useEffect(() => {
+    setName({ userName: displayName });
+  }, [displayName]);
 
   return (
     <motion.div
@@ -190,7 +195,7 @@ function AccountTab({ loginName }) {
           <div className={styles.first_name}>
             <div className={styles.signature}>Display name</div>
             <input
-              onBlur={() => updateUser(name, "userName")}
+              onBlur={() => updateUser(name, "display name")}
               type="text"
               className={styles.normal_input}
               placeholder={"Your Display Name"}
@@ -211,6 +216,7 @@ function AccountTab({ loginName }) {
             />
           </div>
         </div>
+        <SecuritySection />
       </div>
     </motion.div>
   );

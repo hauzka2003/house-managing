@@ -34,14 +34,12 @@ export default async function handler(req, res) {
         error: data.error,
       });
     }
-    console.log(data.data);
     return res.status(200).send({
       message: "Success",
       data: data.data?.username,
     });
   }
   if (req.method === "POST") {
-    console.log(req.body);
     let data;
     try {
       data = await supabase.auth.api.updateUserById({

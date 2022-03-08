@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import PageTitle from "./page_title";
 import styles from "./layout.module.css";
 import ErrorModal from "./error_notify";
+import { useErrorModal } from "../../store/error_modal";
+import { motion, AnimatePresence } from "framer-motion";
 
 const SideBar = dynamic(() => import("./sidebar"));
 const WelcomeTab = dynamic(() => import("./welcome.js"));
@@ -11,6 +13,7 @@ const links = ["/", "/log-in", "/plans", "/support", "/contact", "/about-us"];
 
 function Layout({ children }) {
   const router = useRouter();
+  const { error, setError } = useErrorModal();
 
   return (
     <div
@@ -30,7 +33,24 @@ function Layout({ children }) {
           <PageTitle />
           <SideBar />
           <WelcomeTab />
-          {/* <ErrorModal /> */}
+          <AnimatePresence exitBeforeEnter>
+            {error && (
+              <div
+                style={{
+                  width: "100vw",
+                  height: "100vh",
+                  position: "fixed",
+                  zIndex: "100",
+                }}
+              >
+                <ErrorModal
+                  style={{ left: "37%", top: "30vh" }}
+                  error={error}
+                  setClose={setError}
+                />
+              </div>
+            )}
+          </AnimatePresence>
         </div>
       )}
       <div
