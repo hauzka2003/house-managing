@@ -22,7 +22,7 @@ const iconsStyle = {
 
 function PageTitle() {
   const { navClosed, currentPage } = useLayout();
-  const { displayName, setDisplayname } = useUser();
+  const { displayName } = useUser();
   const router = useRouter();
 
   const [userName, setUserName] = useState(displayName);
@@ -77,7 +77,7 @@ function PageTitle() {
         />
         <div style={{ display: "flex", alignItems: "center" }}>
           <AvatarUser />
-          <span className={styles.userName}>{userName}</span>
+          <span className={styles.userName}>{userName?.userName}</span>
         </div>
       </div>
     </motion.div>

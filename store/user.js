@@ -7,9 +7,13 @@ const userContext = createContext();
 export function UserContextProvider({ children }) {
   const currentUser = supabase.auth.user();
   const [user, setUser] = useState(currentUser);
-  const [displayName, setDisplayName] = useState(
-    currentUser?.user_metadata?.userName
-  );
+  const [displayName, setDisplayName] = useState({
+    userName: currentUser?.user_metadata?.userName,
+    signature: currentUser?.user_metadata?.signature,
+    lastName: currentUser?.user_metadata?.lastName,
+    firstName: currentUser?.user_metadata?.firstName,
+    phone: currentUser?.user_metadata?.phone,
+  });
 
   console.log("displayName", displayName);
 
@@ -49,10 +53,22 @@ export function UserContextProvider({ children }) {
           return setUser(null);
         }
         if (event === "USER_UPDATED") {
-          setDisplayName(session.user?.user_metadata?.userName);
+          setDisplayName({
+            userName: session.user?.user_metadata?.userName,
+            signature: session.user?.user_metadata?.signature,
+            lastName: session.user?.user_metadata?.lastName,
+            firstName: session.user?.user_metadata?.firstName,
+            phone: session.user?.user_metadata?.phone,
+          });
           return;
         }
-        setDisplayName(session?.user?.user_metadata?.userName);
+        setDisplayName({
+          userName: session.user?.user_metadata?.userName,
+          signature: session.user?.user_metadata?.signature,
+          lastName: session.user?.user_metadata?.lastName,
+          firstName: session.user?.user_metadata?.firstName,
+          phone: session.user?.user_metadata?.phone,
+        });
         getUserProfile(session?.user);
       }
     );

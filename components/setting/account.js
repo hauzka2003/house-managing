@@ -89,7 +89,11 @@ function AccountTab({ loginName }) {
   }
 
   useEffect(() => {
-    setName({ userName: displayName });
+    setName({ userName: displayName?.userName });
+    setPhoneNumber({ phone: displayName?.phone });
+    setFirstName({ firstName: displayName?.firstName });
+    setLastName({ lastName: displayName?.lastName });
+    setSignature({ signature: displayName?.signature });
   }, [displayName]);
 
   return (
@@ -104,7 +108,7 @@ function AccountTab({ loginName }) {
       exit={{ x: 200, transition: { duration: 0.3 }, opacity: 0 }}
     >
       <div className={styles.personal_pro}>
-        <div className={{ width: "150px", height: "150px" }}>
+        <div style={{ width: "150px", height: "150px" }}>
           <AvatarUser
             style={{
               width: "150px",
