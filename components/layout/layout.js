@@ -6,6 +6,8 @@ import styles from "./layout.module.css";
 import ErrorModal from "./error_notify";
 import { useErrorModal } from "../../store/error_modal";
 import { motion, AnimatePresence } from "framer-motion";
+import InformationModal from "./information_modal";
+import { useLayout } from "../../store/layout";
 
 const SideBar = dynamic(() => import("./sidebar"));
 const WelcomeTab = dynamic(() => import("./welcome.js"));
@@ -14,6 +16,9 @@ const links = ["/", "/log-in", "/plans", "/support", "/contact", "/about-us"];
 function Layout({ children }) {
   const router = useRouter();
   const { error, setError } = useErrorModal();
+  const { inforModal } = useLayout();
+
+  console.log("inforModal", inforModal);
 
   return (
     <div
@@ -26,6 +31,20 @@ function Layout({ children }) {
       }}
       className={styles.maincontainer}
     >
+      <AnimatePresence>
+        {inforModal && (
+          <div
+            style={{
+              width: "100vw",
+              height: "100vh",
+              position: "fixed",
+              zIndex: "100",
+            }}
+          >
+            <InformationModal />
+          </div>
+        )}
+      </AnimatePresence>
       {links.indexOf(router.pathname) != -1 ? (
         <Header />
       ) : (

@@ -1,9 +1,12 @@
 import styles from "./user_profile.module.css";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useLayout } from "../../store/layout";
 
 function SecuritySection() {
   const [isHover, setIsHover] = useState(false);
+  const { setInforModal } = useLayout();
+
   return (
     <div className={styles.account_security}>
       <div className={styles.account_security_title}>Security</div>
@@ -34,6 +37,9 @@ function SecuritySection() {
         }}
         onHoverEnd={() => {
           setIsHover(false);
+        }}
+        onClick={() => {
+          setInforModal(true);
         }}
       >
         <motion.div

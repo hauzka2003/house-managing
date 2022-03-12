@@ -45,9 +45,9 @@ function ErrorModal({ error, setClose, style }) {
       <motion.div
         className={styles.backdrop}
         style={style}
-        initial={{ scale: 1, opacity: 0.4 }}
-        animate={{ scale: 20, opacity: 0.4, transition: { duration: 0.5 } }}
-        exit={{ scale: 1, opacity: 0 }}
+        initial={{ scale: 1, opacity: 0 }}
+        animate={{ scale: 20, opacity: 1, transition: { duration: 0.5 } }}
+        exit={{ scale: 1, opacity: 0, transition: { duration: 0.5 } }}
         onClick={() => {
           setClose(null);
         }}

@@ -26,6 +26,8 @@ export function LayoutContextProvider({ children }) {
     currentTab: 0,
   });
 
+  const [inforModal, setInforModal] = useState(false);
+
   useEffect(() => {
     setCurrentPage(getTitle(router.pathname.split("/").pop()));
   }, [router.pathname]);
@@ -52,6 +54,8 @@ export function LayoutContextProvider({ children }) {
     setCurrentPage: letCurrentPage,
     settingTabState: settingTabState,
     setSettingTabState: setSettingTabState,
+    inforModal,
+    setInforModal,
   };
 
   return (

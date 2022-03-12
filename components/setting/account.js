@@ -8,6 +8,17 @@ import { useErrorModal } from "../../store/error_modal";
 import { supabase } from "../../utils/supabase";
 import SecuritySection from "./account_security";
 
+const inputInitial = {
+  boxShadow:
+    "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+};
+
+const inputFocus = {
+  boxShadow:
+    "rgba(0, 0, 0, 0.3) 0px 19px 38px,rgba(0, 0, 0, 0.22) 0px 15px 12px",
+  transition: { duration: 0.3 },
+};
+
 function AccountTab({ loginName }) {
   const { settingTabState } = useLayout();
   const { user, displayName } = useUser();
@@ -124,11 +135,13 @@ function AccountTab({ loginName }) {
             <span> </span>
             <span>{first_name.firstName ?? ""}</span>
           </div>
-          <div className={styles.user_name}>{name?.userName}</div>
+          <div className={styles.user_name}>@{name?.userName}</div>
         </div>
         <div className={styles.signature_container}>
           <div className={styles.signature}>Signature</div>
-          <textarea
+          <motion.textarea
+            initial={inputInitial}
+            whileFocus={inputFocus}
             onBlur={() => {
               updateUser(signature, "signature");
             }}
@@ -147,7 +160,9 @@ function AccountTab({ loginName }) {
         <div className={styles.personal_name_input}>
           <div className={styles.first_name}>
             <div className={styles.signature}>First Name</div>
-            <input
+            <motion.input
+              initial={inputInitial}
+              whileFocus={inputFocus}
               onBlur={() => updateUser(first_name, "firstName")}
               className={styles.normal_input}
               placeholder={"First name"}
@@ -159,7 +174,9 @@ function AccountTab({ loginName }) {
           </div>
           <div className={styles.last_name}>
             <div className={styles.signature}>Last Name</div>
-            <input
+            <motion.input
+              initial={inputInitial}
+              whileFocus={inputFocus}
               onBlur={() => updateUser(last_name, "lastName")}
               className={styles.normal_input}
               placeholder={"Last name"}
@@ -183,7 +200,9 @@ function AccountTab({ loginName }) {
           </div>
           <div className={styles.last_name}>
             <div className={styles.signature}>Phone Number</div>
-            <input
+            <motion.input
+              initial={inputInitial}
+              whileFocus={inputFocus}
               onBlur={() => updateUser(phone_number, "phone")}
               type="number"
               className={styles.number_input}
@@ -198,7 +217,9 @@ function AccountTab({ loginName }) {
         <div className={styles.personal_name_input}>
           <div className={styles.first_name}>
             <div className={styles.signature}>Display name</div>
-            <input
+            <motion.input
+              initial={inputInitial}
+              whileFocus={inputFocus}
               onBlur={() => updateUser(name, "display name")}
               type="text"
               className={styles.normal_input}

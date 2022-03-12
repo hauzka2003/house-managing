@@ -17,8 +17,10 @@
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  background-color: #0d1317;
+  background-color: rgba(0, 5, 5, 0.15);
   z-index: 99;
+  backdrop-filter: blur(0.7px);
+  /* -webkit-backdrop-filter: blur(10px); */
 }
 .innercontainer {
   width: 100%;

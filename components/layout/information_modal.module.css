@@ -1,0 +1,126 @@
+.container {
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  width: 60vw;
+  height: 70vh;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title_container {
+  width: 100%;
+  height: 15%;
+  position: relative;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Syne Mono", monospace;
+  font-size: 1.5rem;
+  color: #020202;
+}
+
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+}
+
+.icon {
+  position: absolute;
+  z-index: 99;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.icon_container {
+  height: 100%;
+  width: 30%;
+  z-index: 99;
+  position: relative;
+}
+
+.background_left {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: #ffffff;
+  z-index: 98;
+}
+
+.background_right {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  background-color: #ffffff;
+  z-index: 98;
+}
+
+.icon_container_border {
+  position: absolute;
+  right: 0;
+  top: 15%;
+  width: 1px;
+  /* height: 70%; */
+  background-color: #bdc2bf;
+}
+
+.content_container {
+  position: relative;
+  width: 70%;
+  height: 60%;
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  padding: 0 10px;
+}
+
+.back_button {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  z-index: 100;
+  display: flex;
+  cursor: pointer;
+}
+
+.content_title {
+  font-family: "Fredoka", sans-serif;
+  font-size: 2rem;
+}
+
+.content_quote {
+  text-align: center;
+  letter-spacing: 1px;
+  margin-top: 2rem;
+  font-family: "League Spartan", sans-serif;
+  font-size: 1.2rem;
+}
+
+.email_input_container {
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.email_input_container_title {
+  font-size: 1.1rem;
+  color: #020202;
+  font-family: "Roboto Mono", monospace;
+}
