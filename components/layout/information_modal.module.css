@@ -83,13 +83,13 @@
 .content_container {
   position: relative;
   width: 70%;
-  height: 60%;
+  height: 70%;
   z-index: 99;
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
   align-items: center;
-  padding: 0 10px;
+  padding: 0 3rem;
 }
 
 .back_button {
@@ -99,6 +99,7 @@
   z-index: 100;
   display: flex;
   cursor: pointer;
+  font-size: 1.1rem;
 }
 
 .content_title {
@@ -123,4 +124,42 @@
   font-size: 1.1rem;
   color: #020202;
   font-family: "Roboto Mono", monospace;
+}
+
+.email_input {
+  margin-top: 1rem;
+  width: 100%;
+  height: 3rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  /* font-family: "Roboto Mono", monospace; */
+  padding-left: 10px;
+}
+
+.submit_button {
+  margin-top: 2rem;
+  width: 100%;
+  padding: 10px 10px;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  font-family: "Fredoka", sans-serif;
+  position: relative;
+  cursor: pointer;
+  background-color: #ffbd19;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  color: #020202;
+}
+
+.submit_button::before {
+  content: "Reset Password";
+  position: absolute;
+  /* top: 50%; */
+  /* left: 50%; */
+  /* transform: translate(-50%, -50%); */
+  width: 10px;
+  height: 10px;
+  background-color: aqua;
+  z-index: 100;
 }

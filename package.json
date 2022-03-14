@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^1.28.5",
+    "axios": "^0.26.1",
     "bcryptjs": "^2.4.3",
     "chart.js": "^3.7.1",
     "cookie": "^0.4.2",

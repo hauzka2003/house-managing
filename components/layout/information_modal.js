@@ -4,6 +4,8 @@ import ShieldHalfIcon from "../icons/shield_half_outline";
 import { useEffect } from "react";
 import { useLayout } from "../../store/layout";
 import ArrowBackIcon from "../icons/arrow_back";
+import { useState } from "react";
+import axios from "axios";
 
 const container = {
   hidden: { opacity: 0 },
@@ -29,6 +31,7 @@ function InformationModal() {
   const buttonAnimation = useAnimation();
   const contentAnimation = useAnimation();
   const { setInforModal } = useLayout();
+  const [email, setEmail] = useState("");
 
   async function initial() {
     await backdropAnimation.start({
@@ -42,7 +45,7 @@ function InformationModal() {
       fill: "#fff",
     });
     await backgroundAnimation.start({
-      width: "50%",
+      width: "51%",
       transition: { duration: 0.5 },
     });
     await iconAnimation.start({
@@ -66,6 +69,14 @@ function InformationModal() {
       transition: { duration: 0.5 },
     });
     contentAnimation.start("show");
+  }
+
+  async function submitHandler() {
+    const response = await axios.post("/api/setting/account", {
+      email,
+    });
+
+    console.log(response);
   }
 
   useEffect(() => {
@@ -96,8 +107,8 @@ function InformationModal() {
           }}
           exit={{ opacity: 0, transition: { duration: 0.5 } }}
         >
-          <ArrowBackIcon style={{ width: "20px" }} />
-          Back
+          <ArrowBackIcon style={{ width: "23px", marginRight: "10px" }} />
+          <div style={{ paddingLeft: "2px" }}>Back</div>
         </motion.div>
         <motion.div
           className={styles.icon}
@@ -146,11 +157,40 @@ function InformationModal() {
             Dont worry, just enter your email address and we will set up with a
             new password in no time!
           </motion.div>
-          <motion.div className={styles.email_input_container} variants={item}>
+          <motion.form
+            className={styles.email_input_container}
+            variants={item}
+            onSubmit={(e) => {
+              e.preventDefault();
+              submitHandler();
+            }}
+          >
             <div className={styles.email_input_container_title}>
               Email Address
             </div>
-          </motion.div>
+            <motion.input
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              value={email}
+              type="email"
+              required
+              className={styles.email_input}
+              placeholder="example@.com"
+              initial={{ boxShadow: "none" }}
+              whileFocus={{
+                boxShadow:
+                  "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+              }}
+            />
+            <motion.input
+              type="submit"
+              value="Reset Password"
+              className={styles.submit_button}
+              initial={{ backgroundColor: "#ffbd19", color: "#020202" }}
+              whileHover={{ backgroundColor: "black", color: "#ffbd19" }}
+            />
+          </motion.form>
         </motion.div>
       </div>
     </>
