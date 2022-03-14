@@ -26,6 +26,7 @@ export default function Home() {
       setAccess_token(query.access_token);
     }
     setAccess_token(query.access_token);
+    console.log("query.access_token", query.access_token);
   }, [query]);
 
   return (
