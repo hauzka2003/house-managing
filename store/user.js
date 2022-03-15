@@ -15,11 +15,7 @@ export function UserContextProvider({ children }) {
     phone: currentUser?.user_metadata?.phone,
   });
 
-  console.log("displayName", displayName);
-
   const router = useRouter();
-
-  console.log("user in context: ", user);
 
   async function signIn(email, password) {
     const { user, error, session } = await supabase.auth.signIn({

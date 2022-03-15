@@ -11,7 +11,15 @@ import { useLayout } from "../../store/layout";
 
 const SideBar = dynamic(() => import("./sidebar"));
 const WelcomeTab = dynamic(() => import("./welcome.js"));
-const links = ["/", "/log-in", "/plans", "/support", "/contact", "/about-us"];
+const links = [
+  "/",
+  "/log-in",
+  "/plans",
+  "/support",
+  "/contact",
+  "/about-us",
+  "/change-password",
+];
 
 function Layout({ children }) {
   const router = useRouter();
