@@ -11,6 +11,8 @@ function ChangePasswordPage() {
   async function submitHandler() {
     const str = router.asPath.split("#")[1];
 
+    console.log(str);
+
     if (str) {
       const params = new URLSearchParams(str);
       console.log("params", params.get("error_code"));
@@ -22,13 +24,18 @@ function ChangePasswordPage() {
       }
     }
 
+    console.log("access_token", access_token);
+
     if (access_token) {
-      const response = await axios
+      await axios
         .post(`/api/password/${access_token}`, {
           password,
         })
         .then((res) => {
           console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
         });
     }
   }
