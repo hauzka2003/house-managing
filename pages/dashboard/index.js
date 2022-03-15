@@ -21,7 +21,7 @@ function DashBoard({ showed, setShowed }) {
     <motion.div
       animate={!navClosed ? { marginLeft: "300px" } : { marginLeft: "120px" }}
     >
-      {access_token}
+      {loadedName && <h1>{loadedName}</h1>}
     </motion.div>
   );
 }
