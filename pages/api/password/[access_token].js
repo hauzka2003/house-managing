@@ -19,9 +19,10 @@ export default async function handler(req, res) {
 
   if (req.method === "POST") {
     let data;
+
     try {
       data = await supabase.auth.api.updateUser(access_token, {
-        password: req.body,
+        password: req.body?.password,
       });
     } catch (error) {
       return res.status(400).send({
