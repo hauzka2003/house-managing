@@ -8,7 +8,7 @@ function ChangePasswordPage() {
   const [access_token, setAccess_token] = useState();
   const [password, setPassword] = useState();
 
-  function submitHandler() {
+  async function submitHandler() {
     const str = router.asPath.split("#")[1];
 
     if (str) {
@@ -23,10 +23,13 @@ function ChangePasswordPage() {
     }
 
     if (access_token) {
-      const response = axios.post(`/api/password/${access_token}`, {
-        password,
-      });
-      const data = response.json();
+      const response = await axios
+        .post(`/api/password/${access_token}`, {
+          password,
+        })
+        .then((res) => {
+          console.log(res);
+        });
     }
   }
 

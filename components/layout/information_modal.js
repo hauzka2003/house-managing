@@ -75,7 +75,6 @@ function InformationModal() {
     const response = await axios.post("/api/setting/account", {
       email,
     });
-
     console.log(response);
   }
 

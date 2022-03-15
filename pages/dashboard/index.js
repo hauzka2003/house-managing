@@ -6,6 +6,7 @@ import { useLayout } from "../../store/layout";
 
 function DashBoard({ showed, setShowed }) {
   const { user } = useUser();
+  const router = useRouter();
 
   const [loadedName, setLoadedName] = useState();
   const { navClosed } = useLayout();

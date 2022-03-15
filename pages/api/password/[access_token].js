@@ -30,6 +30,6 @@ export default async function handler(req, res) {
         data: data,
       });
     }
-    res.status(200).send({ message: "Success" });
+    res.status(200).send({ message: "Success", data: data });
   }
 }
