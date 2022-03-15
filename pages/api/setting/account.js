@@ -44,7 +44,7 @@ export default async function handler(req, res) {
     let data;
     try {
       data = await supabase.auth.api.resetPasswordForEmail(user.email, {
-        redirectTo: "/dashboard",
+        redirectTo: "https://www.subsica.com/dashboard/",
       });
     } catch (error) {
       return res.status(400).send({
