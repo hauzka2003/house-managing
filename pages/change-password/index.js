@@ -13,18 +13,19 @@ function ChangePasswordPage() {
 
     console.log(str);
 
+    let params;
+
     if (str) {
-      const params = new URLSearchParams(str);
+      params = new URLSearchParams(str);
       console.log("params", params.get("error_code"));
       if (params.get("error_code") == 404) {
         console.log("access denied");
       } else {
         console.log("access granted");
-        setAccess_token(params.get("access_token"));
       }
     }
 
-    console.log("access_token", access_token);
+    const access_token = params.get("access_token");
 
     if (access_token) {
       await axios
