@@ -163,3 +163,10 @@
   background-color: aqua;
   z-index: 100;
 }
+
+.error {
+  color: #c81d25;
+  font-size: 0.8rem;
+  font-family: "Roboto Mono", monospace;
+  margin-left: 1rem;
+}

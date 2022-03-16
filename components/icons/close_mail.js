@@ -1,13 +1,17 @@
-function CloseaMailIcon({ style }) {
+import { motion } from "framer-motion";
+
+function CloseaMailIcon({ style, animate, initial, exit }) {
   return (
-    <svg
+    <motion.svg
       xmlns="http://www.w3.org/2000/svg"
       className="ionicon"
       viewBox="0 0 512 512"
       style={style}
+      initial={initial}
+      animate={animate}
     >
       <title>Mail</title>
-      <rect
+      <motion.rect
         x="48"
         y="96"
         width="416"
@@ -20,7 +24,7 @@ function CloseaMailIcon({ style }) {
         strokeLinejoin="round"
         strokeWidth="32"
       />
-      <path
+      <motion.path
         fill="none"
         stroke="currentColor"
         strokeLinecap="round"
@@ -28,7 +32,7 @@ function CloseaMailIcon({ style }) {
         strokeWidth="32"
         d="M112 160l144 112 144-112"
       />
-    </svg>
+    </motion.svg>
   );
 }
 
