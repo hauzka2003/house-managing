@@ -174,7 +174,7 @@ function ChangePasswordContainer({ token }) {
 
     if (token) {
       await axios
-        .post(`/api/password/${access_token}`, {
+        .post(`/api/password/${token}`, {
           password,
         })
         .then((res) => {
