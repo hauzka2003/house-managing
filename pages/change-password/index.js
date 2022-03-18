@@ -2,17 +2,35 @@ import styles from "../../styles/change-password.module.css";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { MotionConfig } from "framer-motion";
+import ChangePasswordContainer from "../../components/change-password/changepassword";
 
 function ChangePasswordPage() {
   const router = useRouter();
   const [access_token, setAccess_token] = useState();
   const [password, setPassword] = useState();
 
-  async function submitHandler() {
+  useEffect(() => {
+    let params;
     const str = router.asPath.split("#")[1];
+    if (str) {
+      params = new URLSearchParams(str);
+      if (params.get("error_code") == 404) {
+        router.push("/");
+      } else {
+        console.log("access granted");
+      }
+    }
 
-    console.log(str);
+    const access_token = params?.get("access_token");
+    if (!access_token) {
+      // router.push("/");
+    } else {
+      setAccess_token(access_token);
+    }
+  }, []);
 
+  async function submitHandler() {
     let params;
 
     if (str) {
@@ -43,15 +61,7 @@ function ChangePasswordPage() {
 
   return (
     <div className={styles.container}>
-      <div>
-        <input
-          type="text"
-          placeholder="Your new password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <input type="text" placeholder="Confirm your new password" />
-        <div onClick={submitHandler}>submit</div>
-      </div>
+      <ChangePasswordContainer token={access_token} />
     </div>
   );
 }

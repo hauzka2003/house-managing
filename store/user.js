@@ -45,27 +45,30 @@ export function UserContextProvider({ children }) {
     const { data: unsubscribe } = supabase.auth.onAuthStateChange(
       (event, session) => {
         console.log(event);
+        console.log("session", session);
         if (event === "SIGNED_OUT") {
           return setUser(null);
         }
         if (event === "USER_UPDATED") {
           setDisplayName({
-            userName: session.user?.user_metadata?.userName,
-            signature: session.user?.user_metadata?.signature,
-            lastName: session.user?.user_metadata?.lastName,
-            firstName: session.user?.user_metadata?.firstName,
-            phone: session.user?.user_metadata?.phone,
+            userName: session?.user?.user_metadata?.userName,
+            signature: session?.user?.user_metadata?.signature,
+            lastName: session?.user?.user_metadata?.lastName,
+            firstName: session?.user?.user_metadata?.firstName,
+            phone: session?.user?.user_metadata?.phone,
           });
           return;
         }
-        setDisplayName({
-          userName: session.user?.user_metadata?.userName,
-          signature: session.user?.user_metadata?.signature,
-          lastName: session.user?.user_metadata?.lastName,
-          firstName: session.user?.user_metadata?.firstName,
-          phone: session.user?.user_metadata?.phone,
-        });
-        getUserProfile(session?.user);
+        if (session) {
+          setDisplayName({
+            userName: session?.user?.user_metadata?.userName,
+            signature: session?.user?.user_metadata?.signature,
+            lastName: session?.user?.user_metadata?.lastName,
+            firstName: session?.user?.user_metadata?.firstName,
+            phone: session?.user?.user_metadata?.phone,
+          });
+          getUserProfile(session?.user);
+        }
       }
     );
   }, []);

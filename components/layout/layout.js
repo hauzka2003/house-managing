@@ -8,6 +8,8 @@ import { useErrorModal } from "../../store/error_modal";
 import { motion, AnimatePresence } from "framer-motion";
 import InformationModal from "./information_modal";
 import { useLayout } from "../../store/layout";
+import { useUser } from "../../store/user";
+import { useEffect } from "react";
 
 const SideBar = dynamic(() => import("./sidebar"));
 const WelcomeTab = dynamic(() => import("./welcome.js"));
@@ -25,8 +27,13 @@ function Layout({ children }) {
   const router = useRouter();
   const { error, setError } = useErrorModal();
   const { inforModal } = useLayout();
+  const { user } = useUser();
 
-  console.log("inforModal", inforModal);
+  useEffect(() => {
+    if (links.indexOf(router.pathname) == -1 && !user) {
+      router.push("/log-in");
+    }
+  }, [user]);
 
   return (
     <div

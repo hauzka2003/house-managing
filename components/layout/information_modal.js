@@ -206,6 +206,7 @@ function InformationModal() {
           animate={buttonAnimation}
           onClick={() => {
             setInforModal(false);
+            clearInterval(intervalId);
           }}
           exit={{ opacity: 0, transition: { duration: 0.5 } }}
         >

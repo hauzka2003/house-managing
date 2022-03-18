@@ -19,7 +19,7 @@
   border-radius: 50%;
   background-color: rgba(0, 5, 5, 0.15);
   z-index: 99;
-  backdrop-filter: blur(0.7px);
+  backdrop-filter: blur(1px);
   /* -webkit-backdrop-filter: blur(10px); */
 }
 .innercontainer {

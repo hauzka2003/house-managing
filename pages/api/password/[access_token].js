@@ -18,6 +18,21 @@ export default async function handler(req, res) {
   });
 
   if (req.method === "POST") {
+    //check if password has at least 8 characters and at least one capital letter
+    const password = req.body?.password;
+
+    if (password.length < 8 || !password.match(/[A-Z]/)) {
+      return res.status(400).send({
+        message: "Password must be at least 8 characters",
+      });
+    }
+
+    if (!password.match(/[A-Z]/)) {
+      return res.status(400).send({
+        message: "Password must be at least one capital letter",
+      });
+    }
+
     let data;
 
     try {
@@ -28,9 +43,10 @@ export default async function handler(req, res) {
       return res.status(400).send({
         message: "Fail to connect to server",
         error: error,
-        data: data,
       });
     }
-    res.status(200).send({ message: "Success", data: data });
+    if (data) {
+      res.status(201).send({ message: "Success" });
+    }
   }
 }
