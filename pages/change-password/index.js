@@ -10,6 +10,8 @@ function ChangePasswordPage() {
   const [access_token, setAccess_token] = useState();
   const [password, setPassword] = useState();
 
+  console.log(access_token);
+
   useEffect(() => {
     let params;
     const str = router.asPath.split("#")[1];
@@ -26,6 +28,7 @@ function ChangePasswordPage() {
     if (!access_token) {
       // router.push("/");
     } else {
+      console.log("access_token", access_token);
       setAccess_token(access_token);
     }
   }, []);
