@@ -8,6 +8,7 @@ import ErrorIcon from "../icons/error-icon";
 import ShieldCheckMarkIcon from "../icons/shield-checkmark";
 import axios from "axios";
 import ShieldHalfIcon from "../icons/shield_half_outline";
+import { useRouter } from "next/router";
 
 const draw = {
   hidden: { pathLength: 0, opacity: 0, transition: { duration: 0 } },
@@ -25,8 +26,8 @@ const draw = {
 };
 
 function ChangePasswordContainer({ token }) {
-  const [password, setPassword] = useState();
-  const [confirmPassword, setConfirmPassword] = useState();
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [clicked, setClicked] = useState(false);
   const [confirmClicked, setConfirmClicked] = useState(false);
   const [error, setError] = useState({ message: "", type: null });
@@ -36,6 +37,10 @@ function ChangePasswordContainer({ token }) {
     boxShadow:
       "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
   });
+  const [doneLoading, setDoneLoading] = useState(false);
+  const [countDown, setCountDown] = useState();
+  const [intervalId, setIntervalId] = useState();
+  const router = useRouter();
 
   const informationTabAnimation = useAnimation();
   const mainTabTitleAnimation = useAnimation();
@@ -67,6 +72,21 @@ function ChangePasswordContainer({ token }) {
       return iconLoading();
     }
   }
+
+  function timer() {
+    const s = setInterval(() => {
+      setCountDown((countDown) => countDown - 1);
+    }, 1000);
+    setIntervalId(s);
+  }
+
+  useEffect(() => {
+    console.log("countdown", countDown);
+    if (countDown === 0) {
+      clearInterval(intervalId);
+      router.push("/dashboard");
+    }
+  }, [countDown]);
 
   useEffect(() => {
     if (error?.type === "error") {
@@ -112,6 +132,7 @@ function ChangePasswordContainer({ token }) {
   }, [error]);
 
   async function submitHandler() {
+    setDoneLoading(false);
     setError({ message: "Updating", type: "loading" });
 
     if (password === "" || confirmPassword === "") {
@@ -147,32 +168,30 @@ function ChangePasswordContainer({ token }) {
       return;
     }
 
-    shieldIconAnimation.start({ opacity: 1, scale: 1 });
-    shieldIconAnimation.start("visible");
-    iconIsLoading = true;
-    // setLoading(true);
-
-    iconLoading();
-
-    informationTabAnimation.start({
-      backgroundColor: "#FFD166",
-    });
-
-    mainTabTitleAnimation.start({
-      color: "#FFD166",
-    });
-
-    submitButtonAnimation.start({
-      backgroundColor: "#FFD166",
-      color: "white",
-    });
-
-    setButtonStyle((prevState) => ({
-      ...prevState,
-      color: "#FFD166",
-    }));
-
     if (token) {
+      shieldIconAnimation.start({ opacity: 1, scale: 1 });
+      shieldIconAnimation.start("visible");
+      iconIsLoading = true;
+
+      iconLoading();
+
+      informationTabAnimation.start({
+        backgroundColor: "#FFD166",
+      });
+
+      mainTabTitleAnimation.start({
+        color: "#FFD166",
+      });
+
+      submitButtonAnimation.start({
+        backgroundColor: "#FFD166",
+        color: "white",
+      });
+
+      setButtonStyle((prevState) => ({
+        ...prevState,
+        color: "#FFD166",
+      }));
       await axios
         .post(`/api/password/${token}`, {
           password,
@@ -180,8 +199,13 @@ function ChangePasswordContainer({ token }) {
         .then((res) => {
           if (res.status === 201) {
             iconIsLoading = false;
+
             shieldIconAnimation.start({ scale: 0, opacity: 0 });
-            // setLoading(false);
+
+            setDoneLoading(true);
+            setCountDown(20);
+            timer();
+
             submitButtonAnimation.start({
               cursor: "pointer",
               opacity: 1,
@@ -204,6 +228,11 @@ function ChangePasswordContainer({ token }) {
             type: "error",
           });
         });
+    } else {
+      setError({
+        message: "Invalid token or no session found",
+        type: "error",
+      });
     }
   }
 
@@ -284,6 +313,11 @@ function ChangePasswordContainer({ token }) {
         {error?.type === "loading" && (
           <div className={styles.requirement}>
             Please wait while we are updating your password
+          </div>
+        )}
+        {doneLoading && (
+          <div className={styles.requirement}>
+            {`U will automatically redirect to Dashboard page in ${countDown} seconds`}
           </div>
         )}
       </motion.div>

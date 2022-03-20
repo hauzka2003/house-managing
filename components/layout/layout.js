@@ -23,6 +23,17 @@ const links = [
   "/change-password",
 ];
 
+const loggedLinks = [
+  "/dashboard",
+  "/dashboard/AI-assistant",
+  "/dashboard/AI-assistant/AI-assistant",
+  "/dashboard/profit",
+  "/dashboard/receipt",
+  "/dashboard/setting",
+  "/dashboard/tenants",
+  "/dashboard/buildings",
+];
+
 function Layout({ children }) {
   const router = useRouter();
   const { error, setError } = useErrorModal();
@@ -60,9 +71,8 @@ function Layout({ children }) {
           </div>
         )}
       </AnimatePresence>
-      {links.indexOf(router.pathname) != -1 ? (
-        <Header />
-      ) : (
+      {links.indexOf(router.pathname) != -1 && <Header />}
+      {loggedLinks.indexOf(router.pathname) != -1 && (
         <div>
           <PageTitle />
           <SideBar />
@@ -87,12 +97,17 @@ function Layout({ children }) {
           </AnimatePresence>
         </div>
       )}
+
       <div
-        style={{
-          marginTop: "3rem",
-          overflowX: "hidden",
-          width: "100%",
-        }}
+        style={
+          router.pathname !== "/hometown"
+            ? {
+                marginTop: "3rem",
+                overflowX: "hidden",
+                width: "100%",
+              }
+            : { overflowX: "hidden", width: "100%" }
+        }
       >
         {children}
       </div>
