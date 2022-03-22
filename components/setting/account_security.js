@@ -5,6 +5,8 @@ import { useLayout } from "../../store/layout";
 
 function SecuritySection() {
   const [isHover, setIsHover] = useState(false);
+  const [isHover2, setIsHover2] = useState(false);
+
   const { setInforModal } = useLayout();
 
   return (
@@ -21,13 +23,13 @@ function SecuritySection() {
           isHover
             ? {
                 backgroundColor: "#fff",
-                color: "#FF5A5F",
+                color: "#ffbd19",
                 boxShadow:
                   "rgba(50, 50, 93, 0.25) 30px 30px 30px -15px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset",
               }
             : {
-                backgroundColor: "#FF5A5F",
-                color: "#FEE1C7",
+                backgroundColor: "#ffbd19",
+                color: "black",
                 boxShadow:
                   "rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px",
               }
@@ -44,6 +46,7 @@ function SecuritySection() {
       >
         <motion.div
           className={styles.changepssw_style}
+          style={{ backgroundColor: "#ffbd19" }}
           animate={
             isHover
               ? { width: "100%", opacity: 1, transition: { duration: 0.7 } }
@@ -52,6 +55,7 @@ function SecuritySection() {
         />
         <motion.div
           className={styles.changepssw_style_left}
+          style={{ backgroundColor: "#ffbd19" }}
           animate={
             isHover
               ? { height: "100%", opacity: 1, transition: { duration: 0.7 } }
@@ -60,6 +64,7 @@ function SecuritySection() {
         />
         <motion.div
           className={styles.changepssw_style_bottom}
+          style={{ backgroundColor: "#ffbd19" }}
           animate={
             isHover
               ? { width: "100%", opacity: 1, transition: { duration: 0.7 } }
@@ -68,6 +73,7 @@ function SecuritySection() {
         />
         <motion.div
           className={styles.changepssw_style_right}
+          style={{ backgroundColor: "#ffbd19" }}
           animate={
             isHover
               ? { height: "100%", opacity: 1, transition: { duration: 0.7 } }
@@ -75,6 +81,67 @@ function SecuritySection() {
           }
         />
         Change password
+      </motion.div>
+      <motion.div
+        className={styles.account_security_button}
+        animate={
+          isHover2
+            ? {
+                backgroundColor: "#fff",
+                color: "#FF5A5F",
+                boxShadow:
+                  "rgba(50, 50, 93, 0.25) 30px 30px 30px -15px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset",
+              }
+            : {
+                backgroundColor: "#FF5A5F",
+                color: "#FEE1C7",
+                boxShadow:
+                  "rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px",
+              }
+        }
+        onHoverStart={() => {
+          setIsHover2(true);
+        }}
+        onHoverEnd={() => {
+          setIsHover2(false);
+        }}
+        onClick={() => {
+          setInforModal(true);
+        }}
+      >
+        <motion.div
+          className={styles.changepssw_style}
+          animate={
+            isHover2
+              ? { width: "100%", opacity: 1, transition: { duration: 0.7 } }
+              : { width: "1px", opacity: 0, transition: { duration: 0.7 } }
+          }
+        />
+        <motion.div
+          className={styles.changepssw_style_left}
+          animate={
+            isHover2
+              ? { height: "100%", opacity: 1, transition: { duration: 0.7 } }
+              : { height: "1px", opacity: 0, transition: { duration: 0.7 } }
+          }
+        />
+        <motion.div
+          className={styles.changepssw_style_bottom}
+          animate={
+            isHover2
+              ? { width: "100%", opacity: 1, transition: { duration: 0.7 } }
+              : { width: "1px", opacity: 0, transition: { duration: 0.7 } }
+          }
+        />
+        <motion.div
+          className={styles.changepssw_style_right}
+          animate={
+            isHover2
+              ? { height: "100%", opacity: 1, transition: { duration: 0.7 } }
+              : { height: "1px", opacity: 0, transition: { duration: 0.7 } }
+          }
+        />
+        Log Out
       </motion.div>
     </div>
   );
