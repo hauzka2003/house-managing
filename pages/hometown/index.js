@@ -9,7 +9,7 @@ import LoadingModal from "../../components/side-project/loading-modal";
 function HomeTownPage() {
   const [isHover, setIsHover] = useState(null);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const background1Animation = useAnimation();
   const background2Animation = useAnimation();

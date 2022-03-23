@@ -2,6 +2,7 @@ import styles from "./hometown-header.module.css";
 import { motion, useAnimation } from "framer-motion";
 import ImageIcon from "./icon/image";
 import { useEffect } from "react";
+import { useState } from "react";
 
 const draw = {
   hide: { pathLength: 0, opacity: 0, transition: { duration: 0 } },
@@ -24,6 +25,24 @@ function LoadingModal({ isLoading }) {
   const iconAnimation = useAnimation();
   const quoteAnimation = useAnimation();
 
+  console.log("isLoading", isLoading);
+
+  async function iconLoading() {
+    console.log("isLoading in function", isLoading);
+
+    if (isLoading) {
+      await iconSequence();
+      return iconLoading();
+    } else {
+      iconAnimation.stop();
+      await iconAnimation.start("stop");
+    }
+  }
+
+  useEffect(() => {
+    iconLoading();
+  }, [isLoading]);
+
   async function iconSequence() {
     await iconAnimation.start("hide");
     await iconAnimation.start("appear");
@@ -39,13 +58,6 @@ function LoadingModal({ isLoading }) {
     });
   }
 
-  async function iconLoading() {
-    if (isLoading) {
-      await iconSequence();
-      return iconLoading();
-    }
-  }
-
   async function initialAnimation() {
     await iconContainerAnimation.start({
       y: 0,
@@ -57,7 +69,6 @@ function LoadingModal({ isLoading }) {
       rotate: [0, 720],
       transition: { duration: 0.5 },
     });
-    iconLoading();
     quoteAnimation.start({ opacity: 1, y: 0, transition: { duration: 0.5 } });
   }
 
@@ -67,24 +78,22 @@ function LoadingModal({ isLoading }) {
 
   return (
     <>
-      {isLoading && (
-        <div className={styles.Loading_modal}>
-          <motion.div
-            className={styles.loading_modal_icon}
-            initial={{ y: -20, opacity: 0, scale: 2 }}
-            animate={iconContainerAnimation}
-          >
-            <ImageIcon draw={draw} animate={iconAnimation} />
-          </motion.div>
-          <motion.div
-            className={styles.Loading_modal_quote}
-            initial={{ opacity: 0, y: 10 }}
-            animate={quoteAnimation}
-          >
-            Please wait while we prepare full HD images for you...
-          </motion.div>
-        </div>
-      )}
+      <div className={styles.Loading_modal}>
+        <motion.div
+          className={styles.loading_modal_icon}
+          initial={{ y: -20, opacity: 0, scale: 2 }}
+          animate={iconContainerAnimation}
+        >
+          <ImageIcon draw={draw} animate={iconAnimation} />
+        </motion.div>
+        <motion.div
+          className={styles.Loading_modal_quote}
+          initial={{ opacity: 0, y: 10 }}
+          animate={quoteAnimation}
+        >
+          Please wait while we prepare full HD images for you...
+        </motion.div>
+      </div>
     </>
   );
 }
