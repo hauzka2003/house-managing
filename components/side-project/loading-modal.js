@@ -24,7 +24,7 @@ function LoadingModal({ isLoading }) {
   const iconContainerAnimation = useAnimation();
   const iconAnimation = useAnimation();
   const quoteAnimation = useAnimation();
-
+  const [close, setClose] = useState(false);
   console.log("isLoading", isLoading);
 
   async function iconLoading() {
@@ -36,6 +36,7 @@ function LoadingModal({ isLoading }) {
     } else {
       iconAnimation.stop();
       await iconAnimation.start("stop");
+      return setClose(true);
     }
   }
 
@@ -78,22 +79,31 @@ function LoadingModal({ isLoading }) {
 
   return (
     <>
-      <div className={styles.Loading_modal}>
-        <motion.div
-          className={styles.loading_modal_icon}
-          initial={{ y: -20, opacity: 0, scale: 2 }}
-          animate={iconContainerAnimation}
-        >
-          <ImageIcon draw={draw} animate={iconAnimation} />
-        </motion.div>
-        <motion.div
-          className={styles.Loading_modal_quote}
-          initial={{ opacity: 0, y: 10 }}
-          animate={quoteAnimation}
-        >
-          Please wait while we prepare full HD images for you...
-        </motion.div>
-      </div>
+      {!close && (
+        <div className={styles.Loading_modal}>
+          <motion.div
+            className={styles.loading_modal_icon}
+            initial={{ y: -20, opacity: 0, scale: 2 }}
+            animate={iconContainerAnimation}
+          >
+            <ImageIcon draw={draw} animate={iconAnimation} />
+          </motion.div>
+          <motion.div
+            className={styles.Loading_modal_quote}
+            initial={{ opacity: 0, y: 10 }}
+            animate={quoteAnimation}
+          >
+            Please wait while we prepare full HD images for you...
+          </motion.div>
+          <div
+            onClick={() => {
+              setClose(true);
+            }}
+          >
+            Close
+          </div>
+        </div>
+      )}
     </>
   );
 }
