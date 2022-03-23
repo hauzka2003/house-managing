@@ -41,7 +41,11 @@ function Layout({ children }) {
   const { user } = useUser();
 
   useEffect(() => {
-    if (links.indexOf(router.pathname) == -1 && !user) {
+    if (
+      links.indexOf(router.pathname) == -1 &&
+      !user &&
+      router.pathname !== "/hometown"
+    ) {
       router.push("/log-in");
     }
   }, [user]);

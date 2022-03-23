@@ -70,6 +70,8 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
+
+  overflow: hidden;
 }
 
 .personal_name {

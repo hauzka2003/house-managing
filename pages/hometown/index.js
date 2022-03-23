@@ -4,9 +4,12 @@ import SideContent from "../../components/side-project/side-content";
 import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import MainContent from "../../components/side-project/main-content";
 import { useState, useEffect } from "react";
+import LoadingModal from "../../components/side-project/loading-modal";
 
 function HomeTownPage() {
   const [isHover, setIsHover] = useState(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const background1Animation = useAnimation();
   const background2Animation = useAnimation();
@@ -14,8 +17,12 @@ function HomeTownPage() {
   const background4Animation = useAnimation();
   const background5Animation = useAnimation();
 
-  // console.log("isHover", isHover);
-
+  function handlerLoaded() {
+    if (imageLoaded) {
+      return;
+    }
+    setIsLoading(true);
+  }
   useEffect(() => {
     console.log("isHover", isHover);
     if (isHover === null) {
@@ -48,6 +55,7 @@ function HomeTownPage() {
 
   return (
     <div style={{ display: "flex" }}>
+      <LoadingModal isLoading={isLoading} />
       <HomeTownHeader />
       <div
         style={{
@@ -123,7 +131,16 @@ function HomeTownPage() {
             key="main"
             // exit={{ scale: 1.2, opacity: 0 }}
           >
-            <Image src="/hcmc.jpg" alt="HCM view" layout="fill" />
+            <Image
+              src="/hcmc.jpg"
+              alt="HCM view"
+              layout="fill"
+              onLoad={() => {
+                handlerLoaded();
+                setImageLoaded(true);
+              }}
+              onLoadingComplete={() => setIsLoading(false)}
+            />
           </motion.div>
         )}
         {isHover === "destinations" && (
