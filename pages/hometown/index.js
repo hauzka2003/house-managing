@@ -1,7 +1,7 @@
 import HomeTownHeader from "../../components/side-project/hometown-header";
 import Image from "next/image";
 import SideContent from "../../components/side-project/side-content";
-import { AnimatePresence, motion, useAnimation } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import MainContent from "../../components/side-project/main-content";
 import { useState, useEffect } from "react";
 import LoadingModal from "../../components/side-project/loading-modal";
@@ -16,6 +16,7 @@ function HomeTownPage() {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [onClick, setOnClick] = useState("Home");
+  const [isVerify, setIsVerify] = useState(false);
 
   const background1Animation = useAnimation();
   const background2Animation = useAnimation();
@@ -68,8 +69,8 @@ function HomeTownPage() {
 
   return (
     <div style={{ display: "flex", backgroundColor: "black" }}>
-      <VerifyModal />
-      <LoadingModal isLoading={isLoading} />
+      <VerifyModal setIsVerify={setIsVerify} />
+      {isVerify && <LoadingModal isLoading={isLoading} />}
       <HomeTownHeader onClick={onClick} setOnClick={setOnClick} />
 
       {onClick === "Home" && (

@@ -35,7 +35,7 @@ const draw = {
   },
 };
 
-function VerifyModal() {
+function VerifyModal({ setIsVerify }) {
   const [code, setCode] = useState("");
   const [error, setError] = useState();
 
@@ -52,6 +52,9 @@ function VerifyModal() {
   useEffect(() => {
     const isVerified = localStorage.getItem("isVerified");
     setDoneLoading(JSON.parse(isVerified));
+    if (JSON.parse(isVerified)) {
+      setIsVerify(true);
+    }
   }, []);
 
   async function onSubmit(e) {
@@ -98,6 +101,50 @@ function VerifyModal() {
   }
 
   const submitButtonAnimation = useAnimation();
+  const mainTabTitleAnimation = useAnimation();
+  const informationTabAnimation = useAnimation();
+
+  useEffect(() => {
+    if (error?.type === "error") {
+      submitButtonAnimation.start({ cursor: "pointer", opacity: 1 });
+      informationTabAnimation.start({
+        backgroundColor: "#EF476F",
+      });
+      mainTabTitleAnimation.start({
+        color: "#EF476F",
+      });
+      submitButtonAnimation.start({
+        backgroundColor: "#EF476F",
+        color: "white",
+      });
+      setButtonStyle((prevState) => ({
+        ...prevState,
+        color: "#EF476F",
+      }));
+      //  errorCircleAnimation.start("visible");
+    }
+    if (error?.type === "success") {
+      submitButtonAnimation.start({ cursor: "pointer", opacity: 1 });
+      informationTabAnimation.start({
+        backgroundColor: "#06D6A0",
+      });
+      mainTabTitleAnimation.start({
+        color: "#06D6A0",
+      });
+      submitButtonAnimation.start({
+        backgroundColor: "#06D6A0",
+        color: "white",
+      });
+      setButtonStyle((prevState) => ({
+        ...prevState,
+        color: "#06D6A0",
+      }));
+      //  successCircleAnimation.start("visible");
+    }
+    if (error?.type === "loading") {
+      submitButtonAnimation.start({ cursor: "not-allowed", opacity: 0.5 });
+    }
+  }, [error]);
 
   return (
     <>
@@ -118,7 +165,10 @@ function VerifyModal() {
                 zIndex: -1,
               }}
             />
-            <div className={styles.verify_modal_side}>
+            <motion.div
+              className={styles.verify_modal_side}
+              animate={informationTabAnimation}
+            >
               <div className={styles.element_1} />
               <div className={styles.element_2} />
               <Blob
@@ -141,7 +191,7 @@ function VerifyModal() {
               <div className={styles.verify_modal_side_quote}>
                 For security purposes, please do not share the code to anybody
               </div>
-            </div>
+            </motion.div>
 
             <div className={styles.verify_modal_main}>
               <motion.div
@@ -180,9 +230,12 @@ function VerifyModal() {
               />
               <motion.div className={styles.drop_2} />
               <form className={styles.input_container} onSubmit={onSubmit}>
-                <div className={styles.verify_modal_main_title}>
+                <motion.div
+                  className={styles.verify_modal_main_title}
+                  animate={mainTabTitleAnimation}
+                >
                   Enter your code here
-                </div>
+                </motion.div>
                 <div className={styles.verify_modal_main_quote}>
                   Upon entered your code, you will be redirected to our content
                 </div>
