@@ -95,13 +95,6 @@ function LoadingModal({ isLoading }) {
           >
             Please wait while we prepare full HD images for you...
           </motion.div>
-          <div
-            onClick={() => {
-              setClose(true);
-            }}
-          >
-            Close
-          </div>
         </div>
       )}
     </>

@@ -48,7 +48,7 @@ const cuisinesContent = [
 const culturesContent = [
   {
     content:
-      "The city cultures slightly resemble the customs of the surrounding countries like Combodia or Thailand because of the long history.",
+      "The city cultures are slightly resemble the customs of the surrounding countries like Combodia or Thailand because of the long history.",
   },
   {
     content:
@@ -85,8 +85,6 @@ function SideContent({ isHover }) {
           <motion.div
             className={classes.side_content_title}
             variants={item}
-            initial="hidden"
-            animate="show"
             exit={{ opacity: 0 }}
             key="main"
           >
@@ -97,8 +95,6 @@ function SideContent({ isHover }) {
           <motion.div
             className={classes.side_content_title}
             variants={item}
-            initial="hidden"
-            animate="show"
             exit={{ opacity: 0 }}
             key="destinations"
           >
@@ -109,8 +105,6 @@ function SideContent({ isHover }) {
           <motion.div
             className={classes.side_content_title}
             variants={item}
-            initial="hidden"
-            animate="show"
             exit={{ opacity: 0 }}
             key="background"
           >
@@ -122,8 +116,6 @@ function SideContent({ isHover }) {
             className={classes.side_content_title}
             variants={item}
             key="cuisines"
-            initial="hidden"
-            animate="show"
             exit={{ opacity: 0 }}
           >
             Delectable cuisines
@@ -133,8 +125,6 @@ function SideContent({ isHover }) {
           <motion.div
             className={classes.side_content_title}
             variants={item}
-            initial="hidden"
-            animate="show"
             exit={{ opacity: 0 }}
             key="cultures"
           >
@@ -155,8 +145,6 @@ function SideContent({ isHover }) {
                 <motion.div
                   className={classes.side_content_content_item}
                   variants={item}
-                  initial="hidden"
-                  animate="show"
                   exit={{ opacity: 0 }}
                   key={content.content}
                 >
@@ -170,8 +158,6 @@ function SideContent({ isHover }) {
                 <motion.div
                   className={classes.side_content_content_item}
                   variants={item}
-                  initial="hidden"
-                  animate="show"
                   key={content.content}
                   exit={{ opacity: 0 }}
                 >
@@ -185,8 +171,6 @@ function SideContent({ isHover }) {
                 <motion.div
                   className={classes.side_content_content_item}
                   variants={item}
-                  initial="hidden"
-                  animate="show"
                   key={content.content}
                   exit={{ opacity: 0 }}
                 >
@@ -200,8 +184,6 @@ function SideContent({ isHover }) {
                 <motion.div
                   className={classes.side_content_content_item}
                   variants={item}
-                  initial="hidden"
-                  animate="show"
                   key={content.content}
                   exit={{ opacity: 0 }}
                 >
@@ -215,8 +197,6 @@ function SideContent({ isHover }) {
                 <motion.div
                   className={classes.side_content_content_item}
                   variants={item}
-                  initial="hidden"
-                  animate="show"
                   key={content.content}
                   exit={{ opacity: 0 }}
                 >

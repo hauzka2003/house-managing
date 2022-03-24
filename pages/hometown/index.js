@@ -5,11 +5,17 @@ import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import MainContent from "../../components/side-project/main-content";
 import { useState, useEffect } from "react";
 import LoadingModal from "../../components/side-project/loading-modal";
+import VerifyModal from "../../components/side-project/verify-modal";
+import DestinationsPage from "../../components/side-project/destinations-page";
+import CuisinesPage from "../../components/side-project/cuisine-page";
+import CulturesPage from "../../components/side-project/cultures-page";
+import BackgroundPage from "../../components/side-project/background-page";
 
 function HomeTownPage() {
   const [isHover, setIsHover] = useState(null);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [onClick, setOnClick] = useState("Home");
 
   const background1Animation = useAnimation();
   const background2Animation = useAnimation();
@@ -53,140 +59,162 @@ function HomeTownPage() {
     background1Animation.start({ scale: 1, transition: { duration: 16 } });
   }, []);
 
+  useEffect(() => {
+    if (onClick === "Home") {
+      background1Animation.start({ opacity: 1, transition: { duration: 1 } });
+      background1Animation.start({ scale: 1, transition: { duration: 16 } });
+    }
+  }, [onClick]);
+
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", backgroundColor: "black" }}>
+      <VerifyModal />
       <LoadingModal isLoading={isLoading} />
-      <HomeTownHeader />
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          position: "absolute",
-          zIndex: 0,
-          overflow: "hidden",
-          backgroundColor: "black",
-        }}
-      >
-        {/* <AnimatePresence exitBeforeEnter> */}
-        {isHover === "background" && (
-          <motion.div
-            initial={{
-              width: "100%",
-              height: "100%",
-              scale: 1.2,
-              opacity: 0,
-              position: "relative",
-            }}
-            animate={background2Animation}
-            key="background"
-            // exit={{ scale: 1.2, opacity: 0 }}
-          >
-            <Image src="/background.jpg" alt="HCM view" layout="fill" />
-          </motion.div>
-        )}
+      <HomeTownHeader onClick={onClick} setOnClick={setOnClick} />
 
-        {isHover === "cultures" && (
-          <motion.div
-            initial={{
+      {onClick === "Home" && (
+        <motion.div
+          style={{ display: "flex", width: "100%", height: "100%" }}
+          initial={{ x: -30, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: 30, opacity: 0 }}
+          key="home"
+        >
+          <div
+            style={{
               width: "100%",
               height: "100%",
-              scale: 1.2,
-              opacity: 0,
-              position: "relative",
+              position: "absolute",
+              zIndex: 0,
+              overflow: "hidden",
+              backgroundColor: "black",
             }}
-            animate={background5Animation}
-            key="cuisines"
-            // exit={{ scale: 1.2, opacity: 0 }}
           >
-            <Image src="/culture.jpg" alt="HCM view" layout="fill" />
-          </motion.div>
-        )}
+            {isHover === "background" && (
+              <motion.div
+                initial={{
+                  width: "100%",
+                  height: "100%",
+                  scale: 1.2,
+                  opacity: 0,
+                  position: "relative",
+                }}
+                animate={background2Animation}
+                key="background"
+                // exit={{ scale: 1.2, opacity: 0 }}
+              >
+                <Image src="/background.jpg" alt="HCM view" layout="fill" />
+              </motion.div>
+            )}
 
-        {isHover === "cuisines" && (
-          <motion.div
-            initial={{
-              width: "100%",
-              height: "100%",
-              scale: 1.2,
-              opacity: 0,
+            {isHover === "cultures" && (
+              <motion.div
+                initial={{
+                  width: "100%",
+                  height: "100%",
+                  scale: 1.2,
+                  opacity: 0,
+                  position: "relative",
+                }}
+                animate={background5Animation}
+                key="cuisines"
+                // exit={{ scale: 1.2, opacity: 0 }}
+              >
+                <Image src="/culture.jpg" alt="HCM view" layout="fill" />
+              </motion.div>
+            )}
+
+            {isHover === "cuisines" && (
+              <motion.div
+                initial={{
+                  width: "100%",
+                  height: "100%",
+                  scale: 1.2,
+                  opacity: 0,
+                  position: "relative",
+                }}
+                animate={background4Animation}
+                key="cuisines"
+                // exit={{ scale: 1.2, opacity: 0 }}
+              >
+                <Image src="/cuisine.jpg" alt="HCM view" layout="fill" />
+              </motion.div>
+            )}
+            {isHover === null && (
+              <motion.div
+                initial={{
+                  width: "100%",
+                  height: "100%",
+                  scale: 1.2,
+                  opacity: 0,
+                  position: "relative",
+                }}
+                animate={background1Animation}
+                key="background"
+              >
+                <Image
+                  src="/hcmc.jpg"
+                  alt="HCM view"
+                  layout="fill"
+                  onLoad={() => {
+                    handlerLoaded();
+                    setImageLoaded(true);
+                  }}
+                  onLoadingComplete={() => setIsLoading(false)}
+                />
+              </motion.div>
+            )}
+            {isHover === "destinations" && (
+              <motion.div
+                initial={{
+                  width: "100%",
+                  height: "100%",
+                  scale: 1.2,
+                  opacity: 0,
+                  position: "relative",
+                }}
+                animate={background3Animation}
+                key="destinations"
+                // exit={{ scale: 1.2, opacity: 0 }}
+              >
+                <Image src="/destination.jpeg" alt="HCM view" layout="fill" />
+              </motion.div>
+            )}
+            {/* </AnimatePresence> */}
+          </div>
+
+          <div
+            style={{
+              width: "40%",
+              minHeight: "100vh",
               position: "relative",
+              justifyContent: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
-            animate={background4Animation}
-            key="cuisines"
-            // exit={{ scale: 1.2, opacity: 0 }}
           >
-            <Image src="/cuisine.jpg" alt="HCM view" layout="fill" />
-          </motion.div>
-        )}
-        {isHover === null && (
-          <motion.div
-            initial={{
-              width: "100%",
-              height: "100%",
-              scale: 1.2,
-              opacity: 0,
+            <SideContent isHover={isHover} />
+          </div>
+          <div
+            style={{
+              width: "60%",
+              minHeight: "100vh",
               position: "relative",
+              justifyContent: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
-            animate={background1Animation}
-            key="main"
-            // exit={{ scale: 1.2, opacity: 0 }}
           >
-            <Image
-              src="/hcmc.jpg"
-              alt="HCM view"
-              layout="fill"
-              onLoad={() => {
-                handlerLoaded();
-                setImageLoaded(true);
-              }}
-              onLoadingComplete={() => setIsLoading(false)}
-            />
-          </motion.div>
-        )}
-        {isHover === "destinations" && (
-          <motion.div
-            initial={{
-              width: "100%",
-              height: "100%",
-              scale: 1.2,
-              opacity: 0,
-              position: "relative",
-            }}
-            animate={background3Animation}
-            key="destinations"
-            // exit={{ scale: 1.2, opacity: 0 }}
-          >
-            <Image src="/destination.jpeg" alt="HCM view" layout="fill" />
-          </motion.div>
-        )}
-        {/* </AnimatePresence> */}
-      </div>
-      <div
-        style={{
-          width: "40%",
-          minHeight: "100vh",
-          position: "relative",
-          justifyContent: "center",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <SideContent isHover={isHover} />
-      </div>
-      <div
-        style={{
-          width: "60%",
-          minHeight: "100vh",
-          position: "relative",
-          justifyContent: "center",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <MainContent setIsHover={setIsHover} />
-      </div>
+            <MainContent setIsHover={setIsHover} />
+          </div>
+        </motion.div>
+      )}
+      {onClick === "Destinations" && <DestinationsPage />}
+      {onClick === "Cuisines" && <CuisinesPage />}
+      {onClick === "Cultures" && <CulturesPage />}
+      {onClick === "Background" && <BackgroundPage />}
     </div>
   );
 }

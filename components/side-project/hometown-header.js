@@ -1,4 +1,6 @@
+import { useState } from "react";
 import classes from "./hometown-header.module.css";
+import LinkName from "./link-name";
 
 const links = [
   { name: "Home" },
@@ -8,16 +10,21 @@ const links = [
   { name: "Cultures" },
 ];
 
-function HomeTownHeader() {
+function HomeTownHeader({ onClick, setOnClick }) {
+  // const [onClick, setOnClick] = useState("Home");
+
   return (
     <div className={classes.container}>
-      <div>HomeTown</div>
+      <div className={classes.web_name}>HomeTown</div>
       <div className={classes.link_container}>
         {links.map((link) => {
           return (
-            <div className={classes.link} key={link.name}>
-              {link.name}
-            </div>
+            <LinkName
+              name={link.name}
+              key={link.name}
+              onClick={setOnClick}
+              selected={link.name === onClick}
+            />
           );
         })}
       </div>

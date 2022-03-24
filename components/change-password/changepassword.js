@@ -357,7 +357,6 @@ function ChangePasswordContainer({ token }) {
                 ],
                 transition: { duration: 6, repeat: Infinity },
               }}
-              s
             />
             <motion.div className={styles.drop_2} />
           </div>

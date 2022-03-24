@@ -36,6 +36,107 @@
   width: 150px;
 }
 
+.verify_modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  z-index: 120;
+  background-color: #fffafb;
+}
+
+.verify_modal_side {
+  width: 30%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+  background-color: #118ab2;
+  position: relative;
+}
+
+.verify_modal_main {
+  width: 70%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.verify_modal_main_title {
+  color: #118ab2;
+  font-family: "Roboto Mono", monospace;
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+.verify_modal_main_quote {
+  color: #293241;
+  opacity: 0.8;
+  font-family: "Source Sans Pro", sans-serif;
+  letter-spacing: 1px;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.element_1 {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 70%;
+  left: 70%;
+  clip-path: polygon(0 24%, 43% 0, 100% 41%, 68% 100%);
+  z-index: 99;
+  background-color: #fffafb;
+  opacity: 0.2;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.element_2 {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 40%;
+  left: 90%;
+  clip-path: polygon(75% 0, 0 67%, 100% 55%);
+  z-index: 99;
+  background-color: #fffafb;
+  opacity: 0.2;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.information_tab_circle {
+  width: 400px;
+  height: 400px;
+  position: absolute;
+  top: 70%;
+  left: -50%;
+  z-index: 99;
+  border-radius: 50%;
+  background-color: white;
+  opacity: 0.2;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.verify_modal_side_quote {
+  text-align: center;
+  font-size: 1.2rem;
+  font-family: "Josefin Sans", sans-serif;
+  margin-top: 1rem;
+  color: #fff;
+}
+
+.verify_modal_side_title {
+  font-size: 1.5rem;
+  font-family: "Roboto Mono", monospace;
+  text-align: center;
+  color: #fff;
+}
+
 .link_container {
   display: flex;
 }
@@ -46,6 +147,7 @@
   font-size: 1.1rem;
   font-family: "Josefin Sans", sans-serif;
   cursor: pointer;
+  position: relative;
 }
 
 .side_content {
@@ -129,5 +231,208 @@
 
 .side_content_content_item {
   padding: 20px 0;
+  text-align: center;
+}
+
+.input_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  /* background-color: red; */
+}
+
+.input {
+  margin-top: 1rem;
+  width: 100%;
+  height: 60px;
+  font-size: 1rem;
+  padding: 0 20px;
+  outline: none;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  color: #293241;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-left: 1rem;
+  background-color: #f4f4f5;
+}
+
+.submit_button {
+  width: 50%;
+  padding: 20px 10px;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+  letter-spacing: 1px;
+  font-family: "Fredoka", sans-serif;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  border-radius: 20px;
+  color: #fffafb;
+}
+
+.error_message {
+  letter-spacing: 1px;
+  font-family: "Roboto Mono", monospace;
+}
+
+.drop {
+  position: absolute;
+  border-radius: 52% 48% 36% 64% / 55% 34% 66% 45%;
+  top: 20%;
+  left: 30%;
+  width: 150px;
+  height: 150px;
+  background-color: transparent;
+  box-shadow: inset 10px 10px 10px rgba(0, 0, 0, 0.5),
+    15px 25px 10px rgba(0, 0, 0, 0.1), 15px 20px 20px rgba(0, 0, 0, 0.05),
+    inset -10px -10px 15px rgba(255, 255, 255, 0.9);
+  /* transform: translate(-50%, -50%); */
+}
+
+.drop::before {
+  content: "";
+  position: absolute;
+  top: 25px;
+  left: 35px;
+  background: #fff;
+  width: 20px;
+  height: 20px;
+  border-radius: 43% 57% 35% 65% / 48% 44% 56% 52%;
+}
+
+.drop::after {
+  content: "";
+  position: absolute;
+  top: 25px;
+  left: 65px;
+  background: #fff;
+  width: 10px;
+  height: 10px;
+  border-radius: 66% 34% 35% 65% / 49% 44% 56% 51%;
+}
+
+.drop_1 {
+  position: absolute;
+  border-radius: 45% 55% 67% 33% / 50% 68% 32% 50%;
+  top: 80%;
+  left: 80%;
+  width: 130px;
+  height: 130px;
+  background-color: transparent;
+  box-shadow: inset 10px 10px 10px rgba(0, 0, 0, 0.5),
+    15px 25px 10px rgba(0, 0, 0, 0.1), 15px 20px 20px rgba(0, 0, 0, 0.05),
+    inset -10px -10px 15px rgba(255, 255, 255, 0.9);
+  transform: translate(-50%, -50%);
+  z-index: 91;
+}
+
+.drop_1::before {
+  content: "";
+  position: absolute;
+  top: 25px;
+  left: 35px;
+  background: #fff;
+  width: 20px;
+  height: 20px;
+  border-radius: 67% 33% 45% 55% / 46% 30% 70% 54%;
+}
+
+.drop_1::after {
+  content: "";
+  position: absolute;
+  top: 25px;
+  left: 65px;
+  background: #fff;
+  width: 10px;
+  height: 10px;
+  border-radius: 66% 34% 35% 65% / 49% 44% 56% 51%;
+}
+
+.drop_2 {
+  position: absolute;
+  border-radius: 35% 65% 39% 61% / 54% 46% 54% 46%;
+  top: 20%;
+  left: 70%;
+  width: 70px;
+  height: 70px;
+  background-color: transparent;
+  box-shadow: inset 10px 10px 10px rgba(0, 0, 0, 0.5),
+    15px 25px 10px rgba(0, 0, 0, 0.1), 15px 20px 20px rgba(0, 0, 0, 0.05),
+    inset -10px -10px 15px rgba(255, 255, 255, 0.9);
+  transform: translate(-50%, -50%);
+  z-index: 89;
+  opacity: 0.3;
+}
+
+.drop_2::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #fff;
+  width: 10px;
+  height: 10px;
+  border-radius: 67% 33% 45% 55% / 46% 30% 70% 54%;
+}
+
+.drop_2::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 25px;
+  background: #fff;
+  width: 7px;
+  height: 7px;
+  border-radius: 66% 34% 35% 65% / 49% 44% 56% 51%;
+}
+
+.web_name {
+  font-family: "Fredoka One", cursive;
+  font-size: 1.5rem;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.link_dot {
+  position: absolute;
+  top: 200%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #fff;
+  z-index: 90;
+}
+
+.apology_modal {
+  width: 60vw;
+  height: 50vh;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.apology_modal_title {
+  font-family: "Fredoka One", cursive;
+  font-size: 1.3rem;
+  color: #293241;
+  letter-spacing: 1px;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.apology_modal_quotes {
+  font-family: "Roboto Mono", monospace;
+  font-size: 1rem;
+  color: #293241;
+  letter-spacing: 0.5px;
+  margin-top: 1rem;
   text-align: center;
 }
