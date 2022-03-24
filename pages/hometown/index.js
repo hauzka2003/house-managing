@@ -67,6 +67,8 @@ function HomeTownPage() {
     }
   }, [onClick]);
 
+  console.log("isverify", isVerify);
+
   return (
     <div style={{ display: "flex", backgroundColor: "black" }}>
       <VerifyModal setIsVerify={setIsVerify} />
@@ -76,7 +78,7 @@ function HomeTownPage() {
       {onClick === "Home" && (
         <motion.div
           style={{ display: "flex", width: "100%", height: "100%" }}
-          initial={{ x: -30, opacity: 0 }}
+          initial={isVerify ? { x: -30, opacity: 0 } : {}}
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: 30, opacity: 0 }}
           key="home"

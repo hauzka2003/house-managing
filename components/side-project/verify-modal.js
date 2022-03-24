@@ -143,6 +143,12 @@ function VerifyModal({ setIsVerify }) {
     }
     if (error?.type === "loading") {
       submitButtonAnimation.start({ cursor: "not-allowed", opacity: 0.5 });
+      informationTabAnimation.start({
+        backgroundColor: "#FFD166",
+      });
+      mainTabTitleAnimation.start({
+        color: "#FFD166",
+      });
     }
   }, [error]);
 
