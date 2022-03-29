@@ -5,6 +5,7 @@ import BetterLink from "../link/better-link";
 import { useRouter } from "next/router";
 import { useUser } from "../../store/user";
 import { useErrorModal } from "../../store/error_modal";
+import { useLayout } from "../../store/layout";
 
 function frontUserCheck(userName, password) {
   if (
@@ -75,6 +76,8 @@ function LogIn(props) {
   const [state, dispatch] = useReducer(loginReducer, initialState);
   const { userName, password, email, signUpUN, signUpPass, confirmPass } =
     state;
+
+  const { setInforModal } = useLayout();
 
   async function signInHandler(e) {
     setError({ message: "wait for us to sign you in", type: "info" });
@@ -233,9 +236,14 @@ function LogIn(props) {
               required
             />
             <input type="submit" value="Login" className={styles.loginbtn} />
-            <BetterLink to={"/"} style={{ color: "#333" }}>
+            <div
+              style={{ color: "#333", cursor: "pointer" }}
+              onClick={() => {
+                setInforModal(true);
+              }}
+            >
               Forget Password?
-            </BetterLink>
+            </div>
           </form>
         </motion.div>
         <motion.div
@@ -290,9 +298,14 @@ function LogIn(props) {
               className={styles.loginbtn}
               style={{ backgroundColor: "#f43648" }}
             />
-            <BetterLink to={"/"} style={{ color: "#333" }}>
+            <div
+              onClick={() => {
+                setInforModal(true);
+              }}
+              style={{ color: "#333", cursor: "pointer" }}
+            >
               Forget Password?
-            </BetterLink>
+            </div>
           </form>
         </motion.div>
       </motion.div>

@@ -1,4 +1,4 @@
-import styles from "./user_profile.module.css";
+import styles from "./setting.module.css";
 import { motion } from "framer-motion";
 import { useLayout } from "../../store/layout";
 import SettingSection from "./setting-section";
@@ -14,6 +14,12 @@ const sections = [
     title: "Language",
     quote:
       "You can change your language here to match your preference. We will continue to support more languages in the future",
+    content: "Coming soon ",
+  },
+  {
+    title: "Sound",
+    quote:
+      "Change sound here will affect the general sound of the app. You can turn on or off the sound or change the volume",
     content: "Coming soon ",
   },
 ];

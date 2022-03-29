@@ -26,6 +26,10 @@ export function LayoutContextProvider({ children }) {
     currentTab: 0,
   });
 
+  function pushPage(page) {
+    router.push(page);
+  }
+
   const [inforModal, setInforModal] = useState(false);
 
   useEffect(() => {
@@ -56,6 +60,7 @@ export function LayoutContextProvider({ children }) {
     setSettingTabState: setSettingTabState,
     inforModal,
     setInforModal,
+    pushPage,
   };
 
   return (

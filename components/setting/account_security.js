@@ -2,12 +2,14 @@ import styles from "./user_profile.module.css";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useLayout } from "../../store/layout";
+import { useUser } from "../../store/user";
 
 function SecuritySection() {
   const [isHover, setIsHover] = useState(false);
   const [isHover2, setIsHover2] = useState(false);
 
   const { setInforModal } = useLayout();
+  const { signOut } = useUser();
 
   return (
     <div className={styles.account_security}>
@@ -106,7 +108,7 @@ function SecuritySection() {
           setIsHover2(false);
         }}
         onClick={() => {
-          setInforModal(true);
+          signOut();
         }}
       >
         <motion.div

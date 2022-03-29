@@ -71,7 +71,7 @@ function HomeTownPage() {
 
   return (
     <div style={{ display: "flex", backgroundColor: "black" }}>
-      <VerifyModal setIsVerify={setIsVerify} />
+      {/* <VerifyModal setIsVerify={setIsVerify} /> */}
       {isVerify && <LoadingModal isLoading={isLoading} />}
       <HomeTownHeader onClick={onClick} setOnClick={setOnClick} />
 

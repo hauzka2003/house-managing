@@ -40,7 +40,7 @@ const draw = {
   },
 };
 
-function InformationModal() {
+function InformationModal({ title, message }) {
   const backgroundAnimation = useAnimation();
   const iconAnimation = useAnimation();
   const mailIconAnimation = useAnimation();
