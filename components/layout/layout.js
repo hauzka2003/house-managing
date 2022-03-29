@@ -10,6 +10,8 @@ import InformationModal from "./information_modal";
 import { useLayout } from "../../store/layout";
 import { useUser } from "../../store/user";
 import { useEffect } from "react";
+import { SpotlightProvider } from "@mantine/spotlight";
+import { actions } from "../../utils/spotlight-provider.ts";
 
 const SideBar = dynamic(() => import("./sidebar"));
 const WelcomeTab = dynamic(() => import("./welcome.js"));
@@ -51,71 +53,73 @@ function Layout({ children }) {
   }, [user]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: "#f4f4f5",
-        height: "100vh",
-        width: "100vw",
-      }}
-      className={styles.maincontainer}
-    >
-      <AnimatePresence>
-        {inforModal && (
-          <div
-            style={{
-              width: "100vw",
-              height: "100vh",
-              position: "fixed",
-              zIndex: "100",
-            }}
-          >
-            <InformationModal />
+    <SpotlightProvider actions={actions}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          backgroundColor: "#f4f4f5",
+          height: "100vh",
+          width: "100vw",
+        }}
+        className={styles.maincontainer}
+      >
+        <AnimatePresence>
+          {inforModal && (
+            <div
+              style={{
+                width: "100vw",
+                height: "100vh",
+                position: "fixed",
+                zIndex: "100",
+              }}
+            >
+              <InformationModal />
+            </div>
+          )}
+        </AnimatePresence>
+        {links.indexOf(router.pathname) != -1 && <Header />}
+        {loggedLinks.indexOf(router.pathname) != -1 && (
+          <div>
+            <PageTitle />
+            <SideBar />
+            <WelcomeTab />
+            <AnimatePresence exitBeforeEnter>
+              {error && (
+                <div
+                  style={{
+                    width: "100vw",
+                    height: "100vh",
+                    position: "fixed",
+                    zIndex: "100",
+                  }}
+                >
+                  <ErrorModal
+                    style={{ left: "37%", top: "30vh" }}
+                    error={error}
+                    setClose={setError}
+                  />
+                </div>
+              )}
+            </AnimatePresence>
           </div>
         )}
-      </AnimatePresence>
-      {links.indexOf(router.pathname) != -1 && <Header />}
-      {loggedLinks.indexOf(router.pathname) != -1 && (
-        <div>
-          <PageTitle />
-          <SideBar />
-          <WelcomeTab />
-          <AnimatePresence exitBeforeEnter>
-            {error && (
-              <div
-                style={{
-                  width: "100vw",
-                  height: "100vh",
-                  position: "fixed",
-                  zIndex: "100",
-                }}
-              >
-                <ErrorModal
-                  style={{ left: "37%", top: "30vh" }}
-                  error={error}
-                  setClose={setError}
-                />
-              </div>
-            )}
-          </AnimatePresence>
-        </div>
-      )}
 
-      <div
-        style={
-          router.pathname !== "/hometown"
-            ? {
-                marginTop: "3rem",
-                overflowX: "hidden",
-                width: "100%",
-              }
-            : { overflowX: "hidden", width: "100%" }
-        }
-      >
-        {children}
+        <div
+          style={
+            router.pathname !== "/hometown"
+              ? {
+                  marginTop: "3rem",
+                  overflowX: "hidden",
+                  width: "100%",
+                }
+              : { overflowX: "hidden", width: "100%" }
+          }
+        >
+          {children}
+        </div>
       </div>
-    </div>
+    </SpotlightProvider>
   );
 }
 
