@@ -2,9 +2,9 @@ import styles from "./search-modal.module.css";
 import { motion } from "framer-motion";
 import MiniProfile from "./mini-profile";
 
-function SearchModal({ results, ref }) {
+function SearchModal({ results, ref, setSearchModal }) {
   return (
-    <div>
+    <div className={styles.overflow_container}>
       <motion.div
         className={styles.container}
         initial={{ y: -30, opacity: 0 }}
@@ -18,6 +18,7 @@ function SearchModal({ results, ref }) {
               email={item?.email}
               username={item?.username}
               key={item?.email}
+              setSearchModal={setSearchModal}
             />
           );
         })}

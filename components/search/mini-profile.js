@@ -5,7 +5,7 @@ import CircleChat from "../icons/circle-chat";
 import { useUser } from "../../store/user";
 import { useRouter } from "next/router";
 
-function MiniProfile({ username, email }) {
+function MiniProfile({ username, email, setSearchModal }) {
   const avatarAnimation = useAnimation();
   const { user } = useUser();
   const router = useRouter();
@@ -25,6 +25,7 @@ function MiniProfile({ username, email }) {
   }
 
   function onClick() {
+    setSearchModal(false);
     if (user?.email === email) {
       return router.push("/dashboard/setting");
     }

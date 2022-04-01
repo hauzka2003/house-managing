@@ -187,6 +187,7 @@ function PageTitle() {
               results={searchResult}
               key={"search-modal"}
               ref={clickOutsideRef}
+              setSearchModal={setSearchModal}
             />
           )}
         </AnimatePresence>
