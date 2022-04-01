@@ -13,7 +13,13 @@ function SearchModal({ results, ref }) {
         ref={ref}
       >
         {results?.map((item) => {
-          return <MiniProfile email={item?.email} username={item?.username} />;
+          return (
+            <MiniProfile
+              email={item?.email}
+              username={item?.username}
+              key={item?.email}
+            />
+          );
         })}
       </motion.div>
     </div>
