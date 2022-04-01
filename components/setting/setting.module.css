@@ -3,6 +3,7 @@
   font-size: 1.3rem;
   letter-spacing: 2px;
   padding-bottom: 1rem;
+  display: flex;
 }
 
 .setting_section {
