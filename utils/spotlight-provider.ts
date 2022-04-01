@@ -1,48 +1,51 @@
 // import { Button, Group } from "@mantine/core";
 // import { SpotlightProvider, useSpotlight } from "@mantine/spotlight";
 import type { SpotlightAction } from "@mantine/spotlight";
+import Router from "next/router";
+import CalendarIcon from "../components/icons/calendar";
 
 export const actions: SpotlightAction[] = [
   {
     title: "dashboard",
     description: "Get to the dashboard",
     onTrigger: () => {
-      //   router.push("/dashboard");
+      Router.push("/dashboard");
     },
+    
   },
   {
     title: "Tenants",
     description: "Get to the tenants page",
     onTrigger: () => {
-      //   router.push("/dashboard/tenants");
+      Router.push("/dashboard/tenants");
     },
   },
   {
     title: "Buildings",
     description: "Get to the buildings page",
     onTrigger: () => {
-      //   router.push("/dashboard/buildings");
+      Router.push("/dashboard/buildings");
     },
   },
   {
     title: "Receipts",
     description: "Get to the receipts page",
     onTrigger: () => {
-      //   router.push("/dashboard/receipts");
+      Router.push("/dashboard/receipt");
     },
   },
   {
     title: "Profit",
     description: "Get to the profit page",
     onTrigger: () => {
-      //   router.push("/dashboard/profit");
+      Router.push("/dashboard/profit");
     },
   },
   {
-    title: "Settings",
+    title: "Setting",
     description: "Get to the settings page",
     onTrigger: () => {
-      //   router.push("/dashboard/settings");
+      Router.push("/dashboard/setting");
     },
   },
 
@@ -50,14 +53,7 @@ export const actions: SpotlightAction[] = [
     title: "AI Assistant",
     description: "Get to the AI Assistant page",
     onTrigger: () => {
-      //   router.push("/dashboard/AI-assistant");
-    },
-  },
-  {
-    title: "Logout",
-    description: "You can even logout in here",
-    onTrigger: () => {
-      //   router.push("/");
+      Router.push("/dashboard/AI-assistant");
     },
   },
 ];

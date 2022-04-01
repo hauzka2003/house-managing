@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
 function SearchIcon({ style, animate, initial }) {
-  console.log(animate);
+  const initials = { ...initial, originX: "50%", originY: "50%" };
   return (
     <motion.svg
       xmlns="http://www.w3.org/2000/svg"
       className="ionicon"
       viewBox="0 0 512 512"
       style={style}
-      initial={initial}
+      initial={initials}
       animate={animate}
     >
       <title>Search</title>

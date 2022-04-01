@@ -24,7 +24,7 @@
 }
 .selectoption {
   cursor: pointer;
-  z-index: 10;
+  z-index: 9;
   justify-content: center;
   align-items: center;
   position: absolute;

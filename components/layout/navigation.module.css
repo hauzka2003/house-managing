@@ -66,3 +66,27 @@
   width: 200px;
   /* margin-left: 10rem; */
 }
+
+.search_box {
+  width: 500px;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* border-left: 1px solid #333;
+  border-right: 1px solid #333; */
+  /* border-radius: 5px; */
+  position: relative;
+}
+
+.input {
+  width: 80%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  height: 100%;
+  padding: 0 1rem;
+  font-size: 1rem;
+  font-family: "Roboto Slab", serif;
+  letter-spacing: 1px;
+}

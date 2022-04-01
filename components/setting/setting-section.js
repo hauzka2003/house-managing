@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import styles from "./setting.module.css";
 import { useMouse } from "@mantine/hooks";
 import { motion, useAnimation } from "framer-motion";
+import BellIcon from "../icons/bell";
+import LanguageIcon from "../icons/language";
+import VolumeHighIcon from "../icons/volume-high";
 
 function SettingSection({ title, children, quote }) {
   const { ref, x, y } = useMouse();
@@ -73,7 +76,16 @@ function SettingSection({ title, children, quote }) {
         className={styles.setting_section_title}
         animate={titleAnimation}
       >
-        {title}
+        {title === "Notifications" && (
+          <BellIcon style={{ width: "20px", marginRight: "10px" }} />
+        )}
+        {title === "Language" && (
+          <LanguageIcon style={{ width: "20px", marginRight: "10px" }} />
+        )}
+        {title === "Sound" && (
+          <VolumeHighIcon style={{ width: "20px", marginRight: "10px" }} />
+        )}
+        <div style={{ marginLeft: "10px" }}>{title}</div>
       </motion.div>
       <motion.div
         className={styles.setting_section_quotes}

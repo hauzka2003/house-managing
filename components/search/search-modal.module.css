@@ -1,0 +1,42 @@
+.container {
+  width: 90%;
+  position: absolute;
+  top: 100%;
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(5px);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  left: 15%;
+  display: flex;
+  flex-direction: column;
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+.mini_profile {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1rem;
+  cursor: pointer;
+}
+
+.user_detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.user_detail_username {
+  font-size: 1.2rem;
+  font-family: "Josefin Sans", sans-serif;
+  letter-spacing: 1px;
+}
+
+.user_detail_email {
+  font-size: 0.9rem;
+  font-family: "Playfair Display", serif;
+  color: #7f7979;
+}

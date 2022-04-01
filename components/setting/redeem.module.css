@@ -1,0 +1,38 @@
+.tab_information {
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+    rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  width: 100%;
+  /* height: 800px; */
+  background-color: #d9d9d9;
+  position: relative;
+  z-index: 0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 3rem 2rem;
+}
+
+.redeem_quotes {
+  font-family: "Shippori Antique B1", sans-serif;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+.redeem_warning {
+  margin-top: 1rem;
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.9rem;
+  color: #736f72;
+}
+
+.redeem_input {
+  margin-top: 1rem;
+  width: 100%;
+  height: 3rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding-left: 10px;
+  outline: none;
+  letter-spacing: 3px;
+  border-radius: 5px;
+  border: 0px solid #fff;
+}

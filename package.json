@@ -12,6 +12,7 @@
     "@mantine/hooks": "^4.0.7",
     "@mantine/spotlight": "^4.0.7",
     "@supabase/supabase-js": "^1.28.5",
+    "avvvatars-react": "^0.4.2",
     "axios": "^0.26.1",
     "bcryptjs": "^2.4.3",
     "chart.js": "^3.7.1",

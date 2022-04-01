@@ -10,7 +10,7 @@ function ChangePasswordPage() {
   const [access_token, setAccess_token] = useState();
   const [password, setPassword] = useState();
 
-  console.log(access_token);
+  // console.log(access_token);
 
   useEffect(() => {
     let params;
@@ -26,41 +26,41 @@ function ChangePasswordPage() {
 
     const access_token = params?.get("access_token");
     if (!access_token) {
-      // router.push("/");
+      router.push("/");
     } else {
-      console.log("access_token", access_token);
+      // console.log("access_token", access_token);
       setAccess_token(access_token);
     }
   }, []);
 
-  async function submitHandler() {
-    let params;
+  // async function submitHandler() {
+  //   let params;
 
-    if (str) {
-      params = new URLSearchParams(str);
-      console.log("params", params.get("error_code"));
-      if (params.get("error_code") == 404) {
-        console.log("access denied");
-      } else {
-        console.log("access granted");
-      }
-    }
+  //   if (str) {
+  //     params = new URLSearchParams(str);
+  //     console.log("params", params.get("error_code"));
+  //     if (params.get("error_code") == 404) {
+  //       console.log("access denied");
+  //     } else {
+  //       console.log("access granted");
+  //     }
+  //   }
 
-    const access_token = params.get("access_token");
+  //   const access_token = params.get("access_token");
 
-    if (access_token) {
-      await axios
-        .post(`/api/password/${access_token}`, {
-          password,
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }
+  //   if (access_token) {
+  //     await axios
+  //       .post(`/api/password/${access_token}`, {
+  //         password,
+  //       })
+  //       .then((res) => {
+  //         console.log(res);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // }
 
   return (
     <div className={styles.container}>

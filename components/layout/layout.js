@@ -53,7 +53,7 @@ function Layout({ children }) {
   }, [user]);
 
   return (
-    <SpotlightProvider actions={actions}>
+    <SpotlightProvider actions={actions} searchPlaceholder="Search...">
       <div
         style={{
           display: "flex",
