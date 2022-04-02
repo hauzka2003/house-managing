@@ -58,12 +58,6 @@ function PageTitle() {
   }
 
   //make a search engine for the user to search for users
-  function onSearch(e) {
-    if (e.key === "Enter") {
-      setSearchModal(true);
-      setSearchInput(e.target.value);
-    }
-  }
 
   async function onSearch(e) {
     clearTimeout(timeoutID);
