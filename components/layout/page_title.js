@@ -57,6 +57,14 @@ function PageTitle() {
     router.push(page);
   }
 
+  //make a search engine for the user to search for users
+  function onSearch(e) {
+    if (e.key === "Enter") {
+      setSearchModal(true);
+      setSearchInput(e.target.value);
+    }
+  }
+
   async function onSearch(e) {
     clearTimeout(timeoutID);
 
@@ -79,7 +87,7 @@ function PageTitle() {
         .catch((err) => {
           console.log(err);
         });
-    }, 200);
+    }, 100);
     setTimeoutID(timeOutID);
   }
 
