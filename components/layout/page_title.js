@@ -79,7 +79,7 @@ function PageTitle() {
         .catch((err) => {
           console.log(err);
         });
-    }, 400);
+    }, 200);
     setTimeoutID(timeOutID);
   }
 

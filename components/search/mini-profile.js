@@ -43,18 +43,19 @@ function MiniProfile({ username, email, setSearchModal }) {
       onHoverStart={hoverStart}
       onHoverEnd={hoverEnd}
       onClick={onClick}
+      exit={{ opacity: 0 }}
     >
       <motion.div className={styles.avatar} animate={avatarAnimation}>
         <Avvvatars value={email} size={40} shadow={true} />
       </motion.div>
 
-      <div className={styles.user_detail}>
+      <motion.div className={styles.user_detail}>
         <div className={styles.user_detail_username}>
           {username}
           {user?.email === email && " (You)"}
         </div>
         <div className={styles.user_detail_email}>{email}</div>
-      </div>
+      </motion.div>
       <div>
         {user?.email !== email && <CircleChat style={{ width: "30px" }} />}
       </div>
