@@ -18,50 +18,50 @@ export default async function handler(req, res) {
   const { search_input } = req.query;
 
   if (req.method === "GET") {
-    const { data: firstname, error: error1 } = await supabase
-      .from("profile")
-      .select("email,username")
-      .ilike("firstName", `%${search_input}%`)
-      .limit(4);
+    // const { data: firstname, error: error1 } = await supabase
+    //   .from("profile")
+    //   .select("email,username")
+    //   .ilike("firstName", `%${search_input}%`)
+    //   .limit(4);
 
-    if (error1) {
-      return res.status(400).send({
-        message: "Fail to connect to server",
-        error: error1,
-      });
-    }
+    // if (error1) {
+    //   return res.status(400).send({
+    //     message: "Fail to connect to server",
+    //     error: error1,
+    //   });
+    // }
 
-    const { data: lastname, error: error2 } = await supabase
-      .from("profile")
-      .select("email,username")
-      .ilike("lastName", `%${search_input}%`)
-      .limit(4);
+    // const { data: lastname, error: error2 } = await supabase
+    //   .from("profile")
+    //   .select("email,username")
+    //   .ilike("lastName", `%${search_input}%`)
+    //   .limit(4);
 
-    if (error2) {
-      return res.status(400).send({
-        message: "Fail to connect to server",
-        error: error2,
-      });
-    }
+    // if (error2) {
+    //   return res.status(400).send({
+    //     message: "Fail to connect to server",
+    //     error: error2,
+    //   });
+    // }
 
     let userEmail = [];
 
-    if (search_input?.includes("@")) {
-      const { data: email, error: error3 } = await supabase
-        .from("profile")
-        .select("email,username")
-        .ilike("email", `%${search_input}%`)
-        .limit(4);
-      userEmail = email ?? [];
+    // if (search_input?.includes("@")) {
+    const { data: email, error: error3 } = await supabase
+      .from("profile")
+      .select("email,username")
+      .ilike("email", `%${search_input}%`)
+      .limit(4);
+    userEmail = email ?? [];
 
-      if (error3) {
-        console.log(error);
-        return res.status(400).send({
-          message: "Fail to connect to server",
-          error: error,
-        });
-      }
+    if (error3) {
+      console.log(error);
+      return res.status(400).send({
+        message: "Fail to connect to server",
+        error: error,
+      });
     }
+    // }
     const { data, error } = await supabase
       .from("profile")
       .select("email,username")
@@ -76,7 +76,7 @@ export default async function handler(req, res) {
       });
     }
 
-    const lastData = [...firstname, ...data, ...lastname, ...userEmail];
+    const lastData = [...data, ...userEmail];
 
     //remove all duplicated user with the same email in array and keep only one user in lastData
 
