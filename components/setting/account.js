@@ -1,4 +1,6 @@
+// import Avvvatars from "avvvatars-react";
 import styles from "./user_profile.module.css";
+
 import { motion } from "framer-motion";
 import { useLayout } from "../../store/layout";
 import AvatarUser from "../icons/avatar";
@@ -126,7 +128,11 @@ function AccountTab({ loginName }) {
               height: "150px",
               boxShadow:
                 "rgba(0, 0, 0, 0.3) 0px 19px 38px,rgba(0, 0, 0, 0.22) 0px 15px 12px",
+              borderRadius: "15px",
             }}
+            radius="15"
+            size={150}
+            email={user?.email}
           />
         </div>
         <div className={styles.personal_pro_info}>

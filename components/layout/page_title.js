@@ -26,7 +26,7 @@ const iconsStyle = {
 
 function PageTitle() {
   const { navClosed, currentPage } = useLayout();
-  const { displayName } = useUser();
+  const { displayName, user } = useUser();
   const router = useRouter();
 
   const format = /[`!#$%^&*()_+\-=\[\]{};':"\\|,<>\/?~]/;
@@ -79,13 +79,13 @@ function PageTitle() {
         .catch((err) => {
           console.log(err);
         });
-    }, 1000);
+    }, 400);
     setTimeoutID(timeOutID);
   }
 
   async function onSearchAnimation() {
     setIsFocused(true);
-    if (searchInput?.length > 0 && searchResult?.length > 0) {
+    if (searchInput?.length > 0 && searchResult?.length >= 0) {
       setSearchModal(true);
     }
 
@@ -186,8 +186,10 @@ function PageTitle() {
             <SearchModal
               results={searchResult}
               key={"search-modal"}
-              ref={clickOutsideRef}
+              innerRef={clickOutsideRef}
               setSearchModal={setSearchModal}
+              isNoResult={searchResult.length === 0}
+              searchInput={searchInput}
             />
           )}
         </AnimatePresence>
@@ -209,7 +211,7 @@ function PageTitle() {
           whileTap={{ scale: 0.7 }}
         />
         <div style={{ display: "flex", alignItems: "center" }}>
-          <AvatarUser />
+          <AvatarUser email={user?.email} />
           <span className={styles.userName}>{userName?.userName}</span>
         </div>
       </div>

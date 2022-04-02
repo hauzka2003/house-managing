@@ -1,7 +1,6 @@
 .container {
   width: 40px;
   height: 40px;
-  border-radius: 15px;
   /* background-color: #0d1317; */
   display: inline-block;
   overflow: hidden;

@@ -34,11 +34,12 @@ function MiniProfile({ username, email, setSearchModal }) {
   return (
     <motion.div
       className={styles.mini_profile}
-      initial={{ boxShadow: "none" }}
+      initial={{ boxShadow: "none", opacity: 0 }}
       whileHover={{
         boxShadow:
           "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
       }}
+      animate={{ opacity: 1 }}
       onHoverStart={hoverStart}
       onHoverEnd={hoverEnd}
       onClick={onClick}

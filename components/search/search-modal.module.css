@@ -19,6 +19,14 @@
   left: 15%;
 }
 
+.no_result {
+  font-size: 0.9rem;
+  font-weight: 100;
+  text-align: center;
+  font-family: "Roboto Mono", monospace;
+  padding: 1rem;
+}
+
 .mini_profile {
   width: 100%;
   display: flex;
