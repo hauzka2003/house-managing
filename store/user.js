@@ -1,8 +1,16 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import { supabase } from "../utils/supabase";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 const userContext = createContext();
+
+async function updateLastSeen() {
+  await axios.post("/api/user/last-seen").catch((err) => {
+    // alert(err);
+    console.log(err);
+  });
+}
 
 export function UserContextProvider({ children }) {
   const currentUser = supabase.auth.user();
@@ -74,16 +82,39 @@ export function UserContextProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    fetch("/api/set-supabase-cookie", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        event: user ? "SIGNED_IN" : "SIGNED_OUT",
-        session: supabase.auth.session(),
-      }),
+    async function setCookie() {
+      await fetch("/api/set-supabase-cookie", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          event: user ? "SIGNED_IN" : "SIGNED_OUT",
+          session: supabase.auth.session(),
+        }),
+      });
+    }
+
+    setCookie();
+
+    let lastSeenId;
+
+    const { data } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_OUT") {
+        clearInterval(lastSeenId);
+      }
     });
+
+    if (user) {
+      updateLastSeen();
+      lastSeenId = setInterval(() => {
+        updateLastSeen();
+      }, 10000);
+    }
+
+    if (!user) {
+      clearInterval(lastSeenId);
+    }
   }, [user]);
 
   async function signUp(email, password) {

@@ -2,18 +2,18 @@ import { supabase } from "../../../utils/supabase";
 import cookie from "cookie";
 
 export default async function handler(req, res) {
-  const { user } = await supabase.auth.api.getUserByCookie(req);
+  // const { user } = await supabase.auth.api.getUserByCookie(req);
 
-  if (!user) {
-    return res.status(401).send({
-      message: "Unauthorized",
-    });
-  }
+  // if (!user) {
+  //   return res.status(401).send({
+  //     message: "Unauthorized",
+  //   });
+  // }
 
-  const token = cookie.parse(req.headers.cookie)["sb:token"];
-  supabase.auth.session = () => ({
-    access_token: token,
-  });
+  // const token = cookie.parse(req.headers.cookie)["sb:token"];
+  // supabase.auth.session = () => ({
+  //   access_token: token,
+  // });
 
   const { search_input } = req.query;
 
@@ -49,7 +49,7 @@ export default async function handler(req, res) {
     // if (search_input?.includes("@")) {
     const { data: email, error: error3 } = await supabase
       .from("profile")
-      .select("email,username")
+      .select("email,username,lastSeen")
       .ilike("email", `%${search_input}%`)
       .limit(4);
     userEmail = email ?? [];
@@ -64,7 +64,7 @@ export default async function handler(req, res) {
     // }
     const { data, error } = await supabase
       .from("profile")
-      .select("email,username")
+      .select("email,username,lastSeen")
       .ilike("username", `%${search_input}%`)
       .limit(4);
 

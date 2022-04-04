@@ -39,6 +39,8 @@ function PageTitle() {
   const [isFocused, setIsFocused] = useState(false);
   const [searchModal, setSearchModal] = useState(false);
 
+  const [date, setDate] = useState(new Date());
+
   const clickOutsideRef = useRef(null);
 
   useOutside(clickOutsideRef, setSearchModal);
@@ -47,8 +49,12 @@ function PageTitle() {
     setUserName(displayName);
   }, [displayName]);
 
+  // console.log("searchModal", searchModal);
+
   useEffect(() => {
     if (searchInput.length <= 2) {
+      console.log("searchInput.length <= 2");
+      setSearchResult([]);
       setSearchModal(false);
     }
   }, [searchInput]);
@@ -61,33 +67,39 @@ function PageTitle() {
 
   async function onSearch(e) {
     clearTimeout(timeoutID);
-
+    let input = e.target.value;
     format.test(e.target.value)
-      ? (e.target.value = e.target.value.replace(format, ""))
+      ? (input = e.target.value.replace(format, ""))
       : null;
+    console.log("e.target.value", input <= 2);
 
-    setSearchInput(e.target.value);
-    if (e.target.value.length <= 2) {
-      return;
+    setSearchInput(input);
+    if (input.length <= 2) {
+      // console.log("this bein called");
+      setSearchResult([]);
+      setDate(new Date());
+      return setSearchModal(false);
     }
-
-    const timeOutID = setTimeout(async () => {
-      await axios
-        .get(`/api/search-user/${e.target.value}`)
-        .then((res) => {
-          setSearchResult(res.data.data);
-          setSearchModal(true);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }, 100);
-    setTimeoutID(timeOutID);
+    if (input.length > 2) {
+      const timeOutID = setTimeout(async () => {
+        await axios
+          .get(`/api/search-user/${input}`)
+          .then((res) => {
+            setSearchResult(res.data.data);
+            setDate(new Date());
+            setSearchModal(true);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }, 200);
+      setTimeoutID(timeOutID);
+    }
   }
 
   async function onSearchAnimation() {
     setIsFocused(true);
-    if (searchInput?.length > 0 && searchResult?.length >= 0) {
+    if (searchInput?.length > 2 && searchResult?.length > 0) {
       setSearchModal(true);
     }
 
@@ -186,6 +198,7 @@ function PageTitle() {
         <AnimatePresence exitBeforeEnter>
           {searchModal && (
             <SearchModal
+              date={date}
               results={searchResult}
               key={"search-modal"}
               innerRef={clickOutsideRef}

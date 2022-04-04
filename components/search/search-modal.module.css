@@ -54,3 +54,35 @@
   font-family: "Playfair Display", serif;
   color: #7f7979;
 }
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+.status {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  width: 60px;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  /* background-color: red; */
+}
+
+.status_circle {
+  min-width: 10px;
+  min-height: 10px;
+  max-width: 10px;
+  max-height: 10px;
+  border-radius: 50%;
+  background-color: #7f7979;
+}
+
+.status_text {
+  font-size: 0.8rem;
+  color: #7f7979;
+  padding-left: 2px;
+}

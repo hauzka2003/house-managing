@@ -8,6 +8,7 @@ function SearchModal({
   setSearchModal,
   isNoResult,
   searchInput,
+  date,
 }) {
   return (
     <motion.div
@@ -37,6 +38,8 @@ function SearchModal({
               username={item?.username}
               key={item?.email}
               setSearchModal={setSearchModal}
+              lastSeen={item?.lastSeen}
+              date={date}
             />
           );
         })}

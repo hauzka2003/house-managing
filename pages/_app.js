@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ErrorModalContextProvider } from "../store/error_modal";
 import { LayoutContextProvider } from "../store/layout";
 import { actions } from "../utils/spotlight-provider.ts";
+import { OnlineStatusProvider } from "../components/hooks/use-check-online";
 
 const Layout = dynamic(() => import("../components/layout/layout"));
 function MyApp({ Component, pageProps, router }) {
@@ -16,15 +17,17 @@ function MyApp({ Component, pageProps, router }) {
       <LayoutContextProvider>
         <ErrorModalContextProvider>
           <UserContextProvider>
-            <Layout>
-              <AnimatePresence exitBeforeEnter>
-                {/* <SpotlightProvider actions={actions}> */}
-                {/* <motion.div key={router.pathname}> */}
-                <Component {...pageProps} key={router.pathname} />
-                {/* </motion.div> */}
-                {/* </SpotlightProvider> */}
-              </AnimatePresence>
-            </Layout>
+            <OnlineStatusProvider>
+              <Layout>
+                <AnimatePresence exitBeforeEnter>
+                  {/* <SpotlightProvider actions={actions}> */}
+                  {/* <motion.div key={router.pathname}> */}
+                  <Component {...pageProps} key={router.pathname} />
+                  {/* </motion.div> */}
+                  {/* </SpotlightProvider> */}
+                </AnimatePresence>
+              </Layout>
+            </OnlineStatusProvider>
           </UserContextProvider>
         </ErrorModalContextProvider>
       </LayoutContextProvider>

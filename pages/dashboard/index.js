@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "../../store/user";
 import { motion } from "framer-motion";
 import { useLayout } from "../../store/layout";
+import { useOnlineStatus } from "../../components/hooks/use-check-online";
 
 function DashBoard({ showed, setShowed }) {
   const { user } = useUser();
@@ -10,6 +11,8 @@ function DashBoard({ showed, setShowed }) {
 
   const [loadedName, setLoadedName] = useState();
   const { navClosed } = useLayout();
+
+  const online = useOnlineStatus();
 
   useEffect(() => {
     if (!user) {
