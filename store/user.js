@@ -93,6 +93,9 @@ export function UserContextProvider({ children }) {
           session: supabase.auth.session(),
         }),
       });
+      if (user) {
+        updateLastSeen();
+      }
     }
 
     setCookie();
@@ -106,7 +109,6 @@ export function UserContextProvider({ children }) {
     });
 
     if (user) {
-      updateLastSeen();
       lastSeenId = setInterval(() => {
         updateLastSeen();
       }, 10000);
