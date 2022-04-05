@@ -1,5 +1,5 @@
 import { supabase } from "../../../utils/supabase";
-import cookie from "cookie";
+// import cookie from "cookie";
 
 export default async function handler(req, res) {
   // const { user } = await supabase.auth.api.getUserByCookie(req);
@@ -44,55 +44,56 @@ export default async function handler(req, res) {
     //   });
     // }
 
-    let userEmail = [];
+    // let userEmail = [];
 
     // if (search_input?.includes("@")) {
     const { data: email, error: error3 } = await supabase
       .from("profile")
       .select("email,username,lastSeen")
-      .ilike("email", `%${search_input}%`)
-      .limit(4);
-    userEmail = email ?? [];
+      .or(`username.ilike.%${search_input}%,email.ilike.%${search_input}%`)
+      .limit(10);
+    // userEmail = email ?? [];
 
     if (error3) {
-      console.log(error);
+      console.log(error3);
       return res.status(400).send({
         message: "Fail to connect to server",
-        error: error,
+        error: error3,
       });
     }
+
     // }
-    const { data, error } = await supabase
-      .from("profile")
-      .select("email,username,lastSeen")
-      .ilike("username", `%${search_input}%`)
-      .limit(4);
+    // const { data, error } = await supabase
+    //   .from("profile")
+    //   .select("email,username,lastSeen")
+    //   .ilike("username", `%${search_input}%`)
+    //   .limit(4);
 
-    if (error) {
-      console.log(error);
-      return res.status(400).send({
-        message: "Fail to connect to server",
-        error: error,
-      });
-    }
+    // if (error) {
+    //   console.log(error);
+    //   return res.status(400).send({
+    //     message: "Fail to connect to server",
+    //     error: error,
+    //   });
+    // }
 
-    const lastData = [...data, ...userEmail];
+    // const lastData = [...userEmail];
 
-    //remove all duplicated user with the same email in array and keep only one user in lastData
+    // //remove all duplicated user with the same email in array and keep only one user in lastData
 
-    const uniqueData = lastData.filter((user, index) => {
-      const email = user?.email;
-      const emailIndex = lastData.findIndex((user) => user?.email === email);
-      if (emailIndex === index) {
-        return true;
-      }
-      return false;
-    });
+    // const uniqueData = lastData.filter((user, index) => {
+    //   const email = user?.email;
+    //   const emailIndex = lastData.findIndex((user) => user?.email === email);
+    //   if (emailIndex === index) {
+    //     return true;
+    //   }
+    //   return false;
+    // });
 
-    if (uniqueData) {
+    if (email) {
       return res.status(200).send({
         message: "Success",
-        data: uniqueData,
+        data: email,
       });
     }
   }

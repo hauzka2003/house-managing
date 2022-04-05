@@ -2,13 +2,13 @@ import { useState, useEffect, createContext, useContext } from "react";
 import { supabase } from "../utils/supabase";
 import { useRouter } from "next/router";
 import axios from "axios";
-
+import Router from "next/router";
 const userContext = createContext();
 
 async function updateLastSeen() {
   await axios.post("/api/user/last-seen").catch((err) => {
-    alert(err);
     console.log(err);
+    Router.reload();
   });
 }
 
@@ -84,7 +84,7 @@ export function UserContextProvider({ children }) {
 
   useEffect(() => {
     async function setCookie() {
-      await fetch("/api/set-supabase-cookie", {
+      const res = await fetch("/api/set-supabase-cookie", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -94,7 +94,7 @@ export function UserContextProvider({ children }) {
           session: supabase.auth.session(),
         }),
       });
-      if (user && initialUpdate) {
+      if (user && initialUpdate && res) {
         updateLastSeen();
         setInitialUpdate(false);
       }
@@ -105,9 +105,6 @@ export function UserContextProvider({ children }) {
     let lastSeenId;
 
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_IN") {
-        setCookie();
-      }
       if (event === "SIGNED_OUT") {
         clearInterval(lastSeenId);
         setInitialUpdate(true);
