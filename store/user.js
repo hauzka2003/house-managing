@@ -7,7 +7,7 @@ const userContext = createContext();
 
 async function updateLastSeen() {
   await axios.post("/api/user/last-seen").catch((err) => {
-    // alert(err);
+    alert(err);
     console.log(err);
   });
 }
@@ -22,6 +22,7 @@ export function UserContextProvider({ children }) {
     firstName: currentUser?.user_metadata?.firstName,
     phone: currentUser?.user_metadata?.phone,
   });
+  const [initialUpdate, setInitialUpdate] = useState(true);
 
   const router = useRouter();
 
@@ -93,8 +94,9 @@ export function UserContextProvider({ children }) {
           session: supabase.auth.session(),
         }),
       });
-      if (user) {
+      if (user && initialUpdate) {
         updateLastSeen();
+        setInitialUpdate(false);
       }
     }
 
@@ -103,8 +105,12 @@ export function UserContextProvider({ children }) {
     let lastSeenId;
 
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN") {
+        setCookie();
+      }
       if (event === "SIGNED_OUT") {
         clearInterval(lastSeenId);
+        setInitialUpdate(true);
       }
     });
 
