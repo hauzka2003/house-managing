@@ -4,6 +4,7 @@ import { useUser } from "../../store/user";
 import { motion } from "framer-motion";
 import { useLayout } from "../../store/layout";
 import { useOnlineStatus } from "../../components/hooks/use-check-online";
+import LoggedLayout from "../../components/layout/logged-layout";
 
 function DashBoard({ showed, setShowed }) {
   const { user } = useUser();
@@ -29,5 +30,7 @@ function DashBoard({ showed, setShowed }) {
     </motion.div>
   );
 }
+
+DashBoard.getLayout = LoggedLayout;
 
 export default DashBoard;

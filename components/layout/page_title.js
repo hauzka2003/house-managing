@@ -205,6 +205,7 @@ function PageTitle() {
               setSearchModal={setSearchModal}
               isNoResult={searchResult.length === 0}
               searchInput={searchInput}
+              setSearchInput={setSearchInput}
             />
           )}
         </AnimatePresence>

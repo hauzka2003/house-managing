@@ -5,6 +5,7 @@ import styles from "../styles/Home.module.css";
 import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import { useState } from "react";
 import { useEffect } from "react";
+import HeaderLayout from "../components/layout/header-layout";
 
 export default function Home() {
   const [isShown, setShown] = useState(false);
@@ -53,3 +54,5 @@ export default function Home() {
     </div>
   );
 }
+
+Home.getLayout = HeaderLayout;

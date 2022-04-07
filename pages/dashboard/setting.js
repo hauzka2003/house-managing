@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useLayout } from "../../store/layout";
 import UserProfile from "../../components/setting/user_profile";
+import LoggedLayout from "../../components/layout/logged-layout";
 function SettingPage() {
   const { user } = useUser();
   const router = useRouter();
@@ -30,5 +31,6 @@ function SettingPage() {
     </motion.div>
   );
 }
+SettingPage.getLayout = LoggedLayout;
 
 export default SettingPage;

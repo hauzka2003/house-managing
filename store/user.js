@@ -4,6 +4,39 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import Router from "next/router";
 const userContext = createContext();
+const PING_RESOURCE = "/api/test-ping";
+const TIMEOUT_TIME_MS = 3000;
+const onlinePollingInterval = 10000;
+
+function timeout(time, promise) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(new Error("timeout"));
+    }, time);
+    promise.then(resolve, reject);
+  });
+}
+
+async function CheckOnlineStatus() {
+  const controller = new AbortController();
+  const { signal } = controller;
+
+  if (!navigator.onLine) {
+    return navigator.onLine;
+  }
+
+  try {
+    await timeout(
+      TIMEOUT_TIME_MS,
+      fetch(PING_RESOURCE, { method: "GET", signal })
+    );
+    return true;
+  } catch (e) {
+    console.log(e);
+    controller.abort();
+  }
+  return false;
+}
 
 async function updateLastSeen() {
   await axios.post("/api/user/last-seen").catch((err) => {
@@ -23,8 +56,14 @@ export function UserContextProvider({ children }) {
     phone: currentUser?.user_metadata?.phone,
   });
   const [initialUpdate, setInitialUpdate] = useState(true);
+  const [online, setOnline] = useState(true);
 
   const router = useRouter();
+
+  async function checkStatus() {
+    const onlineStatus = await CheckOnlineStatus();
+    setOnline(onlineStatus);
+  }
 
   async function signIn(email, password) {
     const { user, error, session } = await supabase.auth.signIn({
@@ -80,6 +119,14 @@ export function UserContextProvider({ children }) {
         }
       }
     );
+
+    let checkStatusId;
+    window.addEventListener("offline", setOnline(false));
+    checkStatusId = setInterval(checkStatus, onlinePollingInterval);
+    return () => {
+      window.removeEventListener("offline", setOnline(false));
+      clearInterval(checkStatusId);
+    };
   }, []);
 
   useEffect(() => {
@@ -94,7 +141,7 @@ export function UserContextProvider({ children }) {
           session: supabase.auth.session(),
         }),
       });
-      if (user && initialUpdate && res) {
+      if (user && initialUpdate && res && online) {
         updateLastSeen();
         setInitialUpdate(false);
       }

@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useLayout } from "../../store/layout";
+import LoggedLayout from "../../components/layout/logged-layout";
 
 function ProfitPage() {
   const { user } = useUser();
@@ -22,5 +23,7 @@ function ProfitPage() {
     </motion.div>
   );
 }
+
+ProfitPage.getLayout = LoggedLayout;
 
 export default ProfitPage;

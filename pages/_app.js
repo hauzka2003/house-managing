@@ -17,17 +17,19 @@ function MyApp({ Component, pageProps, router }) {
       <LayoutContextProvider>
         <ErrorModalContextProvider>
           <UserContextProvider>
-            <OnlineStatusProvider>
-              <Layout>
-                <AnimatePresence exitBeforeEnter>
-                  {/* <SpotlightProvider actions={actions}> */}
-                  {/* <motion.div key={router.pathname}> */}
+            {/* <OnlineStatusProvider> */}
+            <Layout>
+              <AnimatePresence exitBeforeEnter>
+                {Component.getLayout ? (
+                  <Component.getLayout>
+                    <Component {...pageProps} key={router.pathname} />
+                  </Component.getLayout>
+                ) : (
                   <Component {...pageProps} key={router.pathname} />
-                  {/* </motion.div> */}
-                  {/* </SpotlightProvider> */}
-                </AnimatePresence>
-              </Layout>
-            </OnlineStatusProvider>
+                )}
+              </AnimatePresence>
+            </Layout>
+            {/* </OnlineStatusProvider> */}
           </UserContextProvider>
         </ErrorModalContextProvider>
       </LayoutContextProvider>

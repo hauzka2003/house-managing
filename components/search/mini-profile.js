@@ -7,14 +7,18 @@ import { useRouter } from "next/router";
 import { supabase } from "../../utils/supabase";
 import { useEffect, useState } from "react";
 
-function MiniProfile({ username, email, setSearchModal, lastSeen, date }) {
+function MiniProfile({
+  username,
+  email,
+  setSearchModal,
+  lastSeen,
+  date,
+  setSearchInput,
+}) {
   const avatarAnimation = useAnimation();
   const { user } = useUser();
   const router = useRouter();
   const [lastSeenAgo, setLastSeenAgo] = useState();
-
-  console.log("lastSeenAgo", lastSeenAgo);
-  console.log("lastSeen", lastSeen);
 
   function getLastSeen(lastSeen) {
     if (!lastSeen) return setLastSeenAgo("never");
@@ -89,10 +93,12 @@ function MiniProfile({ username, email, setSearchModal, lastSeen, date }) {
   }
 
   function onClick() {
+    setSearchInput("");
     setSearchModal(false);
     if (user?.email === email) {
       return router.push("/dashboard/setting");
     }
+    return router.push(`/dashboard/profiles/${username}`);
   }
 
   return (

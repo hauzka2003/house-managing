@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import UserProfile from "../../../components/AI-assistant/user_profile";
+import LoggedLayout from "../../../components/layout/logged-layout";
 import { useLayout } from "../../../store/layout";
 
 function AIPage() {
@@ -23,5 +24,7 @@ function AIPage() {
     </motion.div>
   );
 }
+
+AIPage.getLayout = LoggedLayout;
 
 export default AIPage;

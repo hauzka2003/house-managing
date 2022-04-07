@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useLayout } from "../../store/layout";
 import { motion } from "framer-motion";
+import LoggedLayout from "../../components/layout/logged-layout";
 
 function ReceiptPage() {
   const { user } = useUser();
@@ -21,5 +22,7 @@ function ReceiptPage() {
     </motion.div>
   );
 }
+
+ReceiptPage.getLayout = LoggedLayout;
 
 export default ReceiptPage;

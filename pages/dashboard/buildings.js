@@ -3,6 +3,7 @@ import { useUser } from "../../store/user";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useLayout } from "../../store/layout";
+import LoggedLayout from "../../components/layout/logged-layout";
 function BuildingPage() {
   const { user } = useUser();
   const router = useRouter();
@@ -22,5 +23,7 @@ function BuildingPage() {
     ></motion.div>
   );
 }
+
+BuildingPage.getLayout = LoggedLayout;
 
 export default BuildingPage;

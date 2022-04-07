@@ -7,6 +7,7 @@ import { useUser } from "../../store/user";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useLayout } from "../../store/layout";
+import LoggedLayout from "../../components/layout/logged-layout";
 function TenantsPage() {
   const { user } = useUser();
   const router = useRouter();
@@ -39,5 +40,6 @@ function TenantsPage() {
     </motion.div>
   );
 }
+TenantsPage.getLayout = LoggedLayout;
 
 export default TenantsPage;

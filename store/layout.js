@@ -12,7 +12,11 @@ function getTitle(title) {
   if (title === "dashboard") {
     return "Home";
   }
-  return capitalizeFirstLetter(removeDashFromTitle(title));
+  const newTitle = capitalizeFirstLetter(removeDashFromTitle(title));
+  if (newTitle === "[user]") {
+    return "Profile";
+  }
+  return newTitle;
 }
 
 export function LayoutContextProvider({ children }) {

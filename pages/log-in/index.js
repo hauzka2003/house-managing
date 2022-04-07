@@ -7,6 +7,7 @@ import { useUser } from "../../store/user";
 import { useRouter } from "next/router";
 import ErrorModal from "../../components/layout/error_notify";
 import { useErrorModal } from "../../store/error_modal";
+import HeaderLayout from "../../components/layout/header-layout";
 function LogInPage() {
   const router = useRouter();
   const { user } = useUser();
@@ -35,5 +36,6 @@ function LogInPage() {
     </motion.div>
   );
 }
+LogInPage.getLayout = HeaderLayout;
 
 export default LogInPage;

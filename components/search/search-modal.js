@@ -9,6 +9,7 @@ function SearchModal({
   isNoResult,
   searchInput,
   date,
+  setSearchInput,
 }) {
   return (
     <motion.div
@@ -40,6 +41,7 @@ function SearchModal({
               setSearchModal={setSearchModal}
               lastSeen={item?.lastSeen}
               date={date}
+              setSearchInput={setSearchInput}
             />
           );
         })}
