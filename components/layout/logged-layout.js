@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { useUser } from "../../store/user";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import ErrorModal from "./error_notify";
 
 const SideBar = dynamic(() => import("./sidebar"));
 const WelcomeTab = dynamic(() => import("./welcome.js"));
