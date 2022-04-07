@@ -15,13 +15,6 @@ function timeout(time, promise) {
   });
 }
 
-async function updateLastSeen() {
-  await axios.post("/api/user/last-seen").catch((err) => {
-    alert(err);
-    console.log(err);
-  });
-}
-
 async function CheckOnlineStatus() {
   const controller = new AbortController();
   const { signal } = controller;
