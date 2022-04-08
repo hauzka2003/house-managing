@@ -18,9 +18,7 @@ function ProfitPage() {
   return (
     <motion.div
       animate={!navClosed ? { marginLeft: "300px" } : { marginLeft: "120px" }}
-    >
-      {/* profit */}
-    </motion.div>
+    ></motion.div>
   );
 }
 

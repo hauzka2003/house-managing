@@ -142,7 +142,7 @@ export function UserContextProvider({ children }) {
         }),
       });
       if (user && initialUpdate && res && online) {
-        updateLastSeen();
+        await updateLastSeen();
         setInitialUpdate(false);
       }
     }

@@ -4,7 +4,6 @@ import { motion, useAnimation } from "framer-motion";
 import CircleChat from "../icons/circle-chat";
 import { useUser } from "../../store/user";
 import { useRouter } from "next/router";
-import { supabase } from "../../utils/supabase";
 import { useEffect, useState } from "react";
 
 function MiniProfile({

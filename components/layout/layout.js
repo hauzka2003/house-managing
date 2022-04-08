@@ -15,7 +15,7 @@ function Layout({ children }) {
           display: "flex",
           flexDirection: "column",
           backgroundColor: "#f4f4f5",
-          height: "100vh",
+          minHeight: "100vh",
           width: "100vw",
         }}
         className={styles.maincontainer}
