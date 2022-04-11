@@ -22,9 +22,11 @@ export default async function handler(req, res) {
         message: "Missing input",
       });
     }
-    const { data, error } = await supabase
+    let data;
+
+    const { data: userData, error } = await supabase
       .from("profile")
-      .select("email,username,lastSeen,firstName,lastName,phone,signature")
+      .select("email,username,lastSeen,firstName,lastName,phone,signature,id")
       .eq("username", username)
       .single();
 
@@ -34,6 +36,20 @@ export default async function handler(req, res) {
         error: error,
       });
     }
+    const { data: requested } = await supabase
+      .from("friend_request")
+      .select("sender")
+      .match({ sender: user?.id, receiver: userData?.id })
+      .single();
+
+    data = { ...userData, isRequested: requested?.sender === user.id };
+
+    // if (!error2?.message) {
+    //   return res.status(400).send({
+    //     message: "Fail to connect to server",
+    //     error: error2,
+    //   });
+    // }
 
     return res.status(200).send({
       message: "Success",

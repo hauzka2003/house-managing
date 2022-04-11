@@ -15,10 +15,10 @@ import SearchModal from "../search/search-modal";
 import useOutside from "../hooks/click-outside";
 
 const iconsStyle = {
-  minWidth: "25px",
-  minHeight: "25px",
-  maxWidth: "25px",
-  maxHeight: "25px",
+  minWidth: "30px",
+  minHeight: "30px",
+  maxWidth: "30px",
+  maxHeight: "30px",
   marginLeft: "20px",
   marginRight: "20px",
   cursor: "pointer",
@@ -213,8 +213,14 @@ function PageTitle() {
 
       <div className={styles.user}>
         <div className={styles.notification}>
-          <CloseaMailIcon style={iconsStyle} />
-          <BellIcon style={iconsStyle} />
+          <div style={iconsStyle}>
+            <CloseaMailIcon />
+          </div>
+
+          <div style={iconsStyle} className={styles.notification_bell}>
+            <div className={styles.notification_bell_number}>2</div>
+            <BellIcon />
+          </div>
         </div>
 
         {/* <DarkIcon /> */}

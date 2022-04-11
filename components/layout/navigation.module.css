@@ -65,6 +65,26 @@
 .notification {
   width: 200px;
   /* margin-left: 10rem; */
+  display: flex;
+}
+.notification_bell {
+  position: relative;
+}
+.notification_bell_number {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  border-radius: 50%;
+  width: 19px;
+  height: 19px;
+  text-align: center;
+  line-height: 20px;
+  font-size: 14px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .search_box {
