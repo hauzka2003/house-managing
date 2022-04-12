@@ -9,30 +9,33 @@ import { ErrorModalContextProvider } from "../store/error_modal";
 import { LayoutContextProvider } from "../store/layout";
 import { actions } from "../utils/spotlight-provider.ts";
 import { OnlineStatusProvider } from "../components/hooks/use-check-online";
+import { UseNotificationProvider } from "../components/hooks/use-notification";
 
 const Layout = dynamic(() => import("../components/layout/layout"));
 function MyApp({ Component, pageProps, router }) {
   return (
     <>
-      <LayoutContextProvider>
-        <ErrorModalContextProvider>
-          <UserContextProvider>
-            {/* <OnlineStatusProvider> */}
-            <Layout>
-              <AnimatePresence exitBeforeEnter>
-                {Component.getLayout ? (
-                  <Component.getLayout>
+      <UseNotificationProvider>
+        <LayoutContextProvider>
+          <ErrorModalContextProvider>
+            <UserContextProvider>
+              {/* <OnlineStatusProvider> */}
+              <Layout>
+                <AnimatePresence exitBeforeEnter>
+                  {Component.getLayout ? (
+                    <Component.getLayout>
+                      <Component {...pageProps} key={router.pathname} />
+                    </Component.getLayout>
+                  ) : (
                     <Component {...pageProps} key={router.pathname} />
-                  </Component.getLayout>
-                ) : (
-                  <Component {...pageProps} key={router.pathname} />
-                )}
-              </AnimatePresence>
-            </Layout>
-            {/* </OnlineStatusProvider> */}
-          </UserContextProvider>
-        </ErrorModalContextProvider>
-      </LayoutContextProvider>
+                  )}
+                </AnimatePresence>
+              </Layout>
+              {/* </OnlineStatusProvider> */}
+            </UserContextProvider>
+          </ErrorModalContextProvider>
+        </LayoutContextProvider>
+      </UseNotificationProvider>
     </>
   );
 }

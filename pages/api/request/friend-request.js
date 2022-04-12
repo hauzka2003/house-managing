@@ -22,7 +22,7 @@ export default async function handler(req, res) {
   }
 
   const { data } = await supabase
-    .from("friend_request")
+    .from("friendRequest")
     .select("id")
     .match({
       sender: user.id,
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
     });
   }
 
-  const { error } = await supabase.from("friend_request").upsert({
+  const { error } = await supabase.from("friendRequest").upsert({
     sender: user.id,
     receiver: userID,
     status: "pending",

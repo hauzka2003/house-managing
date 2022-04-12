@@ -13,6 +13,7 @@ import SearchIcon from "../icons/search";
 import axios from "axios";
 import SearchModal from "../search/search-modal";
 import useOutside from "../hooks/click-outside";
+import { useNotification } from "../hooks/use-notification";
 
 const iconsStyle = {
   minWidth: "30px",
@@ -38,6 +39,7 @@ function PageTitle() {
   const [timeoutID, setTimeoutID] = useState(null);
   const [isFocused, setIsFocused] = useState(false);
   const [searchModal, setSearchModal] = useState(false);
+  const { setUser } = useNotification();
 
   const [date, setDate] = useState(new Date());
 
@@ -49,7 +51,9 @@ function PageTitle() {
     setUserName(displayName);
   }, [displayName]);
 
-  // console.log("searchModal", searchModal);
+  useEffect(() => {
+    setUser(user);
+  }, [user]);
 
   useEffect(() => {
     if (searchInput.length <= 2) {

@@ -20,6 +20,7 @@ function UserAvatar({ user }) {
   const addFriendAvatarAnimation1 = useAnimation();
   const usernameHolderAnimation = useAnimation();
   const backgroundAnimation = useAnimation();
+  const bgHolderAnimation = useAnimation();
 
   const [sentSuccess, setSentSuccess] = useState(false);
   const [firstSent, setFirstSent] = useState(false);
@@ -113,12 +114,16 @@ function UserAvatar({ user }) {
 
   async function finishLoading() {
     await backgroundAnimation.start({
-      y: 0,
+      top: "20%",
       transition: { duration: 0.5, type: "tween" },
     });
+
+    bgHolderAnimation.start({
+      overflow: "hidden",
+    });
+
     return backgroundAnimation.start({
-      width: "2000px",
-      height: "2000px",
+      scale: 20,
       transition: { duration: 2, type: "tween" },
     });
   }
@@ -128,7 +133,7 @@ function UserAvatar({ user }) {
       y: 0,
       scale: 1,
       opacity: 1,
-      transition: { duration: 1, ease: "easeOut", delay: 0.2 },
+      transition: { duration: 1, ease: "easeOut", delay: 1 },
     });
     usernameHolderAnimation.start({
       y: 0,
@@ -178,26 +183,30 @@ function UserAvatar({ user }) {
   }
 
   useEffect(() => {
+    async function load() {
+      finishLoading();
+      return InitialAnimation();
+    }
+
     if (user) {
-      InitialAnimation();
-      return finishLoading();
+      return load();
     }
 
     async function backgroundSequence() {
       await backgroundAnimation.start({
-        y: 60,
+        top: "45vh",
         transition: { duration: 0.5, type: "tween" },
       });
       await backgroundAnimation.start({
-        y: 0,
+        top: "20%",
         transition: { duration: 0.5, type: "tween" },
       });
       await backgroundAnimation.start({
-        y: 60,
+        top: "45vh",
         transition: { duration: 0.5, delay: 0.1, type: "tween" },
       });
       await backgroundAnimation.start({
-        y: 0,
+        top: "20%",
         transition: { duration: 0.5, type: "tween" },
       });
       setLoadingbg(loadingbg + 1);
@@ -242,13 +251,16 @@ function UserAvatar({ user }) {
 
   return (
     <motion.div className={styles.user_avatar_container}>
-      <div className={styles.user_avatar_background_holder}>
+      <motion.div
+        className={styles.user_avatar_background_holder}
+        animate={bgHolderAnimation}
+      >
         <motion.div
           className={styles.user_avatar_background}
           initial={{ width: "100px", height: "100px" }}
           animate={backgroundAnimation}
         />
-      </div>
+      </motion.div>
 
       <motion.div
         className={styles.user_avatar_update_background}
@@ -352,21 +364,6 @@ function UserAvatar({ user }) {
             </div>
           </motion.div>
         </motion.div>
-        {/* <div className={styles.user_avatar_add_friend}>
-          <div className={styles.user_avatar_add_friend2}>
-            <div>Send Message</div>
-          </div>
-          <motion.div
-            className={styles.user_avatar_add_friend1}
-            initial={{
-              bottom: "-100%",
-              textAlign: "center",
-            }}
-            animate={sendMessageAnimation}
-          >
-            <div>Send Message</div>
-          </motion.div>
-        </div> */}
       </div>
 
       <motion.div className={styles.user_avatar_holder}>
@@ -377,9 +374,6 @@ function UserAvatar({ user }) {
             boxShadow:
               "rgba(0, 0, 0, 0.3) 0px 19px 38px,rgba(0, 0, 0, 0.22) 0px 15px 12px",
             borderRadius: "50%",
-            // position: "absoulte",
-            // left: "50px",
-            // bottom: "-150px",
           }}
           initial={{ scale: 1.2, opacity: 0, y: 30 }}
           animate={avatarAnimation}

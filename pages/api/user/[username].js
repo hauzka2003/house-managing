@@ -37,7 +37,7 @@ export default async function handler(req, res) {
       });
     }
     const { data: requested } = await supabase
-      .from("friend_request")
+      .from("friendRequest")
       .select("sender")
       .match({ sender: user?.id, receiver: userData?.id })
       .single();
