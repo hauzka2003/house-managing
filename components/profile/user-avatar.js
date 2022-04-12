@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import AddFriendIcon from "../icons/add-friend";
 import CameraFillIcon from "../icons/camera.-fill";
 import axios from "axios";
+import { useUser } from "../../store/user";
 
 function UserAvatar({ user }) {
   const usernameAnimation = useAnimation();
@@ -22,17 +23,27 @@ function UserAvatar({ user }) {
   const backgroundAnimation = useAnimation();
   const bgHolderAnimation = useAnimation();
 
-  const [sentSuccess, setSentSuccess] = useState(false);
+  const [sentSuccess, setSentSuccess] = useState("Add Friend");
   const [firstSent, setFirstSent] = useState(false);
   const [loadingbg, setLoadingbg] = useState(0);
+
+  const { user: loggedUser } = useUser();
+
+  console.log("user?.isRequested", user?.isRequested);
+  console.log("user?.isReceived", user?.isReceived);
 
   useEffect(() => {
     if (user?.isRequested) {
       setFirstSent(true);
-      return setSentSuccess(true);
+      return setSentSuccess("Sent");
     }
+
+    if (user?.isReceived) {
+      return setSentSuccess("Accept");
+    }
+
     setFirstSent(false);
-    return setSentSuccess(false);
+    return setSentSuccess("Add Friend");
   }, [user]);
 
   function updateBGHoverStart() {
@@ -218,7 +229,11 @@ function UserAvatar({ user }) {
   useEffect(() => {
     setLoadingbg(true);
     if (user?.isRequested) {
-      setSentSuccess(true);
+      return setSentSuccess("Sent");
+    }
+
+    if (user?.isReceived) {
+      setSentSuccess("Accept");
     }
   }, []);
 
@@ -231,7 +246,7 @@ function UserAvatar({ user }) {
       return;
     }
 
-    setSentSuccess(true);
+    setSentSuccess("Sent");
 
     const res = await axios
       .post("/api/request/friend-request", {
@@ -239,12 +254,12 @@ function UserAvatar({ user }) {
       })
       .catch((err) => {
         console.log(err);
-        setSentSuccess(false);
+        setSentSuccess("Error");
       });
     console.log(res);
 
     if (res?.status === 200) {
-      setSentSuccess(true);
+      setSentSuccess("Sent");
       setFirstSent(true);
     }
   }
@@ -311,59 +326,59 @@ function UserAvatar({ user }) {
       </motion.div>
 
       <div className={styles.user_avatar_buttons}>
-        <motion.div
-          className={styles.user_avatar_add_friend}
-          initial={{
-            boxShadow: "none",
-          }}
-          animate={addFriendShadowAnimation}
-          onHoverStart={updateAddFriendHoverStart}
-          onHoverEnd={updateAddFriendHoverEnd}
-        >
-          <div className={styles.user_avatar_add_friend2}>
-            <AddFriendIcon style={{ width: "20px" }} />
-            <div style={{ marginLeft: "10px" }}>Add Friend</div>
-          </div>
+        {user?.email !== loggedUser?.email && (
           <motion.div
-            className={styles.user_avatar_add_friend1}
+            className={styles.user_avatar_add_friend}
             initial={{
-              top: "-100%",
-              textAlign: "center",
+              boxShadow: "none",
             }}
-            animate={addFriendAnimation}
-            onClick={addFriend}
-            style={
-              sentSuccess
-                ? { cursor: "not-allowed", opacity: 0.5 }
-                : { cursor: "pointer", opacity: 1 }
-            }
+            animate={addFriendShadowAnimation}
+            onHoverStart={updateAddFriendHoverStart}
+            onHoverEnd={updateAddFriendHoverEnd}
           >
-            <motion.div
-              className={styles.user_avatar_add_friend1_icon}
-              style={{ width: "20px", left: "10px", top: "25%" }}
-              initial={{ left: "10px", top: "25%" }}
-              animate={addFriendAvatarAnimation}
-            >
-              <AddFriendIcon />
-            </motion.div>
-            <motion.div
-              className={styles.user_avatar_add_friend1_icon}
-              style={{ width: "20px", left: "10px", top: "-100%" }}
-              initial={{
-                left: "10px",
-                top: "-100%",
-                color: "#f4f4f5",
-                fill: "white",
-              }}
-              animate={addFriendAvatarAnimation1}
-            >
-              <AddFriendIcon />
-            </motion.div>
-            <div style={{ marginLeft: "25px" }}>
-              {sentSuccess ? "Sent" : "Add Friend"}
+            <div className={styles.user_avatar_add_friend2}>
+              <AddFriendIcon style={{ width: "20px" }} />
+              <div style={{ marginLeft: "10px" }}>Add Friend</div>
             </div>
+            <motion.div
+              className={styles.user_avatar_add_friend1}
+              initial={{
+                top: "-100%",
+                textAlign: "center",
+              }}
+              animate={addFriendAnimation}
+              onClick={addFriend}
+              style={
+                sentSuccess === "Sent"
+                  ? { cursor: "not-allowed", opacity: 0.5 }
+                  : { cursor: "pointer", opacity: 1 }
+              }
+            >
+              <motion.div
+                className={styles.user_avatar_add_friend1_icon}
+                style={{ width: "20px", left: "10px", top: "25%" }}
+                initial={{ left: "10px", top: "25%" }}
+                animate={addFriendAvatarAnimation}
+              >
+                <AddFriendIcon />
+              </motion.div>
+              <motion.div
+                className={styles.user_avatar_add_friend1_icon}
+                style={{ width: "20px", left: "10px", top: "-100%" }}
+                initial={{
+                  left: "10px",
+                  top: "-100%",
+                  color: "#f4f4f5",
+                  fill: "white",
+                }}
+                animate={addFriendAvatarAnimation1}
+              >
+                <AddFriendIcon />
+              </motion.div>
+              <div style={{ marginLeft: "25px" }}>{sentSuccess}</div>
+            </motion.div>
           </motion.div>
-        </motion.div>
+        )}
       </div>
 
       <motion.div className={styles.user_avatar_holder}>

@@ -1,5 +1,6 @@
 import { supabase } from "../../../utils/supabase";
 import cookie from "cookie";
+import { data } from "autoprefixer";
 
 export default async function handler(req, res) {
   const { user } = await supabase.auth.api.getUserByCookie(req);
@@ -38,19 +39,45 @@ export default async function handler(req, res) {
     }
     const { data: requested } = await supabase
       .from("friendRequest")
-      .select("sender")
-      .match({ sender: user?.id, receiver: userData?.id })
+      .select("sender,receiver")
+      .match({ sender: user?.id, receiver: userData.id })
+      .single();
+    // console.log("requested", requested);
+
+    if (requested) {
+      data = {
+        ...userData,
+        isRequested: requested?.sender === user?.id,
+        isReceived: requested?.receiver === user?.id,
+      };
+      return res.status(200).send({
+        message: "Success",
+        data: data,
+      });
+    }
+
+    const { data: received } = await supabase
+      .from("friendRequest")
+      .select("sender,receiver")
+      .match({ sender: userData?.id, receiver: user.id })
       .single();
 
-    data = { ...userData, isRequested: requested?.sender === user.id };
+    data = {
+      ...userData,
+      isRequested: received?.sender === user?.id,
+      isReceived: received?.receiver === user?.id,
+    };
+    // console.log("received", received);
 
-    // if (!error2?.message) {
-    //   return res.status(400).send({
-    //     message: "Fail to connect to server",
-    //     error: error2,
-    //   });
-    // }
-
+    if (received) {
+      return res.status(200).send({
+        message: "Success",
+        data: data,
+      });
+    }
+    data = {
+      ...userData,
+    };
     return res.status(200).send({
       message: "Success",
       data: data,
