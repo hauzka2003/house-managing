@@ -36,7 +36,7 @@ export default async function handler(req, res) {
     });
   }
 
-  const { error } = await supabase.from("friendRequest").upsert({
+  const { error } = await supabase.from("friendRequest").insert({
     sender: user.id,
     receiver: userID,
     status: "pending",

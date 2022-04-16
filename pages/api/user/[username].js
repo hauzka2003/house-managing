@@ -23,61 +23,29 @@ export default async function handler(req, res) {
         message: "Missing input",
       });
     }
-    let data;
 
-    const { data: userData, error } = await supabase
+    const { data, error } = await supabase
       .from("profile")
       .select("email,username,lastSeen,firstName,lastName,phone,signature,id")
       .eq("username", username)
       .single();
 
+    if (
+      error &&
+      error?.details !==
+        "Results contain 0 rows, application/vnd.pgrst.object+json requires 1 row"
+    ) {
+      return res.status(500).send({
+        message: "Internal Server Error",
+      });
+    }
+
     if (error) {
-      return res.status(400).send({
-        message: "Fail to connect to server",
-        error: error,
-      });
-    }
-    const { data: requested } = await supabase
-      .from("friendRequest")
-      .select("sender,receiver")
-      .match({ sender: user?.id, receiver: userData.id })
-      .single();
-    // console.log("requested", requested);
-
-    if (requested) {
-      data = {
-        ...userData,
-        isRequested: requested?.sender === user?.id,
-        isReceived: requested?.receiver === user?.id,
-      };
       return res.status(200).send({
-        message: "Success",
-        data: data,
+        message: "User not found",
       });
     }
 
-    const { data: received } = await supabase
-      .from("friendRequest")
-      .select("sender,receiver")
-      .match({ sender: userData?.id, receiver: user.id })
-      .single();
-
-    data = {
-      ...userData,
-      isRequested: received?.sender === user?.id,
-      isReceived: received?.receiver === user?.id,
-    };
-    // console.log("received", received);
-
-    if (received) {
-      return res.status(200).send({
-        message: "Success",
-        data: data,
-      });
-    }
-    data = {
-      ...userData,
-    };
     return res.status(200).send({
       message: "Success",
       data: data,

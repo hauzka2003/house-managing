@@ -3,7 +3,11 @@ import UserAvatar from "./user-avatar";
 function UserBackground({ user }) {
   return (
     <div>
-      <UserAvatar user={user} />
+      {user === "User not found" ? (
+        <div>User not found</div>
+      ) : (
+        <UserAvatar user={user} />
+      )}
     </div>
   );
 }

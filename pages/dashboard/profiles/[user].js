@@ -5,6 +5,7 @@ import LoggedLayout from "../../../components/layout/logged-layout";
 import { motion } from "framer-motion";
 import { useLayout } from "../../../store/layout";
 import UserBackground from "../../../components/profile/user-profile";
+import { useUser } from "../../../store/user";
 function ProfilePage() {
   const router = useRouter();
   const { navClosed } = useLayout();
@@ -12,16 +13,26 @@ function ProfilePage() {
 
   const { user: username } = router.query;
 
+  const { user: userData } = useUser();
+
   useEffect(() => {
     if (!username) {
       return;
+    }
+
+    if (userData?.user_metadata?.userName === username) {
+      return setUser(userData);
     }
 
     async function getUser() {
       await axios
         .get(`/api/user/${username}`)
         .then((res) => {
-          setUser(res?.data?.data);
+          if (res.data.message === "User not found") {
+            return setUser("User not found");
+          }
+
+          setUser(res.data.data);
         })
         .catch((err) => {
           console.log(err);

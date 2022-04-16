@@ -10,32 +10,38 @@ import { LayoutContextProvider } from "../store/layout";
 import { actions } from "../utils/spotlight-provider.ts";
 import { OnlineStatusProvider } from "../components/hooks/use-check-online";
 import { UseNotificationProvider } from "../components/hooks/use-notification";
+import { UseFriendProvider } from "../components/hooks/friend-list";
+import { RequestFriendProvider } from "../components/hooks/use-request-friend";
 
 const Layout = dynamic(() => import("../components/layout/layout"));
 function MyApp({ Component, pageProps, router }) {
   return (
     <>
-      <UseNotificationProvider>
-        <LayoutContextProvider>
-          <ErrorModalContextProvider>
-            <UserContextProvider>
-              {/* <OnlineStatusProvider> */}
-              <Layout>
-                <AnimatePresence exitBeforeEnter>
-                  {Component.getLayout ? (
-                    <Component.getLayout>
-                      <Component {...pageProps} key={router.pathname} />
-                    </Component.getLayout>
-                  ) : (
-                    <Component {...pageProps} key={router.pathname} />
-                  )}
-                </AnimatePresence>
-              </Layout>
-              {/* </OnlineStatusProvider> */}
-            </UserContextProvider>
-          </ErrorModalContextProvider>
-        </LayoutContextProvider>
-      </UseNotificationProvider>
+      <LayoutContextProvider>
+        <ErrorModalContextProvider>
+          <UserContextProvider>
+            {/* <OnlineStatusProvider> */}
+            <UseFriendProvider>
+              <UseNotificationProvider>
+                <RequestFriendProvider>
+                  <Layout>
+                    <AnimatePresence exitBeforeEnter>
+                      {Component.getLayout ? (
+                        <Component.getLayout>
+                          <Component {...pageProps} key={router.pathname} />
+                        </Component.getLayout>
+                      ) : (
+                        <Component {...pageProps} key={router.pathname} />
+                      )}
+                    </AnimatePresence>
+                  </Layout>
+                </RequestFriendProvider>
+              </UseNotificationProvider>
+            </UseFriendProvider>
+            {/* </OnlineStatusProvider> */}
+          </UserContextProvider>
+        </ErrorModalContextProvider>
+      </LayoutContextProvider>
     </>
   );
 }
