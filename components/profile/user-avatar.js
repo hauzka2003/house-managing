@@ -6,6 +6,9 @@ import AddFriendIcon from "../icons/add-friend";
 import CameraFillIcon from "../icons/camera.-fill";
 import axios from "axios";
 import { useUser } from "../../store/user";
+import { useNotification } from "../hooks/use-notification";
+import { useRequestFriend } from "../hooks/use-request-friend";
+import { useFriendList } from "../hooks/friend-list";
 
 function UserAvatar({ user }) {
   const usernameAnimation = useAnimation();
@@ -26,25 +29,91 @@ function UserAvatar({ user }) {
   const [sentSuccess, setSentSuccess] = useState("Add Friend");
   const [firstSent, setFirstSent] = useState(false);
   const [loadingbg, setLoadingbg] = useState(0);
+  const [currentNotification, setCurrentNotification] = useState(null);
+  const [isRequested, setIsRequested] = useState(false);
+  const [isFriend, setIsFriend] = useState(false);
 
   const { user: loggedUser } = useUser();
 
-  console.log("user?.isRequested", user?.isRequested);
-  console.log("user?.isReceived", user?.isReceived);
+  const { notifications, acceptFriendRequest } = useNotification();
 
-  useEffect(() => {
-    if (user?.isRequested) {
-      setFirstSent(true);
-      return setSentSuccess("Sent");
-    }
+  const { requestFriend } = useRequestFriend();
+  const { friends } = useFriendList();
 
-    if (user?.isReceived) {
+  function checkUser() {
+    if (
+      notifications?.find((noti) => {
+        return noti.sender === user?.id;
+      })
+    ) {
+      setCurrentNotification(
+        notifications?.find((noti) => {
+          return noti.sender === user?.id;
+        })
+      );
       return setSentSuccess("Accept");
     }
+    if (
+      requestFriend?.find((req) => {
+        return req.receiver === user?.id;
+      })
+    ) {
+      setIsRequested(true);
+      return setSentSuccess("Sent");
+    }
+    if (
+      friends?.find((friend) => {
+        return friend === user?.id;
+      })
+    ) {
+      setIsFriend(true);
 
-    setFirstSent(false);
-    return setSentSuccess("Add Friend");
-  }, [user]);
+      return setSentSuccess("Cancel Friend");
+    } else {
+      setIsFriend(false);
+      return setSentSuccess("Add Friend");
+    }
+  }
+
+  useEffect(() => {
+    if (
+      notifications?.find((noti) => {
+        return noti.sender === user?.id;
+      })
+    ) {
+      setCurrentNotification(
+        notifications?.find((noti) => {
+          return noti.sender === user?.id;
+        })
+      );
+
+      return setSentSuccess("Accept");
+    }
+  }, [notifications]);
+
+  useEffect(() => {
+    if (
+      requestFriend?.find((req) => {
+        return req.receiver === user?.id;
+      })
+    ) {
+      setIsRequested(true);
+      return setSentSuccess("Sent");
+    }
+    return setIsRequested(false);
+  }, [requestFriend]);
+
+  useEffect(() => {
+    if (
+      friends?.find((friend) => {
+        return friend === user?.id;
+      })
+    ) {
+      setIsFriend(true);
+      return setSentSuccess("Cancel Friend");
+    }
+    return setIsFriend(false);
+  }, [friends]);
 
   function updateBGHoverStart() {
     cameraAnimation.start({
@@ -79,7 +148,7 @@ function UserAvatar({ user }) {
   }
 
   function updateAddFriendHoverStart() {
-    if (user?.isRequested) {
+    if (isRequested) {
       return;
     }
 
@@ -102,7 +171,7 @@ function UserAvatar({ user }) {
   }
 
   function updateAddFriendHoverEnd() {
-    if (user?.isRequested) {
+    if (isRequested) {
       return;
     }
     addFriendAvatarAnimation.start({
@@ -198,8 +267,10 @@ function UserAvatar({ user }) {
       finishLoading();
       return InitialAnimation();
     }
-
+    console.log("user change");
     if (user) {
+      console.log("user change");
+      checkUser();
       return load();
     }
 
@@ -228,21 +299,24 @@ function UserAvatar({ user }) {
 
   useEffect(() => {
     setLoadingbg(true);
-    if (user?.isRequested) {
-      return setSentSuccess("Sent");
-    }
-
-    if (user?.isReceived) {
-      setSentSuccess("Accept");
-    }
   }, []);
 
   async function addFriend() {
-    if (user?.isRequested) {
+    if (isRequested) {
       return;
     }
 
+    if (currentNotification) {
+      await acceptFriendRequest(currentNotification);
+
+      return setSentSuccess("Cancel Friend");
+    }
+
     if (firstSent) {
+      return;
+    }
+
+    if (isFriend) {
       return;
     }
 
@@ -401,12 +475,14 @@ function UserAvatar({ user }) {
             animate={usernameHolderAnimation}
             initial={{ y: 20 }}
           >
-            <div style={{ opacity: 0 }}>{user?.username}</div>
+            <div style={{ opacity: 0 }}>
+              {user?.username ?? user?.user_metadata?.userName}
+            </div>
             <motion.div
               initial={{ position: "absolute", bottom: "-100%" }}
               animate={usernameAnimation}
             >
-              {user?.username}
+              {user?.username ?? user?.user_metadata?.userName}
             </motion.div>
           </motion.div>
           <motion.div
