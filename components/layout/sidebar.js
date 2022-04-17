@@ -20,6 +20,7 @@ const links = [
     icon: "BulbIcon",
     text: "AI Assistant",
   },
+  { name: "/dashboard/social", icon: "SettingsIcon", text: "Social" },
 ];
 
 const hover = {

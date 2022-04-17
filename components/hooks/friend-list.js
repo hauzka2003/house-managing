@@ -10,19 +10,34 @@ export function UseFriendProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  console.log("friends", friends);
+
   let mySubscription = null;
 
   const { user } = useUser();
 
+  async function cancelFriend(friendID) {
+    try {
+      await axios.post(`/api/request/cancel-friend/`, {
+        friendID,
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
+
   const getFriends = async () => {
     try {
-      const { data } = await supabase
-        .from("social")
-        .select("friends")
-        .eq("id", user.id)
-        .single();
+      const { data, error } = await supabase
+        .from("friends")
+        .select("friendID")
+        .eq("userID", user.id);
 
-      setFriends([...data?.friends]);
+      if (error) {
+        console.log("error", error);
+      }
+
+      setFriends(data?.map((friend) => friend.friendID));
       setLoading(false);
     } catch (error) {
       setError(error);
@@ -39,9 +54,17 @@ export function UseFriendProvider({ children }) {
       getFriends();
 
       mySubscription = supabase
-        .from(`social:id=eq.${user.id}`)
-        .on("UPDATE", (payload) => {
-          setFriends(payload?.new?.friends);
+        .from(`friends:userID=eq.${user.id}`)
+        .on("INSERT", (payload) => {
+          console.log("INSERT", payload?.new);
+
+          setFriends([...friends, payload?.new?.friendID]);
+        })
+        .on("DELETE", (payload) => {
+          console.log("DELETE", payload?.old);
+          setFriends(
+            friends.filter((friend) => friend === payload?.old?.friendID)
+          );
         })
         .subscribe();
 
@@ -52,7 +75,9 @@ export function UseFriendProvider({ children }) {
   }, [user]);
 
   return (
-    <UseFriendContext.Provider value={{ friends, loading, error }}>
+    <UseFriendContext.Provider
+      value={{ friends, loading, error, cancelFriend }}
+    >
       {children}
     </UseFriendContext.Provider>
   );

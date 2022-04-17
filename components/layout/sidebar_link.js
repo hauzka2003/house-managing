@@ -7,8 +7,10 @@ import BuildingIcon from "../icons/building";
 import BarChartIcon from "../icons/bar-chart";
 import BillIcon from "../icons/bill";
 import SettingsIcon from "../icons/setting";
+
 import styles from "./sidebar.module.css";
 import { useLayout } from "../../store/layout";
+import SocialIcon from "../icons/social-icon";
 
 function SideBarLink({
   to,
@@ -89,6 +91,9 @@ function SideBarLink({
         )}
         {to === "/dashboard/setting" && (
           <SettingsIcon style={iconStyle} animation={animation} draw={draw} />
+        )}
+        {to === "/dashboard/social" && (
+          <SocialIcon style={iconStyle} animation={animation} draw={draw} />
         )}
         <motion.div
           className={styles.text}

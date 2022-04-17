@@ -14,46 +14,31 @@ export default async function handler(req, res) {
     access_token: token,
   });
 
-  const { friendID, id } = req.body;
+  const { friendID } = req.body;
+
+  console.log(friendID);
 
   if (!friendID) {
     return res.status(400).send({
-      message: "Missing input",
+      message: "Missing Input",
     });
   }
 
-  if (friendID === user.id) {
-    return res.status(400).send({
-      message: "You can't accept yourself or interal error",
-    });
-  }
-
-  const { error } = await supabase.from("friends").insert({
-    userID: user.id,
+  const { error } = await supabase.from("friends").delete().match({
     friendID: friendID,
+    userID: user.id,
   });
 
   if (error) {
     return res.status(500).send({
-      message: "Internal server error",
+      message: "Internal Server Error",
     });
   }
 
-  const { error: error1 } = await supabase.from("friends").insert({
-    userID: friendID,
+  const { error: error2 } = await supabase.from("friends").delete().match({
     friendID: user.id,
+    userID: friendID,
   });
-
-  if (error1) {
-    return res.status(500).send({
-      message: "Internal server error",
-    });
-  }
-
-  const { error: error2 } = await supabase
-    .from("friendRequest")
-    .delete()
-    .eq("id", id);
 
   if (error2) {
     return res.status(500).send({

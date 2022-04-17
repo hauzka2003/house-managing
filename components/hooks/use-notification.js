@@ -19,8 +19,7 @@ export function UseNotificationProvider({ children }) {
 
     await axios
       .post(`/api/request/accept-friend`, {
-        receiver: request.receiver,
-        sender: request.sender,
+        friendID: request.sender,
         id: request.id,
       })
       .then((response) => {

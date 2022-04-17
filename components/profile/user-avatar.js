@@ -38,7 +38,7 @@ function UserAvatar({ user }) {
   const { notifications, acceptFriendRequest } = useNotification();
 
   const { requestFriend } = useRequestFriend();
-  const { friends } = useFriendList();
+  const { friends, cancelFriend } = useFriendList();
 
   function checkUser() {
     if (
@@ -317,7 +317,8 @@ function UserAvatar({ user }) {
     }
 
     if (isFriend) {
-      return;
+      await cancelFriend(user.id);
+      return setSentSuccess("Add Friend");
     }
 
     setSentSuccess("Sent");
@@ -330,7 +331,6 @@ function UserAvatar({ user }) {
         console.log(err);
         setSentSuccess("Error");
       });
-    console.log(res);
 
     if (res?.status === 200) {
       setSentSuccess("Sent");
@@ -412,7 +412,7 @@ function UserAvatar({ user }) {
           >
             <div className={styles.user_avatar_add_friend2}>
               <AddFriendIcon style={{ width: "20px" }} />
-              <div style={{ marginLeft: "10px" }}>Add Friend</div>
+              <div style={{ marginLeft: "10px" }}>{sentSuccess}</div>
             </div>
             <motion.div
               className={styles.user_avatar_add_friend1}

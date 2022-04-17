@@ -17,13 +17,13 @@ const Layout = dynamic(() => import("../components/layout/layout"));
 function MyApp({ Component, pageProps, router }) {
   return (
     <>
-      <LayoutContextProvider>
-        <ErrorModalContextProvider>
-          <UserContextProvider>
-            {/* <OnlineStatusProvider> */}
-            <UseFriendProvider>
-              <UseNotificationProvider>
-                <RequestFriendProvider>
+      <UserContextProvider>
+        {/* <OnlineStatusProvider> */}
+        <UseFriendProvider>
+          <UseNotificationProvider>
+            <RequestFriendProvider>
+              <LayoutContextProvider>
+                <ErrorModalContextProvider>
                   <Layout>
                     <AnimatePresence exitBeforeEnter>
                       {Component.getLayout ? (
@@ -35,13 +35,13 @@ function MyApp({ Component, pageProps, router }) {
                       )}
                     </AnimatePresence>
                   </Layout>
-                </RequestFriendProvider>
-              </UseNotificationProvider>
-            </UseFriendProvider>
-            {/* </OnlineStatusProvider> */}
-          </UserContextProvider>
-        </ErrorModalContextProvider>
-      </LayoutContextProvider>
+                </ErrorModalContextProvider>
+              </LayoutContextProvider>
+            </RequestFriendProvider>
+          </UseNotificationProvider>
+        </UseFriendProvider>
+        {/* </OnlineStatusProvider> */}
+      </UserContextProvider>
     </>
   );
 }

@@ -24,7 +24,6 @@ async function CheckOnlineStatus() {
   if (!navigator.onLine) {
     return navigator.onLine;
   }
-
   try {
     await timeout(
       TIMEOUT_TIME_MS,

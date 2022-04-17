@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { useLayout } from "../../../store/layout";
 import UserBackground from "../../../components/profile/user-profile";
 import { useUser } from "../../../store/user";
+import { supabase } from "../../../utils/supabase";
 function ProfilePage() {
   const router = useRouter();
   const { navClosed } = useLayout();
@@ -19,6 +20,8 @@ function ProfilePage() {
     if (!username) {
       return;
     }
+
+    setUser(null);
 
     if (userData?.user_metadata?.userName === username) {
       return setUser(userData);
@@ -56,6 +59,40 @@ function ProfilePage() {
     </motion.div>
   );
 }
+
+// export async function getServerSideProps(context) {
+//   const { params } = context;
+//   const username = params.user;
+//   console.log(username);
+//   const currentUser = supabase.auth.user();
+
+//   async function setCookie() {
+//     const res = await fetch("https://www.subsica.com/api/set-supabase-cookie", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({
+//         event: currentUser ? "SIGNED_IN" : "SIGNED_OUT",
+//         session: supabase.auth.session(),
+//       }),
+//     });
+//   }
+
+//   await setCookie();
+
+//   const response = await fetch(`https://www.subsica.com/api/user/${username}`);
+
+//   const data = await response.json();
+
+//   console.log(data?.data);
+
+//   return {
+//     props: {
+//       user: data?.data ?? null,
+//     },
+//   };
+// }
 
 ProfilePage.getLayout = LoggedLayout;
 

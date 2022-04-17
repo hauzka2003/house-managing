@@ -1,6 +1,5 @@
 import { supabase } from "../../../utils/supabase";
 import cookie from "cookie";
-import { data } from "autoprefixer";
 
 export default async function handler(req, res) {
   const { user } = await supabase.auth.api.getUserByCookie(req);
