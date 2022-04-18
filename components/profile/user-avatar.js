@@ -33,6 +33,7 @@ function UserAvatar({ user }) {
   const [isRequested, setIsRequested] = useState(false);
   const [isFriend, setIsFriend] = useState(false);
 
+  console.log("sentSuccess", sentSuccess);
   console.log("firstSent", firstSent);
   console.log("isRequested", isRequested);
   console.log("isFriend", isFriend);
@@ -46,6 +47,13 @@ function UserAvatar({ user }) {
   const { friends, cancelFriend } = useFriendList();
 
   function checkUser() {
+    console.log("pass through here");
+    console.log(
+      "pass through here in currentNotification",
+      notifications?.find((noti) => {
+        return noti.sender === user?.id;
+      })
+    );
     if (
       notifications?.find((noti) => {
         return noti.sender === user?.id;
@@ -56,6 +64,7 @@ function UserAvatar({ user }) {
           return noti.sender === user?.id;
         })
       );
+
       return setSentSuccess("Accept");
     }
     if (
@@ -74,10 +83,12 @@ function UserAvatar({ user }) {
       setIsFriend(true);
 
       return setSentSuccess("Cancel Friend");
-    } else {
-      setIsFriend(false);
-      return setSentSuccess("Add Friend");
     }
+    // setCurrentNotification(null);
+    setIsRequested(false);
+    setFirstSent(false);
+    setIsFriend(false);
+    return setSentSuccess("Add Friend");
   }
 
   useEffect(() => {
@@ -91,7 +102,6 @@ function UserAvatar({ user }) {
           return noti.sender === user?.id;
         })
       );
-
       return setSentSuccess("Accept");
     }
   }, [notifications]);
@@ -111,6 +121,9 @@ function UserAvatar({ user }) {
   }, [requestFriend]);
 
   useEffect(() => {
+    if (user?.length <= 0) {
+      return;
+    }
     if (
       friends?.find((friend) => {
         return friend === user?.id;
@@ -121,9 +134,8 @@ function UserAvatar({ user }) {
       setCurrentNotification(null);
       return setSentSuccess("Cancel Friend");
     }
-    setSentSuccess("Add Friend");
+    // setSentSuccess("Add Friend");
     setFirstSent(false);
-    setCurrentNotification(null);
     return setIsFriend(false);
   }, [friends]);
 
