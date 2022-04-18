@@ -63,7 +63,7 @@ export function UseFriendProvider({ children }) {
         .on("DELETE", (payload) => {
           console.log("DELETE", payload?.old);
           setFriends(
-            friends.filter((friend) => friend === payload?.old?.friendID)
+            friends.filter((friend) => friend !== payload?.old?.friendID)
           );
         })
         .subscribe();

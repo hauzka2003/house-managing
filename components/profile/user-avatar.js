@@ -33,6 +33,11 @@ function UserAvatar({ user }) {
   const [isRequested, setIsRequested] = useState(false);
   const [isFriend, setIsFriend] = useState(false);
 
+  console.log("firstSent", firstSent);
+  console.log("isRequested", isRequested);
+  console.log("isFriend", isFriend);
+  console.log("currentNotification", currentNotification);
+
   const { user: loggedUser } = useUser();
 
   const { notifications, acceptFriendRequest } = useNotification();
@@ -98,6 +103,8 @@ function UserAvatar({ user }) {
       })
     ) {
       setIsRequested(true);
+      setIsFriend(false);
+      setCurrentNotification(null);
       return setSentSuccess("Sent");
     }
     return setIsRequested(false);
@@ -110,8 +117,13 @@ function UserAvatar({ user }) {
       })
     ) {
       setIsFriend(true);
+      setFirstSent(false);
+      setCurrentNotification(null);
       return setSentSuccess("Cancel Friend");
     }
+    setSentSuccess("Add Friend");
+    setFirstSent(false);
+    setCurrentNotification(null);
     return setIsFriend(false);
   }, [friends]);
 
@@ -267,9 +279,7 @@ function UserAvatar({ user }) {
       finishLoading();
       return InitialAnimation();
     }
-    console.log("user change");
     if (user) {
-      console.log("user change");
       checkUser();
       return load();
     }

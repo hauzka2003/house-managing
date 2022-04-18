@@ -40,7 +40,7 @@ async function CheckOnlineStatus() {
 async function updateLastSeen() {
   await axios.post("/api/user/last-seen").catch((err) => {
     console.log(err);
-    Router.reload();
+    // Router.reload();
   });
 }
 
