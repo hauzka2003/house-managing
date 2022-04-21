@@ -76,7 +76,7 @@ function SettingSection({ title, children, quote }) {
         className={styles.setting_section_title}
         animate={titleAnimation}
       >
-        {title === "Notifications" && (
+        {title === "backNotifications" && (
           <BellIcon style={{ width: "20px", marginRight: "10px" }} />
         )}
         {title === "Language" && (

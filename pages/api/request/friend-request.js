@@ -21,6 +21,12 @@ export default async function handler(req, res) {
     });
   }
 
+  if (user.id === userID) {
+    return res.status(400).send({
+      message: "You can't add yourself as a friend",
+    });
+  }
+
   const { data } = await supabase
     .from("friendRequest")
     .select("id")

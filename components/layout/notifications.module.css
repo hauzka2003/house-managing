@@ -1,0 +1,46 @@
+.container {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  justify-content: flex-end;
+  max-height: 60%;
+  overflow: hidden;
+  z-index: 50;
+}
+
+.notification {
+  width: 300px;
+  background: white;
+  margin: 10px;
+  flex: 0 0 100px;
+  position: relative;
+  border-radius: 10px;
+}
+
+.friend_noti {
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.friend_noti_text {
+  text-align: center;
+  text-overflow: ellipsis;
+}
+
+.close_button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #f1f1f1;
+  cursor: pointer;
+}

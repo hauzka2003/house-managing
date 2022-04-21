@@ -4,10 +4,12 @@ import InformationModal from "./information_modal";
 import { useLayout } from "../../store/layout";
 import { SpotlightProvider } from "@mantine/spotlight";
 import { actions } from "../../utils/spotlight-provider.ts";
+import { useNotification } from "../hooks/use-notification";
+import Notifications from "./notifications";
 
 function Layout({ children }) {
   const { inforModal } = useLayout();
-
+  const { notifications, setNotifications } = useNotification();
   return (
     <SpotlightProvider actions={actions} searchPlaceholder="Search...">
       <div
@@ -20,6 +22,14 @@ function Layout({ children }) {
         }}
         className={styles.maincontainer}
       >
+        <AnimatePresence initial={false}>
+          {notifications?.length > 0 && (
+            <Notifications
+              notifications={notifications}
+              setNotifications={setNotifications}
+            />
+          )}
+        </AnimatePresence>
         <AnimatePresence>
           {inforModal && (
             <div

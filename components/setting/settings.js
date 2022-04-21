@@ -5,7 +5,7 @@ import SettingSection from "./setting-section";
 
 const sections = [
   {
-    title: "Notifications",
+    title: "backNotifications",
     quote:
       "Turn on if you need us to notify you. You can also turn on phone notification",
     content: "Coming soon ",

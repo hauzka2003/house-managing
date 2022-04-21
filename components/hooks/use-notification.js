@@ -6,13 +6,51 @@ import { supabase } from "../../utils/supabase";
 const UseNotificationContext = createContext();
 
 export function UseNotificationProvider({ children }) {
+  const [backNotifications, setbackNotifications] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState();
   let mySubscription = null;
 
   const { user } = useUser();
 
-  console.log("notifications", notifications);
+  console.log("backNotifications", backNotifications);
+
+  async function getFriendById(payload) {
+    let newNotification;
+    await axios
+      .get(`/api/search-userbyid/${payload?.new?.sender}`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      })
+      .then((res) => {
+        newNotification = {
+          ...res?.data,
+          id: payload?.new?.id,
+          type: "friend",
+          sender: payload?.new?.sender,
+        };
+
+        setNotifications((notifications) => [
+          ...notifications,
+          newNotification,
+        ]);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  }
+
+  async function declineFriendRequest(request) {
+    try {
+      await axios.post(`/api/request/decline-friend/`, {
+        id: request.id,
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
 
   async function acceptFriendRequest(request) {
     if (!request) return;
@@ -26,8 +64,8 @@ export function UseNotificationProvider({ children }) {
         console.log("response.data", response);
 
         if (response.status === 200) {
-          setNotifications(
-            notifications.filter(
+          setbackNotifications(
+            backNotifications.filter(
               (notification) => notification.id !== request.id
             )
           );
@@ -37,16 +75,16 @@ export function UseNotificationProvider({ children }) {
       .catch((err) => console.log(err));
   }
 
-  // console.log(notifications);
+  // console.log(backNotifications);
 
   useEffect(() => {
-    async function getNotifications() {
+    async function getbackNotifications() {
       const { data } = await supabase
         .from("friendRequest")
         .select("*")
         .eq("receiver", user?.id);
 
-      setNotifications([...data]);
+      setbackNotifications([...data]);
     }
 
     if (!user) {
@@ -55,15 +93,26 @@ export function UseNotificationProvider({ children }) {
     }
 
     if (user && !mySubscription) {
-      getNotifications();
+      getbackNotifications();
 
       mySubscription = supabase
         .from(`friendRequest:receiver=eq.${user.id}`)
         .on("INSERT", (payload) => {
           console.log("payload", payload);
-          setNotifications((notifications) => [...notifications, payload?.new]);
+          setbackNotifications((backNotifications) => [
+            ...backNotifications,
+            payload?.new,
+          ]);
+          if (notifications?.length <= 5) {
+            getFriendById(payload);
+          }
         })
         .on("DELETE", (payload) => {
+          setbackNotifications((backNotifications) =>
+            backNotifications.filter(
+              (notification) => notification.id !== payload?.old?.id
+            )
+          );
           setNotifications((notifications) =>
             notifications.filter(
               (notification) => notification.id !== payload?.old?.id
@@ -80,10 +129,13 @@ export function UseNotificationProvider({ children }) {
   return (
     <UseNotificationContext.Provider
       value={{
-        notifications,
-        setNotifications,
+        backNotifications,
+        setbackNotifications,
         acceptFriendRequest,
         loading,
+        notifications,
+        setNotifications,
+        declineFriendRequest,
       }}
     >
       {children}

@@ -41,7 +41,7 @@ function UserAvatar({ user }) {
 
   const { user: loggedUser } = useUser();
 
-  const { notifications, acceptFriendRequest } = useNotification();
+  const { backNotifications, acceptFriendRequest } = useNotification();
 
   const { requestFriend } = useRequestFriend();
   const { friends, cancelFriend } = useFriendList();
@@ -50,17 +50,17 @@ function UserAvatar({ user }) {
     console.log("pass through here");
     console.log(
       "pass through here in currentNotification",
-      notifications?.find((noti) => {
+      backNotifications?.find((noti) => {
         return noti.sender === user?.id;
       })
     );
     if (
-      notifications?.find((noti) => {
+      backNotifications?.find((noti) => {
         return noti.sender === user?.id;
       })
     ) {
       setCurrentNotification(
-        notifications?.find((noti) => {
+        backNotifications?.find((noti) => {
           return noti.sender === user?.id;
         })
       );
@@ -92,19 +92,20 @@ function UserAvatar({ user }) {
   }
 
   useEffect(() => {
-    if (
-      notifications?.find((noti) => {
+    if (currentNotification) {
+      return setSentSuccess("Accept");
+    } else {
+      return checkUser();
+    }
+  }, [currentNotification]);
+
+  useEffect(() => {
+    return setCurrentNotification(
+      backNotifications?.find((noti) => {
         return noti.sender === user?.id;
       })
-    ) {
-      setCurrentNotification(
-        notifications?.find((noti) => {
-          return noti.sender === user?.id;
-        })
-      );
-      return setSentSuccess("Accept");
-    }
-  }, [notifications]);
+    );
+  }, [backNotifications]);
 
   useEffect(() => {
     if (
@@ -134,9 +135,7 @@ function UserAvatar({ user }) {
       setCurrentNotification(null);
       return setSentSuccess("Cancel Friend");
     }
-    // setSentSuccess("Add Friend");
-    setFirstSent(false);
-    return setIsFriend(false);
+    checkUser();
   }, [friends]);
 
   function updateBGHoverStart() {
