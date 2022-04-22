@@ -13,6 +13,7 @@ import SearchIcon from "../icons/search";
 import axios from "axios";
 import SearchModal from "../search/search-modal";
 import useOutside from "../hooks/click-outside";
+import { useNotification } from "../hooks/use-notification";
 
 const iconsStyle = {
   minWidth: "30px",
@@ -38,7 +39,7 @@ function PageTitle() {
   const [timeoutID, setTimeoutID] = useState(null);
   const [isFocused, setIsFocused] = useState(false);
   const [searchModal, setSearchModal] = useState(false);
-
+  const { backNotifications } = useNotification();
   const [date, setDate] = useState(new Date());
 
   const clickOutsideRef = useRef(null);
@@ -216,7 +217,12 @@ function PageTitle() {
           </div>
 
           <div style={iconsStyle} className={styles.notification_bell}>
-            <div className={styles.notification_bell_number}>2</div>
+            {backNotifications.length > 0 ? (
+              <div className={styles.notification_bell_number}>
+                {backNotifications?.length}
+              </div>
+            ) : null}
+
             <BellIcon />
           </div>
         </div>

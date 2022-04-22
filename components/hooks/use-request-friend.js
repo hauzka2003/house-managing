@@ -34,9 +34,13 @@ export function RequestFriendProvider({ children }) {
 
       realtimeSubscription = supabase
         .from(`friendRequest:sender=eq.${user.id}`)
-        .on("*", (payload) => {
-          console.log("payload", payload);
+        .on("INSERT", (payload) => {
           setRequestFriend([...requestFriend, payload?.new]);
+        })
+        .on("DELETE", (payload) => {
+          setRequestFriend(
+            requestFriend.filter((item) => item.id !== payload?.old?.id)
+          );
         })
         .subscribe();
     }

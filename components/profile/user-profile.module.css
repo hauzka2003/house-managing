@@ -115,6 +115,10 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+  outline: none;
+  border: none;
+  font-family: "Roboto Mono", monospace;
+  font-size: 1rem;
 }
 .user_avatar_add_friend2 {
   padding: 10px 10px;

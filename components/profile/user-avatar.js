@@ -25,6 +25,7 @@ function UserAvatar({ user }) {
   const usernameHolderAnimation = useAnimation();
   const backgroundAnimation = useAnimation();
   const bgHolderAnimation = useAnimation();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [sentSuccess, setSentSuccess] = useState("Add Friend");
   const [firstSent, setFirstSent] = useState(false);
@@ -38,6 +39,7 @@ function UserAvatar({ user }) {
   console.log("isRequested", isRequested);
   console.log("isFriend", isFriend);
   console.log("currentNotification", currentNotification);
+  console.log("loadingbg", isLoading);
 
   const { user: loggedUser } = useUser();
 
@@ -46,14 +48,9 @@ function UserAvatar({ user }) {
   const { requestFriend } = useRequestFriend();
   const { friends, cancelFriend } = useFriendList();
 
+  console.log("friends", friends);
+
   function checkUser() {
-    console.log("pass through here");
-    console.log(
-      "pass through here in currentNotification",
-      backNotifications?.find((noti) => {
-        return noti.sender === user?.id;
-      })
-    );
     if (
       backNotifications?.find((noti) => {
         return noti.sender === user?.id;
@@ -64,7 +61,7 @@ function UserAvatar({ user }) {
           return noti.sender === user?.id;
         })
       );
-
+      setIsLoading(false);
       return setSentSuccess("Accept");
     }
     if (
@@ -72,6 +69,7 @@ function UserAvatar({ user }) {
         return req.receiver === user?.id;
       })
     ) {
+      setIsLoading(true);
       setIsRequested(true);
       return setSentSuccess("Sent");
     }
@@ -80,63 +78,71 @@ function UserAvatar({ user }) {
         return friend === user?.id;
       })
     ) {
+      setIsLoading(false);
       setIsFriend(true);
-
+      setFirstSent(false);
+      setIsRequested(false);
+      setCurrentNotification(null);
       return setSentSuccess("Cancel Friend");
     }
-    // setCurrentNotification(null);
     setIsRequested(false);
     setFirstSent(false);
     setIsFriend(false);
+    setCurrentNotification(null);
+    setIsLoading(false);
     return setSentSuccess("Add Friend");
   }
 
   useEffect(() => {
-    if (currentNotification) {
-      return setSentSuccess("Accept");
-    } else {
-      return checkUser();
-    }
-  }, [currentNotification]);
-
-  useEffect(() => {
-    return setCurrentNotification(
-      backNotifications?.find((noti) => {
-        return noti.sender === user?.id;
-      })
-    );
-  }, [backNotifications]);
-
-  useEffect(() => {
-    if (
-      requestFriend?.find((req) => {
-        return req.receiver === user?.id;
-      })
-    ) {
-      setIsRequested(true);
-      setIsFriend(false);
-      setCurrentNotification(null);
-      return setSentSuccess("Sent");
-    }
-    return setIsRequested(false);
-  }, [requestFriend]);
-
-  useEffect(() => {
-    if (user?.length <= 0) {
-      return;
-    }
-    if (
-      friends?.find((friend) => {
-        return friend === user?.id;
-      })
-    ) {
-      setIsFriend(true);
-      setFirstSent(false);
-      setCurrentNotification(null);
-      return setSentSuccess("Cancel Friend");
-    }
     checkUser();
-  }, [friends]);
+  }, [backNotifications, requestFriend, friends]);
+
+  // useEffect(() => {
+  //   if (currentNotification) {
+  //     return setSentSuccess("Accept");
+  //   } else {
+  //     return checkUser();
+  //   }
+  // }, [currentNotification]);
+
+  // useEffect(() => {
+  //   return setCurrentNotification(
+  //     backNotifications?.find((noti) => {
+  //       return noti.sender === user?.id;
+  //     })
+  //   );
+  // }, [backNotifications]);
+
+  // useEffect(() => {
+  //   if (
+  //     requestFriend?.find((req) => {
+  //       return req.receiver === user?.id;
+  //     })
+  //   ) {
+  //     setIsRequested(true);
+  //     setIsFriend(false);
+  //     setCurrentNotification(null);
+  //     return setSentSuccess("Sent");
+  //   }
+  //   return checkUser();
+  // }, [requestFriend]);
+
+  // useEffect(() => {
+  //   if (user?.length <= 0) {
+  //     return;
+  //   }
+  //   if (
+  //     friends?.find((friend) => {
+  //       return friend === user?.id;
+  //     })
+  //   ) {
+  //     setIsFriend(true);
+  //     setFirstSent(false);
+  //     setCurrentNotification(null);
+  //     return setSentSuccess("Cancel Friend");
+  //   }
+  //   checkUser();
+  // }, [friends]);
 
   function updateBGHoverStart() {
     cameraAnimation.start({
@@ -337,6 +343,8 @@ function UserAvatar({ user }) {
       return;
     }
 
+    setIsLoading(true);
+
     if (isFriend) {
       await cancelFriend(user.id);
       return setSentSuccess("Add Friend");
@@ -351,11 +359,13 @@ function UserAvatar({ user }) {
       .catch((err) => {
         console.log(err);
         setSentSuccess("Error");
+        setIsLoading(false);
       });
 
     if (res?.status === 200) {
       setSentSuccess("Sent");
       setFirstSent(true);
+      setIsLoading(false);
     }
   }
 
@@ -435,12 +445,13 @@ function UserAvatar({ user }) {
               <AddFriendIcon style={{ width: "20px" }} />
               <div style={{ marginLeft: "10px" }}>{sentSuccess}</div>
             </div>
-            <motion.div
+            <motion.button
               className={styles.user_avatar_add_friend1}
               initial={{
                 top: "-100%",
                 textAlign: "center",
               }}
+              disabled={isLoading}
               animate={addFriendAnimation}
               onClick={addFriend}
               style={
@@ -471,7 +482,7 @@ function UserAvatar({ user }) {
                 <AddFriendIcon />
               </motion.div>
               <div style={{ marginLeft: "25px" }}>{sentSuccess}</div>
-            </motion.div>
+            </motion.button>
           </motion.div>
         )}
       </div>
