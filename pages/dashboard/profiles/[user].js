@@ -7,43 +7,43 @@ import { useLayout } from "../../../store/layout";
 import UserBackground from "../../../components/profile/user-profile";
 import { useUser } from "../../../store/user";
 import { supabase } from "../../../utils/supabase";
-function ProfilePage({ user }) {
+function ProfilePage() {
   const router = useRouter();
   const { navClosed } = useLayout();
-  // const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null);
 
   const { user: username } = router.query;
 
   const { user: loggedUser } = useUser();
 
-  // useEffect(() => {
-  //   if (!username) {
-  //     return;
-  //   }
+  useEffect(() => {
+    if (!username) {
+      return;
+    }
 
-  //   setUser(null);
+    setUser(null);
 
-  //   if (userData?.user_metadata?.userName === username) {
-  //     return setUser(userData);
-  //   }
+    if (loggedUser?.user_metadata?.userName === username) {
+      return setUser(loggedUser);
+    }
 
-  //   async function getUser() {
-  //     await axios
-  //       .get(`/api/user/${username}`)
-  //       .then((res) => {
-  //         if (res.data.message === "User not found") {
-  //           return setUser("User not found");
-  //         }
+    async function getUser() {
+      await axios
+        .get(`/api/user/${username}`)
+        .then((res) => {
+          if (res.data.message === "User not found") {
+            return setUser("User not found");
+          }
 
-  //         setUser(res.data.data);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }
+          setUser(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
 
-  //   getUser();
-  // }, [username]);
+    getUser();
+  }, [username]);
 
   return (
     <motion.div
@@ -55,40 +55,40 @@ function ProfilePage({ user }) {
       }}
       animate={!navClosed ? { marginLeft: "300px" } : { marginLeft: "120px" }}
     >
-      <UserBackground user={user ?? "User not found"} />
+      <UserBackground user={user} />
     </motion.div>
   );
 }
 
-export async function getServerSideProps(context) {
-  const { params, res } = context;
+// export async function getServerSideProps(context) {
+//   const { params, res } = context;
 
-  const { user } = await supabase.auth.api.getUserByCookie(context?.req);
+//   const { user } = await supabase.auth.api.getUserByCookie(context?.req);
 
-  if (!user) {
-    res.writeHead(302, {
-      Location: "/log-in",
-    });
-    res.end();
-    return { props: {} };
-  }
+//   if (!user) {
+//     res.writeHead(302, {
+//       Location: "/log-in",
+//     });
+//     res.end();
+//     return { props: {} };
+//   }
 
-  const { data, error } = await supabase
-    .from("profile")
-    .select("email,username,lastSeen,firstName,lastName,phone,signature,id")
-    .eq("username", params.user)
-    .single();
+//   const { data, error } = await supabase
+//     .from("profile")
+//     .select("email,username,lastSeen,firstName,lastName,phone,signature,id")
+//     .eq("username", params.user)
+//     .single();
 
-  if (error) {
-    console.log(error);
-  }
+//   if (error) {
+//     console.log(error);
+//   }
 
-  return {
-    props: {
-      user: data ?? null,
-    },
-  };
-}
+//   return {
+//     props: {
+//       user: data ?? null,
+//     },
+//   };
+// }
 
 ProfilePage.getLayout = LoggedLayout;
 

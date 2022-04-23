@@ -15,7 +15,62 @@ export function UseNotificationProvider({ children }) {
 
   console.log("backNotifications", backNotifications);
 
-  async function getFriendById(payload) {
+  // async function getFriendById(payload) {
+  //   let newNotification;
+  //   await axios
+  //     .get(`/api/search-userbyid/${payload?.new?.sender}`, {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "Access-Control-Allow-Origin": "*",
+  //       },
+  //     })
+  //     .then((res) => {
+  //       newNotification = {
+  //         ...res?.data,
+  //         id: payload?.new?.id,
+  //         type: "friend",
+  //         sender: payload?.new?.sender,
+  //       };
+
+  //       setNotifications((notifications) => [
+  //         ...notifications,
+  //         newNotification,
+  //       ]);
+  //     })
+  //     .catch((err) => {
+  //       console.log("err", err);
+  //     });
+  // }
+
+  async function getUserInfor(payload) {
+    let newNotification;
+    await axios
+      .get(`/api/search-userbyid/${payload.sender}`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      })
+      .then((res) => {
+        newNotification = {
+          ...res?.data,
+          id: payload?.id,
+          type: "friend",
+          sender: payload?.sender,
+          created: payload?.created,
+        };
+
+        setbackNotifications((notifications) => [
+          ...notifications,
+          newNotification,
+        ]);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  }
+
+  async function FetchUserDetail(payload) {
     let newNotification;
     await axios
       .get(`/api/search-userbyid/${payload?.new?.sender}`, {
@@ -32,10 +87,16 @@ export function UseNotificationProvider({ children }) {
           sender: payload?.new?.sender,
         };
 
-        setNotifications((notifications) => [
+        setbackNotifications((notifications) => [
           ...notifications,
           newNotification,
         ]);
+        if (notifications?.length <= 5) {
+          setNotifications((notifications) => [
+            ...notifications,
+            newNotification,
+          ]);
+        }
       })
       .catch((err) => {
         console.log("err", err);
@@ -84,7 +145,9 @@ export function UseNotificationProvider({ children }) {
         .select("*")
         .eq("receiver", user?.id);
 
-      setbackNotifications([...data]);
+      data.forEach((request) => {
+        getUserInfor(request);
+      });
     }
 
     if (!user) {
@@ -99,13 +162,7 @@ export function UseNotificationProvider({ children }) {
         .from(`friendRequest:receiver=eq.${user.id}`)
         .on("INSERT", (payload) => {
           console.log("payload", payload);
-          setbackNotifications((backNotifications) => [
-            ...backNotifications,
-            payload?.new,
-          ]);
-          if (notifications?.length <= 5) {
-            getFriendById(payload);
-          }
+          FetchUserDetail(payload);
         })
         .on("DELETE", (payload) => {
           setbackNotifications((backNotifications) =>

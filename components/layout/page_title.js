@@ -219,7 +219,19 @@ function PageTitle() {
           <div style={iconsStyle} className={styles.notification_bell}>
             {backNotifications.length > 0 ? (
               <div className={styles.notification_bell_number}>
-                {backNotifications?.length}
+                <AnimatePresence exitBeforeEnter>
+                  <motion.div
+                    initial={{ y: -20 }}
+                    animate={{ y: 0 }}
+                    exit={{ y: 20 }}
+                    transition={{ duration: 0.5 }}
+                    key={backNotifications?.length}
+                  >
+                    {backNotifications?.length < 10
+                      ? backNotifications?.length
+                      : 9 + "+"}
+                  </motion.div>
+                </AnimatePresence>
               </div>
             ) : null}
 
