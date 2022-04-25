@@ -60,6 +60,10 @@ export function UseNotificationProvider({ children }) {
           created: payload?.created,
         };
 
+        if (backNotifications.find((item) => item.id === newNotification.id)) {
+          return;
+        }
+
         setbackNotifications((notifications) => [
           ...notifications,
           newNotification,
@@ -85,6 +89,7 @@ export function UseNotificationProvider({ children }) {
           id: payload?.new?.id,
           type: "friend",
           sender: payload?.new?.sender,
+          created: payload?.new?.created,
         };
 
         setbackNotifications((notifications) => [
@@ -153,6 +158,8 @@ export function UseNotificationProvider({ children }) {
     if (!user) {
       supabase.removeSubscription(mySubscription);
       mySubscription = null;
+      setNotifications([]);
+      setbackNotifications([]);
     }
 
     if (user && !mySubscription) {

@@ -142,7 +142,6 @@ function FriendNotification({ notification, removeNotification }) {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.2 } }}
       positiontransition
-      whileHover={{ scale: 1.03 }}
     >
       <div
         className={styles.close_button}

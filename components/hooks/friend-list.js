@@ -48,6 +48,7 @@ export function UseFriendProvider({ children }) {
     if (!user) {
       supabase.removeSubscription(mySubscription);
       mySubscription = null;
+      setFriends([]);
     }
 
     if (user && !mySubscription) {

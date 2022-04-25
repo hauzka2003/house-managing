@@ -14,6 +14,9 @@ import axios from "axios";
 import SearchModal from "../search/search-modal";
 import useOutside from "../hooks/click-outside";
 import { useNotification } from "../hooks/use-notification";
+import { useViewportSize } from "@mantine/hooks";
+import NotificationsTabs from "./notification/notifications-tab";
+import NotificationOffFillIcon from "../icons/notification-off";
 
 const iconsStyle = {
   minWidth: "30px",
@@ -41,8 +44,14 @@ function PageTitle() {
   const [searchModal, setSearchModal] = useState(false);
   const { backNotifications } = useNotification();
   const [date, setDate] = useState(new Date());
+  const [notiModals, setNotiModals] = useState(false);
+
+  const { height, width } = useViewportSize();
 
   const clickOutsideRef = useRef(null);
+  const clickOutNotiModalRef = useRef(null);
+
+  useOutside(clickOutNotiModalRef, setNotiModals);
 
   useOutside(clickOutsideRef, setSearchModal);
 
@@ -62,7 +71,7 @@ function PageTitle() {
     router.push(page);
   }
 
-  //make a search engine for the user to search for users
+  const filteredNotifications = backNotifications.slice(0, 9);
 
   async function onSearch(e) {
     clearTimeout(timeoutID);
@@ -154,106 +163,171 @@ function PageTitle() {
     });
   }
 
+  // useEffect(() => {
+  //   navigator.geolocation.getCurrentPosition(function (position) {
+  //     console.log(position);
+  //   });
+  // }, []);
+
   return (
-    <motion.div
-      className={styles.pagetitle}
-      initial={
-        navClosed
-          ? { left: "120px", width: "calc(100vw - 120px)", y: -100 }
-          : { left: "300px", width: "calc(100vw - 300px)", y: -100 }
-      }
-      animate={
-        navClosed
-          ? { left: "120px", width: "calc(100% - 120px)", y: 0 }
-          : { left: "300px", width: "calc(100% - 300px)", y: 0 }
-      }
-    >
+    <>
       <AnimatePresence exitBeforeEnter>
-        <motion.div
-          className={styles.title}
-          key={currentPage}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          {currentPage}
-        </motion.div>
+        {notiModals && (
+          <motion.div
+            className={styles.noti_modal}
+            ref={clickOutNotiModalRef}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            // style={{ left: `${width * 0.6}px` }}
+          >
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                position: "relative",
+                overflow: "hidden",
+                borderBottomLeftRadius: "10px",
+                borderBottomRightRadius: "10px",
+              }}
+            >
+              <div className={styles.notification_text}>Notifications</div>
+              <motion.div
+                className={styles.noti_modal_backg}
+                initial={{ width: "50px", height: "50px" }}
+                animate={{
+                  width: "3000px",
+                  height: "3000px",
+                  transition: { duration: 1, ease: "easeInOut" },
+                }}
+              />
+              {filteredNotifications?.length > 0 ? (
+                <NotificationsTabs
+                  notifications={filteredNotifications}
+                  setNotiModals={setNotiModals}
+                />
+              ) : (
+                <div className={styles.noti_modal_noNoti}>
+                  <div>
+                    <NotificationOffFillIcon style={{ width: "40px" }} />
+                  </div>
+                  No notification currently
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
       </AnimatePresence>
-      <motion.div className={styles.search_box} ref={clickOutsideRef}>
-        <SearchIcon style={{ width: "25px" }} animate={searchIconAnimate} />
-        <motion.input
-          placeholder={
-            isFocused
-              ? "You can search for your friends here"
-              : "Type in anything to search"
-          }
-          className={styles.input}
-          onFocus={onSearchAnimation}
-          onBlur={onSearchAnimationEnd}
-          type="text"
-          value={searchInput}
-          onChange={onSearch}
-        />
+      <motion.div
+        className={styles.pagetitle}
+        initial={
+          navClosed
+            ? { left: "120px", width: "calc(100vw - 120px)", y: -100 }
+            : { left: "300px", width: "calc(100vw - 300px)", y: -100 }
+        }
+        animate={
+          navClosed
+            ? { left: "120px", width: "calc(100% - 120px)", y: 0 }
+            : { left: "300px", width: "calc(100% - 300px)", y: 0 }
+        }
+      >
         <AnimatePresence exitBeforeEnter>
-          {searchModal && (
-            <SearchModal
-              date={date}
-              results={searchResult}
-              key={"search-modal"}
-              innerRef={clickOutsideRef}
-              setSearchModal={setSearchModal}
-              isNoResult={searchResult.length === 0}
-              searchInput={searchInput}
-              setSearchInput={setSearchInput}
-            />
-          )}
+          <motion.div
+            className={styles.title}
+            key={currentPage}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            {currentPage}
+          </motion.div>
         </AnimatePresence>
+        <motion.div className={styles.search_box} ref={clickOutsideRef}>
+          <SearchIcon style={{ width: "25px" }} animate={searchIconAnimate} />
+          <motion.input
+            placeholder={
+              isFocused
+                ? "You can search for your friends here"
+                : "Type in anything to search"
+            }
+            className={styles.input}
+            onFocus={onSearchAnimation}
+            onBlur={onSearchAnimationEnd}
+            type="text"
+            value={searchInput}
+            onChange={onSearch}
+          />
+          <AnimatePresence exitBeforeEnter>
+            {searchModal && (
+              <SearchModal
+                date={date}
+                results={searchResult}
+                key={"search-modal"}
+                innerRef={clickOutsideRef}
+                setSearchModal={setSearchModal}
+                isNoResult={searchResult.length === 0}
+                searchInput={searchInput}
+                setSearchInput={setSearchInput}
+              />
+            )}
+          </AnimatePresence>
+        </motion.div>
+
+        <div className={styles.user}>
+          <div className={styles.notification}>
+            <div style={iconsStyle}>
+              <CloseaMailIcon />
+            </div>
+
+            <div
+              style={iconsStyle}
+              className={styles.notification_bell}
+              onClick={() => {
+                setNotiModals(!notiModals);
+              }}
+            >
+              {backNotifications.length > 0 ? (
+                <div className={styles.notification_bell_number}>
+                  <AnimatePresence exitBeforeEnter>
+                    <motion.div
+                      initial={{ y: -20 }}
+                      animate={{ y: 0 }}
+                      exit={{ y: 20 }}
+                      transition={{ duration: 0.5 }}
+                      key={backNotifications?.length}
+                    >
+                      {backNotifications?.length < 10
+                        ? backNotifications?.length
+                        : 9 + "+"}
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              ) : null}
+
+              <BellIcon />
+            </div>
+          </div>
+
+          {/* <DarkIcon /> */}
+          <SettingsIcon
+            style={iconsStyle}
+            onClick={() => {
+              onClicked("/dashboard/setting");
+            }}
+            whileHover={{
+              rotate: 180,
+              transition: { duration: 1 },
+              scale: 1.1,
+            }}
+            whileTap={{ scale: 0.7 }}
+          />
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <AvatarUser email={user?.email} />
+            <span className={styles.userName}>{userName?.userName}</span>
+          </div>
+        </div>
       </motion.div>
-
-      <div className={styles.user}>
-        <div className={styles.notification}>
-          <div style={iconsStyle}>
-            <CloseaMailIcon />
-          </div>
-
-          <div style={iconsStyle} className={styles.notification_bell}>
-            {backNotifications.length > 0 ? (
-              <div className={styles.notification_bell_number}>
-                <AnimatePresence exitBeforeEnter>
-                  <motion.div
-                    initial={{ y: -20 }}
-                    animate={{ y: 0 }}
-                    exit={{ y: 20 }}
-                    transition={{ duration: 0.5 }}
-                    key={backNotifications?.length}
-                  >
-                    {backNotifications?.length < 10
-                      ? backNotifications?.length
-                      : 9 + "+"}
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-            ) : null}
-
-            <BellIcon />
-          </div>
-        </div>
-
-        {/* <DarkIcon /> */}
-        <SettingsIcon
-          style={iconsStyle}
-          onClick={() => {
-            onClicked("/dashboard/setting");
-          }}
-          whileHover={{ rotate: 180, transition: { duration: 1 }, scale: 1.1 }}
-          whileTap={{ scale: 0.7 }}
-        />
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <AvatarUser email={user?.email} />
-          <span className={styles.userName}>{userName?.userName}</span>
-        </div>
-      </div>
-    </motion.div>
+    </>
   );
 }
 

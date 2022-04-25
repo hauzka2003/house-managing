@@ -29,6 +29,10 @@ export function RequestFriendProvider({ children }) {
   }
 
   useEffect(() => {
+    if (!user) {
+      setRequestFriend([]);
+    }
+
     if (user && !realtimeSubscription) {
       getFriendRequest();
 

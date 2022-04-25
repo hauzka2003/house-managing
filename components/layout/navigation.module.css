@@ -111,3 +111,44 @@
   font-family: "Roboto Slab", serif;
   letter-spacing: 1px;
 }
+
+.noti_modal {
+  position: fixed;
+  top: 50px;
+  left: 60%;
+  width: 400px;
+  max-height: 90vh;
+  z-index: 10;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.noti_modal_backg {
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+.notification_text {
+  font-size: 1.3em;
+  margin-top: 1rem;
+  margin-bottom: 10px;
+  font-family: "Roboto Mono", monospace;
+  padding-left: 10px;
+}
+
+.noti_modal_noNoti {
+  margin: auto;
+  text-align: center;
+  font-size: 1.1em;
+  font-weight: 600;
+  letter-spacing: 1px;
+  opacity: 0.5;
+}
