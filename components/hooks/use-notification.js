@@ -15,33 +15,6 @@ export function UseNotificationProvider({ children }) {
 
   console.log("backNotifications", backNotifications);
 
-  // async function getFriendById(payload) {
-  //   let newNotification;
-  //   await axios
-  //     .get(`/api/search-userbyid/${payload?.new?.sender}`, {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "Access-Control-Allow-Origin": "*",
-  //       },
-  //     })
-  //     .then((res) => {
-  //       newNotification = {
-  //         ...res?.data,
-  //         id: payload?.new?.id,
-  //         type: "friend",
-  //         sender: payload?.new?.sender,
-  //       };
-
-  //       setNotifications((notifications) => [
-  //         ...notifications,
-  //         newNotification,
-  //       ]);
-  //     })
-  //     .catch((err) => {
-  //       console.log("err", err);
-  //     });
-  // }
-
   async function getUserInfor(payload) {
     let newNotification;
     await axios
