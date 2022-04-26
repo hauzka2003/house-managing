@@ -91,7 +91,11 @@ function CustomMenuIcon({ style, links }) {
           <div style={{ width: "100%", height: "100%", position: "relative" }}>
             <div className={styles.links_container}>
               {links.map((link) => {
-                return <div className={styles.link}>{link.name}</div>;
+                return (
+                  <div className={styles.link} key={link.name}>
+                    {link.name}
+                  </div>
+                );
               })}
             </div>
           </div>
