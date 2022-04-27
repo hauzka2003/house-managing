@@ -14,7 +14,14 @@ const links = [
 ];
 function Header() {
   const router = useRouter();
+  const [currentDimension, setCurrentDimension] = useState();
   const { currentDevice } = useWindowDimensions();
+
+  console.log("currentDevice", currentDevice);
+
+  useEffect(() => {
+    setCurrentDimension(currentDevice);
+  }, [currentDevice]);
 
   const { user } = useUser();
 
@@ -25,75 +32,97 @@ function Header() {
   }, [router.pathname]);
   const [hovered, setHovered] = useState();
   return (
-    <nav className={styles.nav}>
-      <div
-        className={styles.brand}
-        style={
-          currentDevice !== "mobile"
-            ? { marginLeft: "4rem", fontSize: "1.5rem" }
-            : { marginLeft: "1rem", fontSize: "1.4rem" }
-        }
-      >
-        Subsica
-      </div>
-      {currentDevice === "desktop" && (
-        <div className={styles.navlink}>
-          {links.map((link, index) => {
-            return (
-              <BetterLink
-                key={index}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className={styles.link}
-                to={link.url}
-                type={"nav"}
-                style={{
-                  margin: "0 1.5rem",
-                  fontSize: "1.2rem",
-                  fontFamily: "'Rubik', sans-serif",
-                }}
-                onClick={() => {
-                  setClicked(link.url);
-                }}
-                underlined={link.url === clicked}
-                onHoverStart={() => {
-                  setHovered(index);
-                }}
-                onHoverEnd={() => {
-                  setHovered(undefined);
-                }}
-                hovered={index == hovered}
-              >
-                {link.name}
-              </BetterLink>
-            );
-          })}
-        </div>
-      )}
-      {(currentDevice === "mobile" || currentDevice === "tablet") && (
+    <>
+      {currentDimension === "tablet" && (
         <CustomMenuIcon
-          style={
-            currentDevice === "tablet"
-              ? { width: "50px", height: "100%" }
-              : { width: "40px" }
-          }
+          style={{
+            width: "50px",
+            height: "50px",
+            position: "fixed",
+            // top: "50%",
+            left: "50%",
+            transform: "translate(-50% , 0)",
+            zIndex: "105",
+          }}
+          links={links}
+          device={"tablet"}
+        />
+      )}
+      {currentDimension === "mobile" && (
+        <CustomMenuIcon
+          style={{
+            width: "40px",
+            height: "50px",
+            position: "fixed",
+            // top: "50%",
+            left: "50%",
+            transform: "translate(-50% , 0)",
+            zIndex: "105",
+          }}
           links={links}
         />
       )}
-      <BetterLink
-        className={styles.login}
-        to={user ? "/dashboard" : "/log-in"}
-        type={"login"}
-        style={
-          currentDevice !== "mobile"
-            ? { fontSize: "1.3rem", marginRight: "4rem", alignSelf: "center" }
-            : { fontSize: "1.2rem", marginRight: "1rem", alignSelf: "center" }
-        }
-        whileHover={{ scale: 1.1 }}
-      >
-        {user?.user_metadata?.userName ?? "Log In"}
-      </BetterLink>
-    </nav>
+      <nav className={styles.nav}>
+        <div
+          className={styles.brand}
+          style={
+            currentDevice !== "mobile"
+              ? { marginLeft: "3rem", fontSize: "1.5rem" }
+              : { marginLeft: "1rem", fontSize: "1.4rem" }
+          }
+        >
+          Subsica
+        </div>
+        {currentDevice === "desktop" && (
+          <div className={styles.navlink}>
+            {links.map((link, index) => {
+              return (
+                <BetterLink
+                  key={index}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  className={styles.link}
+                  to={link.url}
+                  type={"nav"}
+                  style={{
+                    margin: "0 1.5rem",
+                    fontSize: "1.2rem",
+                    fontFamily: "'Rubik', sans-serif",
+                  }}
+                  onClick={() => {
+                    setClicked(link.url);
+                  }}
+                  underlined={link.url === clicked}
+                  onHoverStart={() => {
+                    setHovered(index);
+                  }}
+                  onHoverEnd={() => {
+                    setHovered(undefined);
+                  }}
+                  hovered={index == hovered}
+                >
+                  {link.name}
+                </BetterLink>
+              );
+            })}
+          </div>
+        )}
+
+        <BetterLink
+          className={styles.login}
+          to={user ? "/dashboard" : "/log-in"}
+          type={"login"}
+          style={
+            currentDevice !== "mobile"
+              ? { fontSize: "1.3rem", marginRight: "3rem", alignSelf: "center" }
+              : { fontSize: "1.2rem", marginRight: "1rem", alignSelf: "center" }
+          }
+          whileHover={{ scale: 1.1 }}
+        >
+          {user?.user_metadata?.userName ?? "Log In"}
+        </BetterLink>
+      </nav>
+    </>
   );
 }
 

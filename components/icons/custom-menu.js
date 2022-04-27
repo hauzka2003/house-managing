@@ -2,7 +2,7 @@ import styles from "./custom-menu.module.css";
 import { motion, useAnimation } from "framer-motion";
 import { useState } from "react";
 
-function CustomMenuIcon({ style, links }) {
+function CustomMenuIcon({ style, links, device }) {
   const line1 = useAnimation();
   const line2 = useAnimation();
   const line3 = useAnimation();
@@ -69,24 +69,22 @@ function CustomMenuIcon({ style, links }) {
   return (
     <>
       <motion.div className={styles.container} style={style} onClick={openMenu}>
-        <motion.div
-          className={styles.line}
-          initial={{ y: -15 }}
-          animate={line1}
-        />
-        <motion.div className={styles.line} animate={line2} />
-        <motion.div
-          className={styles.line}
-          initial={{ y: 15 }}
-          animate={line3}
-        />
+        <div className={styles.relative_container}>
+          <motion.div
+            className={styles.line}
+            initial={{ y: -15 }}
+            animate={line1}
+          />
+          <motion.div className={styles.line} animate={line2} />
+          <motion.div
+            className={styles.line}
+            initial={{ y: 15 }}
+            animate={line3}
+          />
+        </div>
       </motion.div>
 
-      <motion.div
-        className={styles.mobile_nav}
-        //   style={!isClicked ? { display: "none" } : { display: "contents" }}
-        animate={bgHolderAnimation}
-      >
+      <motion.div className={styles.mobile_nav} animate={bgHolderAnimation}>
         <div className={styles.fixed_content}>
           <div style={{ width: "100%", height: "100%", position: "relative" }}>
             <div className={styles.links_container}>
