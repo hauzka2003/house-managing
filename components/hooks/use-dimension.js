@@ -7,6 +7,9 @@ export default function useWindowDimensions() {
     const width = hasWindow ? window.innerWidth : null;
     const height = hasWindow ? window.innerHeight : null;
 
+    console.log("width", width);
+    console.log("height", height);
+
     if (width < 768) {
       return {
         currentDevice: "mobile",

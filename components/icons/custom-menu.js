@@ -1,6 +1,7 @@
 import styles from "./custom-menu.module.css";
 import { motion, useAnimation } from "framer-motion";
 import { useState } from "react";
+import { DIVIDER_SIZES } from "@mantine/core";
 
 function CustomMenuIcon({ style, links, device }) {
   const line1 = useAnimation();
@@ -8,15 +9,18 @@ function CustomMenuIcon({ style, links, device }) {
   const line3 = useAnimation();
   const bgHolderAnimation = useAnimation();
   const backgroundAnimation = useAnimation();
+  const linkAnimation = useAnimation();
 
   const [isClicked, setIsClicked] = useState(false);
-
-  //   console.log("isClicked", isClicked);
 
   async function openMenu() {
     console.log("isClicked", isClicked);
 
     if (!isClicked) {
+      linkAnimation.start({
+        top: "100%",
+        transition: { duration: 0 },
+      });
       bgHolderAnimation.start({
         display: "contents",
         transition: {
@@ -24,11 +28,11 @@ function CustomMenuIcon({ style, links, device }) {
         },
       });
       await backgroundAnimation.start({
-        top: "300vh",
+        top: "5000px",
         transition: { duration: 0 },
       });
       backgroundAnimation.start({
-        top: "-75vh",
+        top: "-1000px",
         transition: { duration: 2 },
       });
       line1.start({ backgroundColor: "#fff", transition: { duration: 2 } });
@@ -36,10 +40,18 @@ function CustomMenuIcon({ style, links, device }) {
       await line2.start({ left: "100%", transition: { duration: 0.5 } });
       line1.start({ y: 0, rotate: 45, transition: { duration: 0.5 } });
       line3.start({ y: 0, rotate: 315, transition: { duration: 0.5 } });
+      linkAnimation.start({
+        top: "0%",
+        transition: { duration: 1.5, delay: 0.5, ease: "easeInOut" },
+      });
       return setIsClicked(true);
     }
 
     if (isClicked) {
+      linkAnimation.start({
+        top: "-100%",
+        transition: { duration: 1.5, ease: "easeInOut" },
+      });
       line1.start({ y: -15, rotate: 0, transition: { duration: 0.5 } });
       line3.start({ y: 15, rotate: 0, transition: { duration: 0.5 } });
       line1.start({
@@ -51,7 +63,7 @@ function CustomMenuIcon({ style, links, device }) {
         transition: { duration: 1.5 },
       });
       await backgroundAnimation.start({
-        top: "-300vh",
+        top: "-5000px",
         transition: { duration: 1.5 },
       });
 
@@ -90,19 +102,28 @@ function CustomMenuIcon({ style, links, device }) {
             <div className={styles.links_container}>
               {links.map((link) => {
                 return (
-                  <div className={styles.link} key={link.name}>
-                    {link.name}
+                  <div className={styles.link_container} key={link.name}>
+                    <div className={styles.link_holder}>
+                      {link.name.toUpperCase()}
+                    </div>
+
+                    <motion.div
+                      className={styles.link_name}
+                      animate={linkAnimation}
+                    >
+                      {link.name.toUpperCase()}
+                    </motion.div>
                   </div>
                 );
               })}
             </div>
+            <motion.div
+              className={styles.mobile_nav_bg}
+              //   initial={{ scale: 2 }}
+              animate={backgroundAnimation}
+            />
           </div>
         </div>
-        <motion.div
-          className={styles.mobile_nav_bg}
-          // initial={{ top: "100%" }}
-          animate={backgroundAnimation}
-        />
       </motion.div>
     </>
   );
