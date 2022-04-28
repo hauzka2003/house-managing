@@ -7,9 +7,17 @@ import { useEffect } from "react";
 import Router from "next/router";
 import { useCountUp } from "react-countup";
 import { useRef } from "react";
+import Link from "next/link";
 
-function CustomMenuIcon({ style, links, device }) {
-  const lineGap = device === "mobile" ? 10 : 12;
+const links = [
+  { name: "Plans", url: "/plans" },
+  { name: "About us", url: "/about-us" },
+  { name: "Support", url: "/support" },
+  { name: "Contact", url: "/contact" },
+];
+
+function CustomMenuIcon({ style, device }) {
+  const lineGap = device === "mobile" ? 8 : 10;
 
   const line1 = useAnimation();
   const line2 = useAnimation();
@@ -45,9 +53,12 @@ function CustomMenuIcon({ style, links, device }) {
     counterAnimation.start({
       opacity: 1,
     });
-
     counterLineAnimation.start({
-      height: "20px",
+      bottom: 0,
+      transition: { duration: 0 },
+    });
+    counterLineAnimation.start({
+      height: "10%",
       transition: { duration: 0.5, ease: "easeInOut" },
     });
   };
@@ -56,13 +67,15 @@ function CustomMenuIcon({ style, links, device }) {
     pauseResume();
     start();
     counterLineAnimation.start({
-      height: "50px",
+      height: "100%",
       transition: { duration: 1, ease: "easeInOut" },
     });
   };
 
   useEffect(() => {
     async function openMenu() {
+      // console.log("mobileNavState", mobileNavState);
+
       if (mobileNavState) {
         setMenuOpen(true);
         line1.start({
@@ -126,6 +139,13 @@ function CustomMenuIcon({ style, links, device }) {
           backgroundColor: "#050505",
           transition: { duration: 1.5 },
         });
+
+        counterLineAnimation.start({
+          height: 0,
+          bottom: "100%",
+          transition: { duration: 1, ease: "easeInOut" },
+        });
+
         await backgroundAnimation.start({
           top: "-5000px",
           transition: { duration: 1.5 },
@@ -135,6 +155,7 @@ function CustomMenuIcon({ style, links, device }) {
         counterAnimation.start({
           opacity: 0,
         });
+
         counterLineAnimation.start({
           height: "0px",
           transition: { duration: 0 },
@@ -185,7 +206,7 @@ function CustomMenuIcon({ style, links, device }) {
                   className={styles.brand_name}
                   animate={linkAnimation}
                 >
-                  Subsica
+                  <Link href={"/"}>Subsica</Link>
                 </motion.div>
               </div>
 
@@ -211,10 +232,16 @@ function CustomMenuIcon({ style, links, device }) {
               className={styles.counter}
               animate={counterAnimation}
             />
-            <motion.div
-              className={styles.counter_line_container}
-              animate={counterLineAnimation}
-            />
+            <motion.div className={styles.counter_line_container}>
+              <div
+                style={{ position: "relative", width: "100%", height: "100%" }}
+              >
+                <motion.div
+                  className={styles.counter_line}
+                  animate={counterLineAnimation}
+                />
+              </div>
+            </motion.div>
           </div>
         </div>
       </motion.div>

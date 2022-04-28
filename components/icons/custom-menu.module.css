@@ -126,5 +126,13 @@
   bottom: 15%;
   left: 8%;
   width: 3px;
+  height: 50px;
+  /* background-color: red; */
+}
+
+.counter_line {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
   background-color: #ffffff;
 }
