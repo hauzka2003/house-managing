@@ -64,9 +64,6 @@ function CustomMenuIcon({ style, links, device }) {
   useEffect(() => {
     async function openMenu() {
       if (mobileNavState) {
-        update(0);
-        pauseResume();
-
         setMenuOpen(true);
         line1.start({
           y: -lineGap,
