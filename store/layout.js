@@ -30,6 +30,8 @@ export function LayoutContextProvider({ children }) {
     currentTab: 0,
   });
 
+  const [mobileNavState, setMobileNavState] = useState(false);
+
   function pushPage(page) {
     router.push(page);
   }
@@ -65,6 +67,8 @@ export function LayoutContextProvider({ children }) {
     inforModal,
     setInforModal,
     pushPage,
+    mobileNavState,
+    setMobileNavState,
   };
 
   return (

@@ -1,10 +1,11 @@
 import BetterLink from "../link/better-link";
 import styles from "./navigation.module.css";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import { useUser } from "../../store/user";
 import useWindowDimensions from "../hooks/use-dimension";
 import CustomMenuIcon from "../icons/custom-menu";
+import { useLayout } from "../../store/layout";
 const links = [
   { name: "Home", url: "/" },
   { name: "Plans", url: "/plans" },
@@ -16,8 +17,13 @@ function Header() {
   const router = useRouter();
   const [currentDimension, setCurrentDimension] = useState();
   const { currentDevice } = useWindowDimensions();
+  const { setMobileNavState } = useLayout();
 
-  console.log("currentDevice", currentDevice);
+  Router.onRouteChangeStart = () => {};
+
+  // Router.onRouteChangeComplete = () => {
+  //   setMobileNavState(false);
+  // };
 
   useEffect(() => {
     setCurrentDimension(currentDevice);
@@ -36,8 +42,8 @@ function Header() {
       {currentDimension === "tablet" && (
         <CustomMenuIcon
           style={{
-            width: "50px",
-            height: "50px",
+            width: "35px",
+            height: "45px",
             position: "fixed",
             // top: "50%",
             left: "50%",
@@ -51,8 +57,8 @@ function Header() {
       {currentDimension === "mobile" && (
         <CustomMenuIcon
           style={{
-            width: "40px",
-            height: "50px",
+            width: "30px",
+            height: "40px",
             position: "fixed",
             // top: "50%",
             left: "50%",
@@ -60,14 +66,22 @@ function Header() {
             zIndex: "105",
           }}
           links={links}
+          device={"mobile"}
         />
       )}
-      <nav className={styles.nav}>
+      <nav
+        className={styles.nav}
+        style={currentDimension !== "desktop" ? { boxShadow: "none" } : {}}
+      >
         <div
           className={styles.brand}
           style={
             currentDevice !== "mobile"
-              ? { marginLeft: "3rem", fontSize: "1.5rem" }
+              ? {
+                  marginLeft: "3rem",
+                  fontSize: "1.5rem",
+                  backgroundColor: "transparent",
+                }
               : { marginLeft: "1rem", fontSize: "1.4rem" }
           }
         >
