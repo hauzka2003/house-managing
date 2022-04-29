@@ -13,18 +13,24 @@ export default function useWindowDimensions() {
     if (width < 768) {
       return {
         currentDevice: "mobile",
+        width,
+        height,
       };
     }
 
     if (width >= 768 && width < 1024) {
       return {
         currentDevice: "tablet",
+        width,
+        height,
       };
     }
 
     if (width >= 1024) {
       return {
         currentDevice: "desktop",
+        width,
+        height,
       };
     }
 

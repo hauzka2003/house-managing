@@ -63,7 +63,15 @@ function CustomMenuIcon({ style, device }) {
     });
   };
 
-  Router.onRouteChangeComplete = () => {
+  Router.onRouteChangeComplete = (url) => {
+    if (!mobileNavState) {
+      return;
+    }
+
+    if (url === "/dashboard") {
+      return;
+    }
+
     pauseResume();
     start();
     counterLineAnimation.start({

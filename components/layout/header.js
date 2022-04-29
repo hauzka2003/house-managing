@@ -5,6 +5,7 @@ import Router, { useRouter } from "next/router";
 import { useUser } from "../../store/user";
 import useWindowDimensions from "../hooks/use-dimension";
 import CustomMenuIcon from "../icons/custom-menu";
+import FrontProfile from "../single-build/front-profile";
 const links = [
   { name: "Home", url: "/" },
   { name: "Plans", url: "/plans" },
@@ -15,7 +16,7 @@ const links = [
 function Header() {
   const router = useRouter();
   const [currentDimension, setCurrentDimension] = useState();
-  const { currentDevice } = useWindowDimensions();
+  const { currentDevice, width, height } = useWindowDimensions();
 
   useEffect(() => {
     setCurrentDimension(currentDevice);
@@ -31,6 +32,9 @@ function Header() {
   const [hovered, setHovered] = useState();
   return (
     <>
+      {currentDimension !== "desktop" && (
+        <FrontProfile device={currentDimension} width={width} height={height} />
+      )}
       {currentDimension === "tablet" && (
         <CustomMenuIcon
           style={{

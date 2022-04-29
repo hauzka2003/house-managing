@@ -19,7 +19,7 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <div
+      {/* <div
         onClick={() => {
           setShown(!isShown);
         }}
@@ -50,7 +50,7 @@ export default function Home() {
             ngu
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
     </div>
   );
 }
