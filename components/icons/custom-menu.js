@@ -4,10 +4,11 @@ import { useState } from "react";
 import CustomMenuLink from "./custom-menu-link";
 import { useLayout } from "../../store/layout";
 import { useEffect } from "react";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { useCountUp } from "react-countup";
 import { useRef } from "react";
 import Link from "next/link";
+import { usePreviousRoute } from "../../store/previous-route";
 
 const links = [
   { name: "Plans", url: "/plans" },
@@ -18,22 +19,39 @@ const links = [
 
 function CustomMenuIcon({ style, device }) {
   const lineGap = device === "mobile" ? 8 : 10;
+  const router = useRouter();
 
   const line1 = useAnimation();
   const line2 = useAnimation();
   const line3 = useAnimation();
   const bgHolderAnimation = useAnimation();
   const backgroundAnimation = useAnimation();
+  const firstLoadBGAimation = useAnimation();
   const linkAnimation = useAnimation();
   const counterAnimation = useAnimation();
+  const initialCounterAnimation = useAnimation();
+
   const counterLineAnimation = useAnimation();
 
   const { mobileNavState, setMobileNavState } = useLayout();
+  const { previousRoute } = usePreviousRoute();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const countUpRef = useRef(null);
+  const countUpRef2 = useRef(null);
 
-  const { start, reset, update, pauseResume } = useCountUp({
+  const {
+    start: initalStart,
+    reset: initialReset,
+    pauseResume: initialPause,
+  } = useCountUp({
+    ref: countUpRef2,
+    start: 0,
+    end: 100,
+    duration: 1,
+  });
+
+  const { start, reset, pauseResume } = useCountUp({
     ref: countUpRef,
     start: 0,
     end: 100,
@@ -47,38 +65,83 @@ function CustomMenuIcon({ style, device }) {
     },
   });
 
-  Router.onRouteChangeStart = () => {
-    reset();
-    pauseResume();
-    counterAnimation.start({
-      opacity: 1,
+  async function CloseBackGround() {
+    firstLoadBGAimation.start({
+      top: "-5000px",
+      transition: { duration: 2, ease: "easeInOut" },
+    });
+    counterLineAnimation.start({
+      height: 0,
+      transition: { duration: 0 },
     });
     counterLineAnimation.start({
       bottom: 0,
       transition: { duration: 0 },
     });
-    counterLineAnimation.start({
-      height: "10%",
-      transition: { duration: 0.5, ease: "easeInOut" },
-    });
-  };
-
-  Router.onRouteChangeComplete = (url) => {
-    if (!mobileNavState) {
-      return;
-    }
-
-    if (url === "/dashboard") {
-      return;
-    }
-
-    pauseResume();
-    start();
-    counterLineAnimation.start({
+    initalStart();
+    // initialCounterAnimation.start({
+    //   opacity: 0,
+    //   transition: { duration: 1, ease: "easeInOut" },
+    // });
+    // initialCounterAnimation.start({
+    //   opacity: 1,
+    //   color: "#fff",
+    //   transition: { duration: 1 },
+    // });
+    await counterLineAnimation.start({
       height: "100%",
       transition: { duration: 1, ease: "easeInOut" },
     });
-  };
+
+    counterLineAnimation.start({
+      height: "0%",
+      bottom: "100%",
+      transition: { duration: 1, ease: "easeInOut" },
+    });
+  }
+
+  useEffect(() => {
+    if (!previousRoute) {
+      CloseBackGround();
+    }
+  }, []);
+
+  useEffect(() => {
+    router.events.on("routeChangeStart", () => {
+      if (countUpRef) {
+        reset();
+        pauseResume();
+      }
+
+      counterAnimation.start({
+        opacity: 1,
+      });
+      counterLineAnimation.start({
+        bottom: 0,
+        transition: { duration: 0 },
+      });
+      counterLineAnimation.start({
+        height: "10%",
+        transition: { duration: 0.5, ease: "easeInOut" },
+      });
+    });
+    router.events.on("routeChangeComplete", () => {
+      if (countUpRef) {
+        pauseResume();
+        start();
+      }
+
+      counterLineAnimation.start({
+        height: "100%",
+        transition: { duration: 1, ease: "easeInOut" },
+      });
+    });
+
+    return () => {
+      router.events.off("routeChangeStart");
+      router.events.off("routeChangeComplete");
+    };
+  }, []);
 
   useEffect(() => {
     async function openMenu() {
@@ -153,6 +216,9 @@ function CustomMenuIcon({ style, device }) {
           bottom: "100%",
           transition: { duration: 1, ease: "easeInOut" },
         });
+        counterAnimation.start({
+          opacity: 0,
+        });
 
         await backgroundAnimation.start({
           top: "-5000px",
@@ -164,10 +230,11 @@ function CustomMenuIcon({ style, device }) {
           opacity: 0,
         });
 
-        counterLineAnimation.start({
-          height: "0px",
-          transition: { duration: 0 },
-        });
+        // counterLineAnimation.start({
+        //   height: "0px",
+        //   transition: { duration: 0 },
+        // });
+
         bgHolderAnimation.start({
           display: "none",
           transition: {
@@ -235,24 +302,41 @@ function CustomMenuIcon({ style, device }) {
               //   initial={{ scale: 2 }}
               animate={backgroundAnimation}
             />
-            <motion.div
-              ref={countUpRef}
-              className={styles.counter}
-              animate={counterAnimation}
-            />
-            <motion.div className={styles.counter_line_container}>
-              <div
-                style={{ position: "relative", width: "100%", height: "100%" }}
-              >
-                <motion.div
-                  className={styles.counter_line}
-                  animate={counterLineAnimation}
-                />
-              </div>
-            </motion.div>
           </div>
+          <motion.div
+            ref={countUpRef}
+            className={styles.counter}
+            animate={counterAnimation}
+          />
         </div>
       </motion.div>
+      <motion.div
+        className={styles.first_load_bg}
+        //   initial={{ scale: 2 }}
+        animate={firstLoadBGAimation}
+      />
+      <motion.div className={styles.counter_line_container}>
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            height: "100%",
+            // backgroundColor: "red",
+          }}
+        >
+          <motion.div
+            className={styles.counter_line}
+            animate={counterLineAnimation}
+          />
+        </div>
+      </motion.div>
+
+      <motion.div
+        ref={countUpRef2}
+        className={styles.counter1}
+        animate={initialCounterAnimation}
+        // exit={{ opacity: 0 }}
+      />
     </>
   );
 }
