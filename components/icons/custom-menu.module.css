@@ -44,6 +44,18 @@
   transform: translate(-50%, 0);
 }
 
+.first_load_bg {
+  position: fixed;
+  width: 5000px;
+  height: 5000px;
+  z-index: 101;
+  background-color: #050505;
+  top: -1000px;
+  border-radius: 50%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
 .fixed_content {
   position: fixed;
   width: 100vw;
@@ -113,26 +125,40 @@
 }
 
 .counter {
-  position: absolute;
+  position: fixed;
+  bottom: 17%;
+  left: 12%;
+  /* opacity: 0; */
+  font-family: "Water Brush", cursive;
+  font-size: 1.5rem;
+  z-index: 105;
+}
+
+.counter1 {
+  position: fixed;
   bottom: 17%;
   left: 12%;
   opacity: 0;
   font-family: "Water Brush", cursive;
   font-size: 1.5rem;
+  z-index: 110;
 }
 
 .counter_line_container {
-  position: absolute;
+  position: fixed;
   bottom: 15%;
   left: 8%;
   width: 3px;
-  height: 50px;
-  /* background-color: red; */
+  height: 60px;
+  z-index: 105;
+  background-color: #050505;
 }
 
 .counter_line {
   position: absolute;
   width: 100%;
   bottom: 0;
+  height: 100%;
   background-color: #ffffff;
+  z-index: 1;
 }
