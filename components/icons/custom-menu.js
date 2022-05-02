@@ -1,5 +1,5 @@
 import styles from "./custom-menu.module.css";
-import { motion, useAnimation } from "framer-motion";
+import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import { useState } from "react";
 import CustomMenuLink from "./custom-menu-link";
 import { useLayout } from "../../store/layout";
@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 import { useCountUp } from "react-countup";
 import { useRef } from "react";
 import Link from "next/link";
-import { usePreviousRoute } from "../../store/previous-route";
 
 const links = [
   { name: "Plans", url: "/plans" },
@@ -34,25 +33,40 @@ function CustomMenuIcon({ style, device }) {
   const counterLineAnimation = useAnimation();
 
   const { mobileNavState, setMobileNavState } = useLayout();
-  const { previousRoute } = usePreviousRoute();
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const countUpRef = useRef(null);
   const countUpRef2 = useRef(null);
 
-  const {
-    start: initalStart,
-    reset: initialReset,
-    pauseResume: initialPause,
-  } = useCountUp({
+  const { start: initalStart } = useCountUp({
     ref: countUpRef2,
     start: 0,
     end: 100,
     duration: 1,
+    onStart: () => {
+      initialCounterAnimation.start({
+        opacity: 1,
+        color: "#fff",
+      });
+      counterLineAnimation.start({
+        height: "100%",
+        transition: { duration: 1 },
+      });
+    },
+    onEnd: () => {
+      counterLineAnimation.start({
+        height: "0%",
+        bottom: "100%",
+        transition: { duration: 1 },
+      });
+      setIsLoading(false);
+    },
   });
 
-  const { start, reset, pauseResume } = useCountUp({
-    ref: countUpRef,
+  const { reset, pauseResume } = useCountUp({
+    ref: countUpRef || "asd",
     start: 0,
     end: 100,
     duration: 1,
@@ -65,54 +79,28 @@ function CustomMenuIcon({ style, device }) {
     },
   });
 
-  async function CloseBackGround() {
-    firstLoadBGAimation.start({
-      top: "-5000px",
-      transition: { duration: 2, ease: "easeInOut" },
-    });
-    counterLineAnimation.start({
-      height: 0,
-      transition: { duration: 0 },
-    });
-    counterLineAnimation.start({
-      bottom: 0,
-      transition: { duration: 0 },
-    });
-    initalStart();
-    // initialCounterAnimation.start({
-    //   opacity: 0,
-    //   transition: { duration: 1, ease: "easeInOut" },
-    // });
-    // initialCounterAnimation.start({
-    //   opacity: 1,
-    //   color: "#fff",
-    //   transition: { duration: 1 },
-    // });
-    await counterLineAnimation.start({
-      height: "100%",
-      transition: { duration: 1, ease: "easeInOut" },
-    });
-
-    counterLineAnimation.start({
-      height: "0%",
-      bottom: "100%",
-      transition: { duration: 1, ease: "easeInOut" },
-    });
-  }
-
   useEffect(() => {
-    if (!previousRoute) {
-      CloseBackGround();
+    async function CloseBackGround() {
+      firstLoadBGAimation.start({
+        top: "-5000px",
+        transition: { duration: 2, ease: "easeInOut" },
+      });
+      initalStart();
     }
+
+    CloseBackGround();
   }, []);
 
   useEffect(() => {
-    router.events.on("routeChangeStart", () => {
+    router.events.on("routeChangeStart", (url) => {
+      if (router?.pathname === url) {
+        return;
+      }
+      // if (!mobileNavState) {
       if (countUpRef) {
         reset();
-        pauseResume();
+        // pauseResume();
       }
-
       counterAnimation.start({
         opacity: 1,
       });
@@ -124,12 +112,15 @@ function CustomMenuIcon({ style, device }) {
         height: "10%",
         transition: { duration: 0.5, ease: "easeInOut" },
       });
+      // }
     });
-    router.events.on("routeChangeComplete", () => {
-      if (countUpRef) {
-        pauseResume();
-        start();
+    router.events.on("routeChangeComplete", (url) => {
+      if (router?.pathname === url) {
+        setMobileNavState(false);
+        return;
       }
+
+      pauseResume();
 
       counterLineAnimation.start({
         height: "100%",
@@ -148,6 +139,15 @@ function CustomMenuIcon({ style, device }) {
       // console.log("mobileNavState", mobileNavState);
 
       if (mobileNavState) {
+        // counterLineAnimation.start({
+        //   height: "0%",
+        //   bottom: 0,
+        //   transition: { duration: 0 },
+        // });
+        counterAnimation.start({
+          opacity: 0,
+          transition: { duration: 0 },
+        });
         setMenuOpen(true);
         line1.start({
           y: -lineGap,
@@ -211,11 +211,14 @@ function CustomMenuIcon({ style, device }) {
           transition: { duration: 1.5 },
         });
 
-        counterLineAnimation.start({
-          height: 0,
-          bottom: "100%",
-          transition: { duration: 1, ease: "easeInOut" },
-        });
+        if (!isLoading) {
+          counterLineAnimation.start({
+            height: 0,
+            bottom: "100%",
+            transition: { duration: 1, ease: "easeInOut" },
+          });
+        }
+
         counterAnimation.start({
           opacity: 0,
         });
@@ -226,14 +229,6 @@ function CustomMenuIcon({ style, device }) {
         });
 
         line2.start({ left: "0%", transition: { duration: 0.5 } });
-        counterAnimation.start({
-          opacity: 0,
-        });
-
-        // counterLineAnimation.start({
-        //   height: "0px",
-        //   transition: { duration: 0 },
-        // });
 
         bgHolderAnimation.start({
           display: "none",
@@ -255,6 +250,7 @@ function CustomMenuIcon({ style, device }) {
         onClick={() => {
           setMobileNavState((prevState) => !prevState);
         }}
+        key={"mobilenavMenu"}
       >
         <div className={styles.relative_container}>
           <motion.div
@@ -291,7 +287,7 @@ function CustomMenuIcon({ style, device }) {
                     link={link}
                     device={device}
                     menuOpen={menuOpen}
-                    key={link.name}
+                    key={link.name + link.link}
                     delay={Math.random() * 1.1 + 1}
                   />
                 );
@@ -316,6 +312,7 @@ function CustomMenuIcon({ style, device }) {
         animate={firstLoadBGAimation}
       />
       <motion.div className={styles.counter_line_container}>
+        {/* <div>asdasdasda</div> */}
         <div
           style={{
             position: "relative",
@@ -331,12 +328,18 @@ function CustomMenuIcon({ style, device }) {
         </div>
       </motion.div>
 
-      <motion.div
-        ref={countUpRef2}
-        className={styles.counter1}
-        animate={initialCounterAnimation}
-        // exit={{ opacity: 0 }}
-      />
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            ref={countUpRef2}
+            className={styles.counter1}
+            initial={{ opacity: 0 }}
+            animate={initialCounterAnimation}
+            exit={{ opacity: 0, transition: { duration: 1 } }}
+            key="counter12345"
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }

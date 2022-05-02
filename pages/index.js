@@ -6,9 +6,9 @@ import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import { useState } from "react";
 import { useEffect } from "react";
 import HeaderLayout from "../components/layout/header-layout";
-
 export default function Home() {
   const [isShown, setShown] = useState(false);
+
   const animation = useAnimation();
   async function sequence() {
     await animation.start({ rotate: -90 });

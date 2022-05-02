@@ -13,34 +13,50 @@ import { UseNotificationProvider } from "../components/hooks/use-notification";
 import { UseFriendProvider } from "../components/hooks/friend-list";
 import { RequestFriendProvider } from "../components/hooks/use-request-friend";
 
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { PreviousRouteContextProvider } from "../store/previous-route";
+
 const Layout = dynamic(() => import("../components/layout/layout"));
 function MyApp({ Component, pageProps, router }) {
+  const link = useRouter();
+
+  function Console(url) {
+    console.log("url", url);
+  }
+
+  useEffect(() => {
+    link.events.on("beforeHistoryChange", Console);
+  }, []);
+
   return (
     <>
       <UserContextProvider>
         {/* <OnlineStatusProvider> */}
-        <UseFriendProvider>
-          <UseNotificationProvider>
-            <RequestFriendProvider>
-              <LayoutContextProvider>
-                <ErrorModalContextProvider>
-                  <Layout>
-                    <AnimatePresence exitBeforeEnter>
-                      {Component.getLayout ? (
-                        <Component.getLayout>
+        <PreviousRouteContextProvider>
+          <UseFriendProvider>
+            <UseNotificationProvider>
+              <RequestFriendProvider>
+                <LayoutContextProvider>
+                  <ErrorModalContextProvider>
+                    <Layout>
+                      <AnimatePresence exitBeforeEnter>
+                        {Component.getLayout ? (
+                          <Component.getLayout>
+                            <Component {...pageProps} key={router.pathname} />
+                          </Component.getLayout>
+                        ) : (
                           <Component {...pageProps} key={router.pathname} />
-                        </Component.getLayout>
-                      ) : (
-                        <Component {...pageProps} key={router.pathname} />
-                      )}
-                    </AnimatePresence>
-                  </Layout>
-                </ErrorModalContextProvider>
-              </LayoutContextProvider>
-            </RequestFriendProvider>
-          </UseNotificationProvider>
-        </UseFriendProvider>
-        {/* </OnlineStatusProvider> */}
+                        )}
+                      </AnimatePresence>
+                    </Layout>
+                  </ErrorModalContextProvider>
+                </LayoutContextProvider>
+              </RequestFriendProvider>
+            </UseNotificationProvider>
+          </UseFriendProvider>
+          {/* </OnlineStatusProvider> */}
+        </PreviousRouteContextProvider>
       </UserContextProvider>
     </>
   );
