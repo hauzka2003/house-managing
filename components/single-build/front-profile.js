@@ -2,19 +2,18 @@ import { useLayout } from "../../store/layout";
 import { useUser } from "../../store/user";
 import AvatarUser from "../icons/avatar";
 import styles from "./front-profile.module.css";
-import { motion, useAnimation } from "framer-motion";
+import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 function FrontProfile({ device, width, height }) {
-  //   if (width <= 500) {
-  //     dimenstion = { ...dimenstion };
-  //   }
-
   const { user: loggedUser } = useUser();
-  const { mobileNavState, setMobileNavState } = useLayout();
+  const { mobileNavState } = useLayout();
 
   const [user, setUser] = useState();
+
+  const router = useRouter();
 
   const containerAnimation = useAnimation();
   const background1Animation = useAnimation();
@@ -126,51 +125,73 @@ function FrontProfile({ device, width, height }) {
 
   return (
     <>
-      {user ? (
-        <motion.div
-          className={styles.container}
-          style={
-            device === "mobile"
-              ? { width: "50px", height: "50px" }
-              : { width: "60px", height: "60px" }
-          }
-          animate={containerAnimation}
-        >
-          <Link href={"/dashboard"}>
-            <div className={styles.relative_container}>
-              <AvatarUser
-                email={user?.email}
-                radius={10}
-                size={device === "mobile" ? 50 : 60}
-                style={
-                  device === "mobile"
-                    ? { width: "50px", height: "50px" }
-                    : { width: "60px", height: "60px" }
-                }
-              />
+      <AnimatePresence>
+        {user ? (
+          <motion.div
+            className={styles.container}
+            style={
+              device === "mobile"
+                ? { width: "50px", height: "50px" }
+                : { width: "60px", height: "60px" }
+            }
+            animate={containerAnimation}
+          >
+            <Link href={"/dashboard"}>
+              <div className={styles.relative_container}>
+                <AvatarUser
+                  email={user?.email}
+                  radius={10}
+                  size={device === "mobile" ? 50 : 60}
+                  style={
+                    device === "mobile"
+                      ? { width: "50px", height: "50px" }
+                      : { width: "60px", height: "60px" }
+                  }
+                />
 
-              <motion.div
-                className={styles.avatar_bg}
-                animate={background1Animation}
-              />
-              <motion.div
-                className={styles.avatar_bg1}
-                animate={background2Animation}
-              />
-            </div>
-          </Link>
-        </motion.div>
-      ) : (
-        <div className={styles.log_in_container}>
-          <div className={styles.log_in_holder}>Log in</div>
-          <motion.div className={styles.log_in} animate={loginAnimation}>
-            <Link href={"/log-in"}>Log in</Link>
+                <motion.div
+                  className={styles.avatar_bg}
+                  animate={background1Animation}
+                />
+                <motion.div
+                  className={styles.avatar_bg1}
+                  animate={background2Animation}
+                />
+              </div>
+            </Link>
           </motion.div>
-          <motion.div className={styles.log_in1} animate={login1Animation}>
-            <Link href={"/log-in"}>Log in</Link>
-          </motion.div>
-        </div>
-      )}
+        ) : (
+          router.pathname !== "/log-in" && (
+            <motion.div className={styles.log_in_container}>
+              <div className={styles.log_in_holder}>Log in</div>
+              <motion.div
+                className={styles.log_in}
+                animate={loginAnimation}
+                exit={{
+                  top: "100%",
+                  transition: { duration: 0.5, delay: 1 },
+                  opacity: 1,
+                }}
+                key="login-button1"
+              >
+                <Link href={"/log-in"}>Log in</Link>
+              </motion.div>
+              <motion.div
+                className={styles.log_in1}
+                animate={login1Animation}
+                exit={{
+                  top: "100%",
+                  transition: { duration: 0.5, delay: 1 },
+                  opacity: 1,
+                }}
+                key="login-button"
+              >
+                <Link href={"/log-in"}>Log in</Link>
+              </motion.div>
+            </motion.div>
+          )
+        )}
+      </AnimatePresence>
     </>
   );
 }
