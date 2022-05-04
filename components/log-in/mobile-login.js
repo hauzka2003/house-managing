@@ -9,6 +9,8 @@ function MobileLogIn({ device }) {
   const leftButton1Animation = useAnimation();
   const headerTextAnimation = useAnimation();
   const headerText1Animation = useAnimation();
+  const sloganAnimation = useAnimation();
+  const slogan1Animation = useAnimation();
 
   useEffect(() => {
     leftButtonAnimation.start({
@@ -33,6 +35,19 @@ function MobileLogIn({ device }) {
         top: "-100%",
         transition: {
           duration: 0.5,
+        },
+      });
+      sloganAnimation.start({
+        top: "-150%",
+        transition: {
+          duration: 0.5,
+        },
+      });
+      slogan1Animation.start({
+        top: "50%",
+        transition: {
+          duration: 0.5,
+          delay: 0.5,
         },
       });
 
@@ -84,6 +99,19 @@ function MobileLogIn({ device }) {
       });
       leftButton1Animation.start({
         top: "100%",
+        transition: {
+          duration: 0.5,
+        },
+      });
+      sloganAnimation.start({
+        top: "50%",
+        transition: {
+          duration: 0.5,
+          delay: 0.5,
+        },
+      });
+      slogan1Animation.start({
+        top: "150%",
         transition: {
           duration: 0.5,
         },
@@ -156,10 +184,20 @@ function MobileLogIn({ device }) {
             05
           </div>
         </div>
-        <motion.div initial={{ y: 40 }} className={styles.slogan}>
-          Continue our works and business that we left off
+        <motion.div initial={{ y: 20 }} className={styles.slogan}>
+          <motion.div className={styles.slogan_text} animate={sloganAnimation}>
+            Continue our works and business that we left behind
+          </motion.div>
+          <motion.div
+            className={styles.slogan_text}
+            animate={slogan1Animation}
+            initial={{ top: "150%" }}
+          >
+            Join and use our tools to develop your business
+          </motion.div>
         </motion.div>
       </motion.div>
+      <div className={styles.sign_container}></div>
     </>
   );
 }

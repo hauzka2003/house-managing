@@ -7,28 +7,13 @@ import { UserContextProvider } from "../store/user";
 import { AnimatePresence, motion } from "framer-motion";
 import { ErrorModalContextProvider } from "../store/error_modal";
 import { LayoutContextProvider } from "../store/layout";
-import { actions } from "../utils/spotlight-provider.ts";
-import { OnlineStatusProvider } from "../components/hooks/use-check-online";
 import { UseNotificationProvider } from "../components/hooks/use-notification";
 import { UseFriendProvider } from "../components/hooks/friend-list";
 import { RequestFriendProvider } from "../components/hooks/use-request-friend";
-
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { PreviousRouteContextProvider } from "../store/previous-route";
 
 const Layout = dynamic(() => import("../components/layout/layout"));
 function MyApp({ Component, pageProps, router }) {
-  const link = useRouter();
-
-  function Console(url) {
-    console.log("url", url);
-  }
-
-  useEffect(() => {
-    link.events.on("beforeHistoryChange", Console);
-  }, []);
-
   return (
     <>
       <UserContextProvider>

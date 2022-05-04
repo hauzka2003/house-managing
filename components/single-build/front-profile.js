@@ -37,12 +37,15 @@ function FrontProfile({ device, width, height }) {
         },
       });
 
-      loginAnimation.start({
-        top: "-100%",
-        transition: {
-          duration: 1,
-        },
-      });
+      if (router.pathname === "/log-in") {
+        loginAnimation.start({
+          top: "-100%",
+          transition: {
+            duration: 1,
+          },
+        });
+      }
+
       login1Animation.start({
         top: "0%",
         transition: {
@@ -87,13 +90,17 @@ function FrontProfile({ device, width, height }) {
         duration: 0.5,
       },
     });
-    loginAnimation.start({
-      top: "0%",
-      transition: {
-        delay: 0.8,
-        duration: 1,
-      },
-    });
+
+    if (router.pathname !== "/log-in") {
+      loginAnimation.start({
+        top: "0%",
+        transition: {
+          delay: 0.8,
+          duration: 1,
+        },
+      });
+    }
+
     background1Animation.start({
       backgroundColor: "#050505",
       transition: {
@@ -167,24 +174,26 @@ function FrontProfile({ device, width, height }) {
               <motion.div
                 className={styles.log_in}
                 animate={loginAnimation}
-                exit={{
-                  top: "100%",
-                  transition: { duration: 0.5, delay: 1 },
-                  opacity: 1,
-                }}
-                key="login-button1"
+                // exit={{
+                //   top: "100%",
+                //   transition: { duration: 0.5, delay: 1 },
+                //   opacity: 0,
+                //   display: "none",
+                // }}
+                key="login-button"
               >
                 <Link href={"/log-in"}>Log in</Link>
               </motion.div>
               <motion.div
                 className={styles.log_in1}
                 animate={login1Animation}
-                exit={{
-                  top: "100%",
-                  transition: { duration: 0.5, delay: 1 },
-                  opacity: 1,
-                }}
-                key="login-button"
+                // exit={{
+                //   top: "100%",
+                //   transition: { duration: 0.5, delay: 1 },
+                //   opacity: 0,
+                //   display: "none",
+                // }}
+                key="login-button1"
               >
                 <Link href={"/log-in"}>Log in</Link>
               </motion.div>

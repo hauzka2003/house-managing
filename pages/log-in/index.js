@@ -13,9 +13,7 @@ function LogInPage() {
   const router = useRouter();
   const { user } = useUser();
   const { error, setError } = useErrorModal();
-
   const [currentDimensions, setCurrentDimensions] = useState();
-
   const { currentDevice, width, height } = useWindowDimensions();
 
   useEffect(() => {

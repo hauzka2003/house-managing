@@ -16,7 +16,7 @@ const links = [
   { name: "Contact", url: "/contact" },
 ];
 
-function CustomMenuIcon({ style, device }) {
+function CustomMenuIcon({ style, device, height }) {
   const lineGap = device === "mobile" ? 8 : 10;
   const router = useRouter();
 
@@ -31,8 +31,9 @@ function CustomMenuIcon({ style, device }) {
   const initialCounterAnimation = useAnimation();
 
   const counterLineAnimation = useAnimation();
+  const counterLineAnimation2 = useAnimation();
 
-  const { mobileNavState, setMobileNavState } = useLayout();
+  const { mobileNavState, setMobileNavState, scroll } = useLayout();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -139,11 +140,6 @@ function CustomMenuIcon({ style, device }) {
       // console.log("mobileNavState", mobileNavState);
 
       if (mobileNavState) {
-        // counterLineAnimation.start({
-        //   height: "0%",
-        //   bottom: 0,
-        //   transition: { duration: 0 },
-        // });
         counterAnimation.start({
           opacity: 0,
           transition: { duration: 0 },
@@ -154,6 +150,7 @@ function CustomMenuIcon({ style, device }) {
           rotate: 0,
           transition: { duration: 0 },
         });
+
         line3.start({
           y: lineGap,
           rotate: 0,
@@ -179,6 +176,10 @@ function CustomMenuIcon({ style, device }) {
           top: "-1000px",
           transition: { duration: 2 },
         });
+        counterLineAnimation2.start({
+          backgroundColor: "#050505",
+          transition: { duration: 0.5, ease: "easeInOut", delay: 1 },
+        });
         line1.start({ backgroundColor: "#fff", transition: { duration: 2 } });
         line3.start({ backgroundColor: "#fff", transition: { duration: 2 } });
 
@@ -195,6 +196,10 @@ function CustomMenuIcon({ style, device }) {
       }
 
       if (!mobileNavState) {
+        counterLineAnimation2.start({
+          backgroundColor: "#fff",
+          transition: { duration: 0.5, ease: "easeInOut", delay: 1 },
+        });
         setMenuOpen(false);
         linkAnimation.start({
           left: "100%",
@@ -325,6 +330,17 @@ function CustomMenuIcon({ style, device }) {
             className={styles.counter_line}
             animate={counterLineAnimation}
           />
+          {!isLoading && (
+            <motion.div
+              className={styles.counter_line}
+              animate={counterLineAnimation2}
+              style={{
+                top: `${(scroll.y / height) * 80}%`,
+                height: "20%",
+                zIndex: 1,
+              }}
+            />
+          )}
         </div>
       </motion.div>
 

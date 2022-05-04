@@ -48,6 +48,8 @@ function Header() {
           }}
           links={links}
           device={"tablet"}
+          width={width}
+          height={height}
         />
       )}
       {currentDimension === "mobile" && (
@@ -63,6 +65,8 @@ function Header() {
           }}
           links={links}
           device={"mobile"}
+          width={width}
+          height={height}
         />
       )}
       {currentDimension === "desktop" && (

@@ -28,6 +28,21 @@
   letter-spacing: 1px;
   font-weight: 300;
   text-align: center;
+  padding: 0 10px;
+  position: relative;
+
+  width: 100%;
+  height: 5rem;
+  overflow: hidden;
+}
+
+.slogan_text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* background-color: red; */
+  width: 80%;
 }
 
 .left_button_container {
@@ -72,4 +87,9 @@
   position: absolute;
   top: -100%;
   left: 0;
+}
+
+.sign_container {
+  width: 100vw;
+  height: 100vh;
 }
