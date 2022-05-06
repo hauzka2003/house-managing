@@ -1,9 +1,14 @@
 import styles from "./mobile-login.module.css";
 import { motion, useAnimation } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useParallax } from "react-scroll-parallax";
+import { useLayout } from "../../store/layout";
+import ChervonDownIcon from "../icons/chevron-down";
 
-function MobileLogIn({ device }) {
+function MobileLogIn({ device, height }) {
   const [toggleSign, setToggleSign] = useState(false);
+
+  const { scroll, scrollTo } = useLayout();
 
   const leftButtonAnimation = useAnimation();
   const leftButton1Animation = useAnimation();
@@ -11,6 +16,23 @@ function MobileLogIn({ device }) {
   const headerText1Animation = useAnimation();
   const sloganAnimation = useAnimation();
   const slogan1Animation = useAnimation();
+
+  const header = useParallax({
+    speed: -10,
+    scale: [0.2, 2],
+    startScroll: 0,
+  });
+
+  const slogan = useParallax({
+    speed: -15,
+    translateY: [0, 0],
+  });
+  const squareDeco = useParallax({
+    speed: -20,
+  });
+  // const index = useParallax({
+  //   speed: -200,
+  // });
 
   useEffect(() => {
     leftButtonAnimation.start({
@@ -122,6 +144,71 @@ function MobileLogIn({ device }) {
   return (
     <>
       <motion.div className={styles.header_container}>
+        <div className={styles.background_header}>
+          <div
+            className={styles.scroll_bottom_container}
+            style={
+              device === "mobile"
+                ? {
+                    right: "-35px",
+                    bottom: "-35px",
+                    width: "70px",
+                    height: "70px",
+                  }
+                : {
+                    right: "-60px",
+                    bottom: "-60px",
+                    width: "120px",
+                    height: "120px",
+                  }
+            }
+            onClick={() => {
+              scrollTo({ y: height - 1 });
+            }}
+          >
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                position: "relative",
+                borderRadius: "50%",
+              }}
+            >
+              <div
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  color: "#fff",
+                  position: "absolute",
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  scrollTo({ y: height - 1 });
+                }}
+              >
+                <ChervonDownIcon
+                  style={{
+                    color: "#fff",
+                  }}
+                />
+              </div>
+
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  position: "absolute",
+                  zIndex: 1,
+                  borderRadius: "50%",
+                  cursor: "pointer",
+                }}
+              />
+            </div>
+          </div>
+        </div>
         <div className={styles.left_button_container}>
           <div style={{ opacity: 0 }}>Sign Up</div>
           <motion.div
@@ -147,7 +234,12 @@ function MobileLogIn({ device }) {
               : { fontSize: "5rem", letterSpacing: "8px" }
           }
         >
-          <div style={{ display: "flex" }}>
+          <div
+            className={styles.square_decoration}
+            ref={squareDeco.ref}
+            style={device === "mobile" ? {} : { top: "-100%", left: "-33%" }}
+          />
+          <div style={{ display: "flex" }} ref={header.ref}>
             Sign{" "}
             <div
               style={{
@@ -180,11 +272,19 @@ function MobileLogIn({ device }) {
                 ? { fontSize: "1.5rem" }
                 : { fontSize: "1.8rem" }
             }
+            // ref={index.ref}
           >
             05
           </div>
         </div>
-        <motion.div initial={{ y: 20 }} className={styles.slogan}>
+        <motion.div
+          initial={{ y: 50 }}
+          className={styles.slogan}
+          ref={slogan.ref}
+          style={{
+            left: `-${(scroll.y / height) * 150}%`,
+          }}
+        >
           <motion.div className={styles.slogan_text} animate={sloganAnimation}>
             Continue our works and business that we left behind
           </motion.div>

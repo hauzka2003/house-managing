@@ -73,6 +73,7 @@ export function LayoutContextProvider({ children }) {
     mobileNavState,
     setMobileNavState,
     scroll,
+    scrollTo,
   };
 
   return (

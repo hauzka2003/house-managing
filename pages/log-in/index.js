@@ -47,7 +47,7 @@ function LogInPage() {
         </motion.div>
       )}
       {currentDimensions !== "desktop" && (
-        <MobileLogIn device={currentDimensions} />
+        <MobileLogIn device={currentDimensions} width={width} height={height} />
       )}
     </>
   );

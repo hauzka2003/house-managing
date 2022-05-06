@@ -14,7 +14,7 @@
   font-family: "Playfair Display", serif;
   position: relative;
   letter-spacing: 8px;
-  position: relative;
+  z-index: 2;
 }
 
 .index {
@@ -30,10 +30,11 @@
   text-align: center;
   padding: 0 10px;
   position: relative;
-
-  width: 100%;
+  margin-top: 1rem;
+  width: 80%;
   height: 5rem;
   overflow: hidden;
+  /* background-color: red; */
 }
 
 .slogan_text {
@@ -43,6 +44,7 @@
   transform: translate(-50%, -50%);
   /* background-color: red; */
   width: 80%;
+  /* opacity: 0; */
 }
 
 .left_button_container {
@@ -92,4 +94,38 @@
 .sign_container {
   width: 100vw;
   height: 100vh;
+}
+
+.scroll_bottom_container {
+  position: absolute;
+  right: -35px;
+  bottom: -35px;
+  width: 70px;
+  height: 70px;
+  background-color: #050505;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.square_decoration {
+  top: -200%;
+  left: -37%;
+  position: absolute;
+  width: 60px;
+  height: 80px;
+  background-color: #f4f4f5;
+  z-index: -1;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.background_header {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  height: 30vh;
+  background-color: #fff;
+  z-index: 0;
 }

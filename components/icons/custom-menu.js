@@ -338,6 +338,7 @@ function CustomMenuIcon({ style, device, height }) {
                 top: `${(scroll.y / height) * 80}%`,
                 height: "20%",
                 zIndex: 1,
+                // borderRadius: "2px",
               }}
             />
           )}
