@@ -10,6 +10,7 @@ function SignInput({
   setSigninView,
   signinView,
   animateSignButton,
+  toggleSign,
 }) {
   return (
     <motion.div className={styles.sign_container} ref={forwardedRef}>
@@ -40,9 +41,10 @@ function SignInput({
         {signinView && (
           <motion.div
             className={styles.sign_input_header}
+            transition={{ duration: 1, ease: "easeInOut" }}
             layoutId="sign_button"
           >
-            Sign up
+            {toggleSign ? "Sign up" : "Sign in"}
           </motion.div>
         )}
 

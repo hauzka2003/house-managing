@@ -278,6 +278,7 @@ function MobileLogIn({ device, height }) {
             <motion.div
               className={styles.left_button_container}
               layoutId="sign_button"
+              transition={{ duration: 1 }}
             >
               <div style={{ opacity: 0 }}>Sign Up</div>
               <motion.div
@@ -393,6 +394,7 @@ function MobileLogIn({ device, height }) {
           setSigninView={setSigninView}
           signinView={signinView}
           animateSignButton={animateSignButton}
+          toggleSign={toggleSign}
         />
       </AnimateSharedLayout>
     </>
