@@ -34,6 +34,7 @@ function CustomMenuIcon({ style, device, height }) {
   const counterLineAnimation2 = useAnimation();
 
   const { mobileNavState, setMobileNavState, scroll } = useLayout();
+
   const [menuOpen, setMenuOpen] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -249,29 +250,36 @@ function CustomMenuIcon({ style, device, height }) {
 
   return (
     <>
-      <motion.div
-        className={styles.container}
-        style={style}
-        onClick={() => {
-          setMobileNavState((prevState) => !prevState);
-        }}
-        key={"mobilenavMenu"}
-      >
-        <div className={styles.relative_container}>
+      <AnimatePresence exitBeforeEnter>
+        {scroll.y <= 300 && (
           <motion.div
-            className={styles.line}
-            initial={{ y: -lineGap }}
-            animate={line1}
-          />
-          <motion.div className={styles.line} animate={line2} />
-          <motion.div
-            className={styles.line}
-            initial={{ y: lineGap }}
-            animate={line3}
-          />
-        </div>
-      </motion.div>
-
+            className={styles.container}
+            style={style}
+            onClick={() => {
+              setMobileNavState((prevState) => !prevState);
+            }}
+            key={"mobilenavMenu"}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+          >
+            <div className={styles.relative_container}>
+              <motion.div
+                className={styles.line}
+                initial={{ y: -lineGap }}
+                animate={line1}
+              />
+              <motion.div className={styles.line} animate={line2} />
+              <motion.div
+                className={styles.line}
+                initial={{ y: lineGap }}
+                animate={line3}
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <motion.div className={styles.mobile_nav} animate={bgHolderAnimation}>
         <div className={styles.fixed_content}>
           <div style={{ width: "100%", height: "100%", position: "relative" }}>

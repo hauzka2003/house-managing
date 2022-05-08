@@ -19,20 +19,23 @@ function MobileLogIn({ device, height }) {
 
   const header = useParallax({
     speed: -10,
-    scale: [0.2, 2],
-    startScroll: 0,
+    scale: [1, 2, "easeInCubic"],
+    // shouldAlwaysCompleteAnimation: true,
   });
 
   const slogan = useParallax({
     speed: -15,
-    translateY: [0, 0],
+    // shouldAlwaysCompleteAnimation: true,
   });
   const squareDeco = useParallax({
-    speed: -20,
+    speed: -10,
+    shouldAlwaysCompleteAnimation: true,
   });
-  // const index = useParallax({
-  //   speed: -200,
-  // });
+  const index = useParallax({
+    speed: -15,
+    translateY: [0, 200, "easeInCubic"],
+    shouldAlwaysCompleteAnimation: true,
+  });
 
   useEffect(() => {
     leftButtonAnimation.start({
@@ -237,8 +240,25 @@ function MobileLogIn({ device, height }) {
           <div
             className={styles.square_decoration}
             ref={squareDeco.ref}
-            style={device === "mobile" ? {} : { top: "-100%", left: "-33%" }}
-          />
+            style={
+              device === "mobile"
+                ? {}
+                : { top: "80%", left: "-34%", height: "100px", width: "70px" }
+            }
+          >
+            {" "}
+            <div
+              className={styles.index}
+              style={
+                device === "mobile"
+                  ? { fontSize: "1.5rem" }
+                  : { fontSize: "1.8rem" }
+              }
+              ref={index.ref}
+            >
+              05
+            </div>
+          </div>
           <div style={{ display: "flex" }} ref={header.ref}>
             Sign{" "}
             <div
@@ -265,25 +285,19 @@ function MobileLogIn({ device, height }) {
               </motion.span>
             </div>
           </div>
-          <div
-            className={styles.index}
-            style={
-              device === "mobile"
-                ? { fontSize: "1.5rem" }
-                : { fontSize: "1.8rem" }
-            }
-            // ref={index.ref}
-          >
-            05
-          </div>
         </div>
         <motion.div
           initial={{ y: 50 }}
           className={styles.slogan}
           ref={slogan.ref}
-          style={{
-            left: `-${(scroll.y / height) * 150}%`,
-          }}
+          style={
+            scroll.y >= 0
+              ? {
+                  left: `-${(scroll.y / height) * 150}%`,
+                  top: `${(scroll.y / height) * 50}%`,
+                }
+              : {}
+          }
         >
           <motion.div className={styles.slogan_text} animate={sloganAnimation}>
             Continue our works and business that we left behind
@@ -297,7 +311,36 @@ function MobileLogIn({ device, height }) {
           </motion.div>
         </motion.div>
       </motion.div>
-      <div className={styles.sign_container}></div>
+      <div className={styles.sign_container}>
+        {/* <motion.div
+          initial={{ y: 30, opacity: 0 }}
+          whileInView={{
+            y: 0,
+            opacity: 1,
+            transition: {
+              duration: 1,
+            },
+          }}
+          // viewport={{ once: true }}
+        >
+          hello
+        </motion.div> */}
+        <motion.div
+          className={styles.sign_input_container}
+          initial={{ y: 30, opacity: 0 }}
+          whileInView={{
+            y: 0,
+            opacity: 1,
+            transition: {
+              duration: 1,
+            },
+          }}
+        >
+          {/* <div>
+            <input className={styles.sign_input} />
+          </div> */}
+        </motion.div>
+      </div>
     </>
   );
 }
