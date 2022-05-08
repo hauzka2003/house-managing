@@ -242,11 +242,16 @@ function MobileLogIn({ device, height }) {
             ref={squareDeco.ref}
             style={
               device === "mobile"
-                ? {}
-                : { top: "80%", left: "-34%", height: "100px", width: "70px" }
+                ? { zIndex: scroll.y > 0 ? 1 : -1 }
+                : {
+                    top: "80%",
+                    left: "-34%",
+                    height: "100px",
+                    width: "70px",
+                    zIndex: scroll.y > 0 ? 1 : -1,
+                  }
             }
           >
-            {" "}
             <div
               className={styles.index}
               style={
