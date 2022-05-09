@@ -26,11 +26,14 @@ function MobileLogIn({ device, height }) {
   const header = useParallax({
     speed: -10,
     scale: [1, 2, "easeInCubic"],
+
     // shouldAlwaysCompleteAnimation: true,
   });
 
   const slogan = useParallax({
     speed: -15,
+    scale: [1, 0, "easeInCubic"],
+    opacity: [1, 0, "easeInCubic"],
     // shouldAlwaysCompleteAnimation: true,
   });
   const squareDeco = useParallax({
@@ -364,14 +367,14 @@ function MobileLogIn({ device, height }) {
             initial={{ y: 50 }}
             className={styles.slogan}
             ref={slogan.ref}
-            style={
-              scroll.y >= 0
-                ? {
-                    left: `-${(scroll.y / height) * 150}%`,
-                    top: `${(scroll.y / height) * 50}%`,
-                  }
-                : {}
-            }
+            // style={
+            //   scroll.y >= 0
+            //     ? {
+            //         left: `-${(scroll.y / height) * 150}%`,
+            //         top: `${(scroll.y / height) * 50}%`,
+            //       }
+            //     : {}
+            // }
           >
             <motion.div
               className={styles.slogan_text}

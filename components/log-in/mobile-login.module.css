@@ -23,7 +23,7 @@
 
 .slogan {
   letter-spacing: 1px;
-  font-weight: 300;
+  font-weight: 100;
   text-align: center;
   padding: 0 10px;
   position: relative;
@@ -32,6 +32,7 @@
   height: 5rem;
   overflow: hidden;
   /* background-color: red; */
+  font-size: 1.2rem;
 }
 
 .slogan_text {
