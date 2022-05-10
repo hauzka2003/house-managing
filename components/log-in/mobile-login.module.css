@@ -195,6 +195,8 @@
 
 .black_water_end {
   position: absolute;
-  top: -20%;
-  right: -20%;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  transform-origin: 90% 70%;
 }

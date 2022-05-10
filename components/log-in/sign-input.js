@@ -4,6 +4,7 @@ import LockClosedFill from "../icons/lock-closed-fill";
 import PersonFillIcon from "../icons/person-fill";
 import styles from "./mobile-login.module.css";
 // import { useRef } from "react";
+import { useParallax } from "react-scroll-parallax";
 
 function SignInput({
   scroll,
@@ -13,8 +14,17 @@ function SignInput({
   animateSignButton,
   toggleSign,
 }) {
+  const blackWater = useParallax({
+    speed: -10,
+    rotate: [45, 90, 0],
+    shouldAlwaysCompleteAnimation: true,
+  });
+
   return (
     <motion.div className={styles.sign_container} ref={forwardedRef}>
+      <div className={styles.black_water_end} ref={blackWater.ref}>
+        <Image src={"/black-water/01.png"} width={200} height={200} />
+      </div>
       <motion.div
         className={styles.sign_input_container}
         initial={{ y: 30, opacity: 0 }}
@@ -26,9 +36,6 @@ function SignInput({
           },
         }}
       >
-        <div className={styles.black_water_end}>
-          <Image src={"/black-water/01.png"} width={150} height={150} />
-        </div>
         <motion.div
           className={styles.sign_input_header}
           style={{ opacity: 0 }}
