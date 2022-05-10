@@ -1,5 +1,10 @@
 import styles from "./mobile-login.module.css";
-import { AnimateSharedLayout, motion, useAnimation } from "framer-motion";
+import {
+  AnimatePresence,
+  AnimateSharedLayout,
+  motion,
+  useAnimation,
+} from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { useParallax } from "react-scroll-parallax";
 import { useLayout } from "../../store/layout";

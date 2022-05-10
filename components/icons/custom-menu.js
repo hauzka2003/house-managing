@@ -118,6 +118,7 @@ function CustomMenuIcon({ style, device, height }) {
       // }
     });
     router.events.on("routeChangeComplete", (url) => {
+      setScrollLocked(false);
       if (router?.pathname === url) {
         setMobileNavState(false);
         return;
