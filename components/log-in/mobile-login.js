@@ -5,14 +5,13 @@ import { useParallax } from "react-scroll-parallax";
 import { useLayout } from "../../store/layout";
 import ChervonDownIcon from "../icons/chevron-down";
 import SignInput from "./sign-input";
-import PersonFillIcon from "../icons/person-fill";
-import LockClosedFill from "../icons/lock-closed-fill";
+import Image from "next/image";
 
 function MobileLogIn({ device, height }) {
   const [toggleSign, setToggleSign] = useState(false);
   const [signinView, setSigninView] = useState(false);
 
-  const { scroll } = useLayout();
+  const { scroll, mobileNavState } = useLayout();
 
   const leftButtonAnimation = useAnimation();
   const leftButton1Animation = useAnimation();
@@ -44,6 +43,10 @@ function MobileLogIn({ device, height }) {
     speed: -15,
     translateY: [0, 200, "easeInCubic"],
     shouldAlwaysCompleteAnimation: true,
+  });
+
+  const waterCenter = useParallax({
+    speed: -30,
   });
 
   useEffect(() => {
@@ -211,6 +214,24 @@ function MobileLogIn({ device, height }) {
     <>
       <AnimateSharedLayout>
         <motion.div className={styles.header_container}>
+          <motion.div
+            className={styles.black_water_center}
+            ref={waterCenter.ref}
+            animate={
+              mobileNavState
+                ? {
+                    zIndex: "103",
+                    transition: {
+                      delay: 1.4,
+                      duration: 0,
+                    },
+                  }
+                : { zIndex: "0", transition: { delay: 1.3, duration: 0 } }
+            }
+          >
+            <Image src={"/black-water/05.png"} width={500} height={500} />
+          </motion.div>
+
           <div className={styles.background_header}>
             <div
               className={styles.scroll_bottom_container}

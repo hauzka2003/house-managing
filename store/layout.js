@@ -1,6 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useWindowScroll } from "@mantine/hooks";
+import { useWindowScroll, useScrollLock } from "@mantine/hooks";
 
 const LayoutContext = createContext();
 function removeDashFromTitle(title) {
@@ -33,6 +33,7 @@ export function LayoutContextProvider({ children }) {
 
   const [mobileNavState, setMobileNavState] = useState(false);
   const [scroll, scrollTo] = useWindowScroll();
+  const [scrollLocked, setScrollLocked] = useScrollLock();
 
   function pushPage(page) {
     router.push(page);
@@ -74,6 +75,7 @@ export function LayoutContextProvider({ children }) {
     setMobileNavState,
     scroll,
     scrollTo,
+    setScrollLocked,
   };
 
   return (

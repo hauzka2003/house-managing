@@ -33,7 +33,8 @@ function CustomMenuIcon({ style, device, height }) {
   const counterLineAnimation = useAnimation();
   const counterLineAnimation2 = useAnimation();
 
-  const { mobileNavState, setMobileNavState, scroll } = useLayout();
+  const { mobileNavState, setMobileNavState, scroll, setScrollLocked } =
+    useLayout();
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -257,6 +258,7 @@ function CustomMenuIcon({ style, device, height }) {
             style={style}
             onClick={() => {
               setMobileNavState((prevState) => !prevState);
+              setScrollLocked((prevState) => !prevState);
             }}
             key={"mobilenavMenu"}
             initial={{ opacity: 0, y: -10 }}
@@ -281,8 +283,24 @@ function CustomMenuIcon({ style, device, height }) {
         )}
       </AnimatePresence>
       <motion.div className={styles.mobile_nav} animate={bgHolderAnimation}>
+        <div className={styles.fixed_content} style={{ zIndex: "102" }}>
+          <motion.div
+            className={styles.mobile_nav_bg}
+            //   initial={{ scale: 2 }}
+            animate={backgroundAnimation}
+          />
+        </div>
+      </motion.div>
+      <motion.div className={styles.mobile_nav} animate={bgHolderAnimation}>
         <div className={styles.fixed_content}>
-          <div style={{ width: "100%", height: "100%", position: "relative" }}>
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              position: "relative",
+              zIndex: "106",
+            }}
+          >
             <div className={styles.links_container}>
               <div className={styles.brand_container}>
                 <div className={styles.link_holder}>Subsica</div>
@@ -306,11 +324,6 @@ function CustomMenuIcon({ style, device, height }) {
                 );
               })}
             </div>
-            <motion.div
-              className={styles.mobile_nav_bg}
-              //   initial={{ scale: 2 }}
-              animate={backgroundAnimation}
-            />
           </div>
           <motion.div
             ref={countUpRef}

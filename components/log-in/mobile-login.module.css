@@ -95,6 +95,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .sign_input_container {
@@ -186,4 +187,14 @@
   height: 30vh;
   background-color: #fff;
   z-index: 0;
+}
+
+.black_water_center {
+  position: absolute;
+}
+
+.black_water_end {
+  position: absolute;
+  top: -20%;
+  right: -20%;
 }

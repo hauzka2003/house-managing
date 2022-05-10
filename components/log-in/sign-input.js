@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import Image from "next/image";
 import LockClosedFill from "../icons/lock-closed-fill";
 import PersonFillIcon from "../icons/person-fill";
 import styles from "./mobile-login.module.css";
@@ -25,6 +26,9 @@ function SignInput({
           },
         }}
       >
+        <div className={styles.black_water_end}>
+          <Image src={"/black-water/01.png"} width={150} height={150} />
+        </div>
         <motion.div
           className={styles.sign_input_header}
           style={{ opacity: 0 }}
