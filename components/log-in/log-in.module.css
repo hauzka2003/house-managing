@@ -13,7 +13,6 @@
   box-shadow: 0 5px 45px rgba(0, 0, 0, 0.15);
   display: flex;
   justify-content: center;
-  /* align-items: center; */
 }
 .smallcontainer .box {
   position: relative;

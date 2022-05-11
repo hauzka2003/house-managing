@@ -80,9 +80,10 @@
 .link_container {
   font-size: 3rem;
   margin: 1rem 0;
-  font-family: "Tapestry", cursive;
+  /* font-family: "Tapestry", cursive; */
   position: relative;
   overflow: hidden;
+  font-weight: 300;
 }
 
 .link_holder {
@@ -98,7 +99,8 @@
   justify-content: center;
   align-items: center;
   font-size: 3rem;
-  font-family: "Tapestry", cursive;
+  /* font-family: "Tapestry", cursive; */
+  font-weight: 300;
   cursor: pointer;
   z-index: 1;
 }
@@ -106,14 +108,18 @@
 .brand_container {
   position: relative;
   overflow: hidden;
-  font-family: "Diplomata SC", cursive;
-  font-size: 2rem;
+  font-family: "Italiana", serif;
+  font-size: 3rem;
+  font-weight: 600;
+  letter-spacing: 5px;
 }
 
 .brand_name {
-  font-family: "Diplomata SC", cursive;
-  font-size: 2rem;
+  letter-spacing: 5px;
+  font-family: "Italiana", serif;
+  font-size: 3rem;
   position: absolute;
+  font-weight: 200;
   top: 0;
   left: -100%;
   width: 100%;

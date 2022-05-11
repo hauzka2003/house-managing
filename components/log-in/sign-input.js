@@ -5,6 +5,7 @@ import PersonFillIcon from "../icons/person-fill";
 import styles from "./mobile-login.module.css";
 // import { useRef } from "react";
 import { useParallax } from "react-scroll-parallax";
+import ArrowForwardIcon from "../icons/arrow-forward";
 
 function SignInput({
   scroll,
@@ -60,8 +61,8 @@ function SignInput({
         )}
 
         <div className={styles.sign_input_holder}>
-          <div className={styles.center_container} style={{ width: "40px" }}>
-            <PersonFillIcon style={{ height: "20px" }} />
+          <div className={styles.center_container} style={{ width: "25px" }}>
+            <PersonFillIcon style={{ height: "20px", marginRight: "2px" }} />
           </div>
 
           <input
@@ -70,10 +71,23 @@ function SignInput({
           />
         </div>
         <div className={styles.sign_input_holder}>
-          <div className={styles.center_container} style={{ width: "40px" }}>
-            <LockClosedFill style={{ width: "20px" }} />
+          <div className={styles.center_container} style={{ width: "25px" }}>
+            <LockClosedFill style={{ width: "20px", marginRight: "2px" }} />
           </div>
           <input className={styles.sign_input} placeholder="Your password" />
+        </div>
+        <div className={styles.sign_button_container}>
+          <div>Sign In</div>
+          <div
+            style={{
+              height: "100%",
+              display: "flex",
+              position: "absolute",
+              right: "10px",
+            }}
+          >
+            <ArrowForwardIcon style={{ width: "20px" }} />
+          </div>
         </div>
       </motion.div>
     </motion.div>
