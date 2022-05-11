@@ -6,6 +6,7 @@ import styles from "./mobile-login.module.css";
 // import { useRef } from "react";
 import { useParallax } from "react-scroll-parallax";
 import ArrowForwardIcon from "../icons/arrow-forward";
+import LoginFill from "../icons/log-in-fill";
 
 function SignInput({
   scroll,
@@ -17,6 +18,7 @@ function SignInput({
 }) {
   const blackWater = useParallax({
     speed: -10,
+    easing: "easeInOutQuad",
     rotate: [45, 90, 0],
     shouldAlwaysCompleteAnimation: true,
   });
@@ -50,6 +52,7 @@ function SignInput({
         >
           test
         </motion.div>
+        <div className={styles.sign_line}></div>
         {signinView && (
           <motion.div
             className={styles.sign_input_header}
@@ -59,7 +62,12 @@ function SignInput({
             {toggleSign ? "Sign up" : "Sign in"}
           </motion.div>
         )}
-
+        <div className={styles.sign_changer_holder}>
+          <div className={styles.sign_changer_login}>
+            <LoginFill style={{ width: "25px", fill: "#fff" }} />
+          </div>
+          <div></div>
+        </div>
         <div className={styles.sign_input_holder}>
           <div className={styles.center_container} style={{ width: "25px" }}>
             <PersonFillIcon style={{ height: "20px", marginRight: "2px" }} />
@@ -77,17 +85,7 @@ function SignInput({
           <input className={styles.sign_input} placeholder="Your password" />
         </div>
         <div className={styles.sign_button_container}>
-          <div>Sign In</div>
-          <div
-            style={{
-              height: "100%",
-              display: "flex",
-              position: "absolute",
-              right: "10px",
-            }}
-          >
-            <ArrowForwardIcon style={{ width: "20px" }} />
-          </div>
+          <LoginFill style={{ width: "30px", fill: "#fff" }} />
         </div>
       </motion.div>
     </motion.div>

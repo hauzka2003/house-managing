@@ -140,8 +140,7 @@
 .sign_input_header {
   position: absolute;
   top: 10%;
-  left: 10%;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-family: "Playfair Display", serif;
 }
 
@@ -222,4 +221,28 @@
   letter-spacing: 1px;
   color: #fff;
   border-radius: 3px;
+}
+
+.sign_changer_holder {
+  position: absolute;
+  top: 0%;
+  left: 3%;
+  display: flex;
+}
+
+.sign_changer_login {
+  width: 30px;
+  height: 40px;
+  background-color: #050505;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sign_line {
+  position: absolute;
+  width: 40%;
+  height: 0.5px;
+  background-color: #050505;
+  top: 25%;
 }
