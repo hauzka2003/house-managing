@@ -1,7 +1,8 @@
 import styles from "./log-in.module.css";
 import { useState, useReducer } from "react";
 import { motion } from "framer-motion";
-import BetterLink from "../link/better-link";
+import StoreInput from "./ultility/login-input";
+
 import { useRouter } from "next/router";
 import { useUser } from "../../store/user";
 import { useErrorModal } from "../../store/error_modal";
@@ -17,54 +18,7 @@ function frontUserCheck(userName, password) {
   }
   return true;
 }
-function loginReducer(state, action) {
-  switch (action.type) {
-    case "userName": {
-      return {
-        ...state,
-        userName: action.value,
-      };
-    }
-    case "password": {
-      return {
-        ...state,
-        password: action.value,
-      };
-    }
-    case "signUpUserName": {
-      return {
-        ...state,
-        signUpUN: action.value,
-      };
-    }
-    case "email": {
-      return {
-        ...state,
-        email: action.value,
-      };
-    }
-    case "signUpPass": {
-      return {
-        ...state,
-        signUpPass: action.value,
-      };
-    }
-    case "confirmPass": {
-      return {
-        ...state,
-        confirmPass: action.value,
-      };
-    }
-  }
-}
-const initialState = {
-  userName: "",
-  password: "",
-  email: "",
-  signUpUN: "",
-  signUpPass: "",
-  confirmPass: "",
-};
+
 function LogIn(props) {
   const router = useRouter();
   const { signIn } = useUser();
@@ -73,7 +27,9 @@ function LogIn(props) {
   const [UNMatch, setUNMatch] = useState(false);
   const { setError } = useErrorModal();
   props.onMoved(moved);
-  const [state, dispatch] = useReducer(loginReducer, initialState);
+
+  const { dispatch, state } = StoreInput();
+
   const { userName, password, email, signUpUN, signUpPass, confirmPass } =
     state;
 
@@ -110,7 +66,6 @@ function LogIn(props) {
       setError({ message: "Incorrect email or password", type: "error" });
       return;
     }
-    console.log("user: ", user);
     if (user) {
       setError(null);
       router.push("/dashboard");

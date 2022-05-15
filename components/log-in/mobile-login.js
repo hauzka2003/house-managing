@@ -217,215 +217,203 @@ function MobileLogIn({ device, height }) {
 
   return (
     <>
-      <AnimateSharedLayout>
-        <motion.div className={styles.header_container}>
-          <motion.div
-            className={styles.black_water_center}
-            ref={waterCenter.ref}
-            animate={
-              mobileNavState
-                ? {
-                    zIndex: "103",
-                    transition: {
-                      delay: 1.4,
-                      duration: 0,
-                    },
-                  }
-                : { zIndex: "0", transition: { delay: 1.3, duration: 0 } }
-            }
-          >
-            <Image src={"/black-water/05.png"} width={500} height={500} />
-          </motion.div>
+      <motion.div className={styles.header_container}>
+        <motion.div
+          className={styles.black_water_center}
+          ref={waterCenter.ref}
+          animate={
+            mobileNavState
+              ? {
+                  zIndex: "103",
+                  transition: {
+                    delay: 1.4,
+                    duration: 0,
+                  },
+                }
+              : { zIndex: "0", transition: { delay: 1.3, duration: 0 } }
+          }
+        >
+          <Image src={"/black-water/05.png"} width={500} height={500} />
+        </motion.div>
 
-          <div className={styles.background_header}>
+        <div className={styles.background_header}>
+          <div
+            className={styles.scroll_bottom_container}
+            style={
+              device === "mobile"
+                ? {
+                    right: "-35px",
+                    bottom: "-35px",
+                    width: "70px",
+                    height: "70px",
+                  }
+                : {
+                    right: "-60px",
+                    bottom: "-60px",
+                    width: "120px",
+                    height: "120px",
+                  }
+            }
+            onClick={() => {
+              executeScroll();
+            }}
+          >
             <div
-              className={styles.scroll_bottom_container}
-              style={
-                device === "mobile"
-                  ? {
-                      right: "-35px",
-                      bottom: "-35px",
-                      width: "70px",
-                      height: "70px",
-                    }
-                  : {
-                      right: "-60px",
-                      bottom: "-60px",
-                      width: "120px",
-                      height: "120px",
-                    }
-              }
-              onClick={() => {
-                executeScroll();
+              style={{
+                width: "100%",
+                height: "100%",
+                position: "relative",
+                borderRadius: "50%",
               }}
             >
               <div
                 style={{
-                  width: "100%",
-                  height: "100%",
-                  position: "relative",
-                  borderRadius: "50%",
+                  width: "20px",
+                  height: "20px",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  color: "#fff",
+                  position: "absolute",
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  executeScroll();
                 }}
               >
-                <div
+                <ChervonDownIcon
                   style={{
-                    width: "20px",
-                    height: "20px",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
                     color: "#fff",
-                    position: "absolute",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    executeScroll();
-                  }}
-                >
-                  <ChervonDownIcon
-                    style={{
-                      color: "#fff",
-                    }}
-                  />
-                </div>
-
-                <div
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    position: "absolute",
-                    zIndex: 1,
-                    borderRadius: "50%",
-                    cursor: "pointer",
                   }}
                 />
               </div>
+
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  position: "absolute",
+                  zIndex: 1,
+                  borderRadius: "50%",
+                  cursor: "pointer",
+                }}
+              />
             </div>
           </div>
+        </div>
 
-          {!signinView && (
+        {!signinView && (
+          <motion.div
+            className={styles.left_button_container}
+            layoutId="sign_button"
+            transition={{ duration: 1 }}
+          >
+            <div style={{ opacity: 0 }}>Sign Up</div>
             <motion.div
-              className={styles.left_button_container}
-              layoutId="sign_button"
-              transition={{ duration: 1 }}
+              className={styles.left_button}
+              animate={leftButtonAnimation}
+              onClick={() => setToggleSign(!toggleSign)}
             >
-              <div style={{ opacity: 0 }}>Sign Up</div>
-              <motion.div
-                className={styles.left_button}
-                animate={leftButtonAnimation}
-                onClick={() => setToggleSign(!toggleSign)}
-              >
-                Sign Up
-              </motion.div>
-              <motion.div
-                className={styles.left_button1}
-                animate={leftButton1Animation}
-                onClick={() => setToggleSign(!toggleSign)}
-              >
-                Sign In
-              </motion.div>
+              Sign Up
             </motion.div>
-          )}
+            <motion.div
+              className={styles.left_button1}
+              animate={leftButton1Animation}
+              onClick={() => setToggleSign(!toggleSign)}
+            >
+              Sign In
+            </motion.div>
+          </motion.div>
+        )}
 
+        <div
+          className={styles.header_text_container}
+          style={
+            device === "mobile"
+              ? { fontSize: "2.8rem", letterSpacing: "5px" }
+              : { fontSize: "5rem", letterSpacing: "8px" }
+          }
+        >
           <div
-            className={styles.header_text_container}
+            className={styles.square_decoration}
+            ref={squareDeco.ref}
             style={
               device === "mobile"
-                ? { fontSize: "2.8rem", letterSpacing: "5px" }
-                : { fontSize: "5rem", letterSpacing: "8px" }
+                ? { zIndex: scroll.y > 0 ? 1 : -1 }
+                : {
+                    top: "80%",
+                    left: "-34%",
+                    height: "100px",
+                    width: "70px",
+                    zIndex: scroll.y > 0 ? 1 : -1,
+                  }
             }
           >
             <div
-              className={styles.square_decoration}
-              ref={squareDeco.ref}
+              className={styles.index}
               style={
                 device === "mobile"
-                  ? { zIndex: scroll.y > 0 ? 1 : -1 }
-                  : {
-                      top: "80%",
-                      left: "-34%",
-                      height: "100px",
-                      width: "70px",
-                      zIndex: scroll.y > 0 ? 1 : -1,
-                    }
+                  ? { fontSize: "1.5rem" }
+                  : { fontSize: "1.8rem" }
               }
+              ref={index.ref}
             >
-              <div
-                className={styles.index}
-                style={
-                  device === "mobile"
-                    ? { fontSize: "1.5rem" }
-                    : { fontSize: "1.8rem" }
-                }
-                ref={index.ref}
-              >
-                05
-              </div>
-            </div>
-            <div style={{ display: "flex" }} ref={header.ref}>
-              Sign{" "}
-              <div
-                style={{
-                  overflow: "hidden",
-                  position: "relative",
-                  marginLeft: "1rem",
-                  display: "inline-block",
-                  height: "100%",
-                }}
-              >
-                <span style={{ opacity: 0 }}>Up</span>
-                <motion.span
-                  className={styles.header_text}
-                  animate={headerTextAnimation}
-                >
-                  In
-                </motion.span>
-                <motion.span
-                  className={styles.header_text1}
-                  animate={headerText1Animation}
-                >
-                  Up
-                </motion.span>
-              </div>
+              05
             </div>
           </div>
+          <div style={{ display: "flex" }} ref={header.ref}>
+            Sign{" "}
+            <div
+              style={{
+                overflow: "hidden",
+                position: "relative",
+                marginLeft: "1rem",
+                display: "inline-block",
+                height: "100%",
+              }}
+            >
+              <span style={{ opacity: 0 }}>Up</span>
+              <motion.span
+                className={styles.header_text}
+                animate={headerTextAnimation}
+              >
+                In
+              </motion.span>
+              <motion.span
+                className={styles.header_text1}
+                animate={headerText1Animation}
+              >
+                Up
+              </motion.span>
+            </div>
+          </div>
+        </div>
+        <motion.div
+          initial={{ y: 50 }}
+          className={styles.slogan}
+          ref={slogan.ref}
+        >
+          <motion.div className={styles.slogan_text} animate={sloganAnimation}>
+            Continue our works and business that we left behind
+          </motion.div>
           <motion.div
-            initial={{ y: 50 }}
-            className={styles.slogan}
-            ref={slogan.ref}
-            // style={
-            //   scroll.y >= 0
-            //     ? {
-            //         left: `-${(scroll.y / height) * 150}%`,
-            //         top: `${(scroll.y / height) * 50}%`,
-            //       }
-            //     : {}
-            // }
+            className={styles.slogan_text}
+            animate={slogan1Animation}
+            initial={{ top: "150%" }}
           >
-            <motion.div
-              className={styles.slogan_text}
-              animate={sloganAnimation}
-            >
-              Continue our works and business that we left behind
-            </motion.div>
-            <motion.div
-              className={styles.slogan_text}
-              animate={slogan1Animation}
-              initial={{ top: "150%" }}
-            >
-              Join and use our tools to develop your business
-            </motion.div>
+            Join and use our tools to develop your business
           </motion.div>
         </motion.div>
-        <SignInput
-          scroll={scroll}
-          forwardedRef={formRef}
-          setSigninView={setSigninView}
-          signinView={signinView}
-          animateSignButton={animateSignButton}
-          toggleSign={toggleSign}
-        />
-      </AnimateSharedLayout>
+      </motion.div>
+      <SignInput
+        scroll={scroll}
+        forwardedRef={formRef}
+        setSigninView={setSigninView}
+        signinView={signinView}
+        animateSignButton={animateSignButton}
+        toggleSign={toggleSign}
+        setToggleSign={setToggleSign}
+      />
     </>
   );
 }
