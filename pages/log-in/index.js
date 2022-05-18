@@ -1,14 +1,21 @@
 import classes from "../../styles/Home.module.css";
-import LogIn from "../../components/log-in/log-in";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useUser } from "../../store/user";
 import { useRouter } from "next/router";
-import ErrorModal from "../../components/layout/error_notify";
 import { useErrorModal } from "../../store/error_modal";
 import HeaderLayout from "../../components/layout/header-layout";
 import useWindowDimensions from "../../components/hooks/use-dimension";
-import MobileLogIn from "../../components/log-in/mobile-login";
+import dynamic from "next/dynamic";
+
+const MobileLogIn = dynamic(() =>
+  import("../../components/log-in/mobile-login")
+);
+const LogIn = dynamic(() => import("../../components/log-in/log-in"));
+
+const ErrorModal = dynamic(() =>
+  import("../../components/layout/error_notify")
+);
 function LogInPage() {
   const router = useRouter();
   const { user } = useUser();

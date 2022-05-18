@@ -1,7 +1,7 @@
 import BetterLink from "../link/better-link";
 import styles from "./navigation.module.css";
 import { useState, useEffect } from "react";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useUser } from "../../store/user";
 import useWindowDimensions from "../hooks/use-dimension";
 import CustomMenuIcon from "../icons/custom-menu";

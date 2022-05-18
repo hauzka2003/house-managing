@@ -255,6 +255,65 @@ function CustomMenuIcon({ style, device, height }) {
       <AnimatePresence exitBeforeEnter>
         {scroll.y <= 300 && (
           <motion.div
+            className={styles.text_nav_state}
+            key={"text_nav_state"}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            onClick={() => {
+              setMobileNavState((prevState) => !prevState);
+              setScrollLocked((prevState) => !prevState);
+            }}
+          >
+            <div style={{ opacity: 0 }}>Close</div>
+            <AnimatePresence exitBeforeEnter>
+              {mobileNavState ? (
+                <motion.div
+                  className={styles.text_nav}
+                  key={"text_nav_close"}
+                  initial={{ top: "100%", color: "#fff" }}
+                  animate={{
+                    top: "0%",
+                    color: "#fff",
+                    transition: {
+                      duration: 0.5,
+                      ease: "easeInOut",
+                      delay: 0.5,
+                    },
+                  }}
+                  exit={{
+                    top: "100%",
+                    transition: { duration: 0.5, ease: "easeInOut" },
+                  }}
+                >
+                  Close
+                </motion.div>
+              ) : (
+                <motion.div
+                  className={styles.text_nav}
+                  animate={{
+                    top: "0%",
+                    transition: {
+                      duration: 0.5,
+                      ease: "easeInOut",
+                      delay: 0.5,
+                    },
+                  }}
+                  exit={{
+                    top: "-100%",
+                    transition: { duration: 0.5, ease: "easeInOut" },
+                  }}
+                  key={"text_nav_menu"}
+                >
+                  Menu
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        )}
+        {scroll.y <= 300 && (
+          <motion.div
             className={styles.container}
             style={style}
             onClick={() => {

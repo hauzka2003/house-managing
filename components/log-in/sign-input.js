@@ -3,7 +3,6 @@ import Image from "next/image";
 import LockClosedFill from "../icons/lock-closed-fill";
 import PersonFillIcon from "../icons/person-fill";
 import styles from "./mobile-login.module.css";
-// import { useRef } from "react";
 import { useParallax } from "react-scroll-parallax";
 import LoginFill from "../icons/log-in-fill";
 import PeopleFillIcon from "../icons/people-fill";
@@ -57,6 +56,7 @@ function SignInput({
   // console.log("showArrow", showArrow);
 
   async function signInHandler() {
+    // console.log("signInHandler");
     setError(null);
 
     if (frontUserCheck(state.userName, state.password)) {
@@ -271,7 +271,7 @@ function SignInput({
               animate={arrowAnimation}
               exit={{ left: "-100%", transition: { duration: 0.5 } }}
             >
-              <ArrowForwardIcon style={{ width: "25px" }} />
+              <ArrowForwardIcon style={{ width: "25px" }} title="return" />
             </motion.div>
           )}
         </AnimatePresence>

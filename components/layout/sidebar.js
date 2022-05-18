@@ -4,7 +4,6 @@ import LogOutIcon from "../icons/log-out";
 import { motion, useAnimation } from "framer-motion";
 import { useRouter } from "next/router";
 import { useUser } from "../../store/user";
-import { supabase } from "../../utils/supabase";
 import SideBarLink from "./sidebar_link";
 import { useLayout } from "../../store/layout";
 

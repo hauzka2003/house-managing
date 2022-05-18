@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-function ArrowForwardIcon({ style, animate, initial, exit }) {
+function ArrowForwardIcon({ style, animate, initial, exit, title }) {
   return (
     <motion.svg
       xmlns="http://www.w3.org/2000/svg"
@@ -11,7 +11,7 @@ function ArrowForwardIcon({ style, animate, initial, exit }) {
       animate={animate}
       exit={exit}
     >
-      <title>Arrow Forward</title>
+      <title>{title ?? "Arrow Forward"}</title>
       <path
         fill="none"
         stroke="currentColor"
