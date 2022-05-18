@@ -119,6 +119,11 @@
   margin: 5px 0;
 }
 
+.sign_input_holders {
+  position: relative;
+  width: 100%;
+}
+
 .center_container {
   height: 100%;
   display: flex;
@@ -261,9 +266,42 @@
   top: 25%;
 }
 
+.loading_line_container {
+  position: absolute;
+  height: 1px;
+  bottom: 30%;
+  width: 80%;
+}
+
+.loading_line {
+  position: absolute;
+  height: 100%;
+  background-color: #050505;
+  left: 0;
+}
+
 .error_container {
   position: absolute;
+  width: 100%;
   bottom: 20%;
   font-family: "Roboto Mono", monospace;
   font-size: 0.9rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.error {
+  position: absolute;
+}
+
+.arrow_forward {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  bottom: 23%;
+  cursor: pointer;
+  left: 50%;
+  transform: translateX(-50%);
 }

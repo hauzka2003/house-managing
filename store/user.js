@@ -46,6 +46,7 @@ async function updateLastSeen() {
 
 export function UserContextProvider({ children }) {
   const currentUser = supabase.auth.user();
+
   const [user, setUser] = useState(currentUser);
   const [displayName, setDisplayName] = useState({
     userName: currentUser?.user_metadata?.userName,

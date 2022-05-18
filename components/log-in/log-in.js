@@ -103,7 +103,6 @@ function LogIn(props) {
     e.preventDefault();
     setError({ message: "Waiting for server response", type: "info" });
     if (!(await checkUserName(signUpUN))) {
-      console.log("username not available");
       return;
     }
     if (signUpPass !== confirmPass) {
@@ -123,7 +122,6 @@ function LogIn(props) {
       return;
     }
     const fetchedData = await res.json();
-    console.log("fetchedData: ", fetchedData);
     if (fetchedData.localStatus === 5) {
       setError({ message: "Email existed", type: "error" });
       return;
