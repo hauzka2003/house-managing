@@ -1,10 +1,5 @@
 import styles from "./mobile-login.module.css";
-import {
-  AnimatePresence,
-  AnimateSharedLayout,
-  motion,
-  useAnimation,
-} from "framer-motion";
+import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { useParallax } from "react-scroll-parallax";
 import { useLayout } from "../../store/layout";
@@ -47,7 +42,7 @@ function MobileLogIn({ device, height }) {
   const index = useParallax({
     speed: -15,
     translateY: [0, 200, "easeInCubic"],
-    shouldAlwaysCompleteAnimation: true,
+    // shouldAlwaysCompleteAnimation: true,
   });
 
   const waterCenter = useParallax({
@@ -73,7 +68,7 @@ function MobileLogIn({ device, height }) {
 
   useEffect(() => {
     transitionSignButton();
-  }, [signinView]);
+  }, [scroll]);
 
   function transitionSignButton() {
     if (toggleSign) {
@@ -217,6 +212,32 @@ function MobileLogIn({ device, height }) {
 
   return (
     <>
+      <AnimatePresence exitBeforeEnter>
+        {scroll.y <= 300 && (
+          <motion.div
+            className={styles.left_button_container}
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1, transition: { duration: 0.5 } }}
+            exit={{ y: -20, opacity: 0, transition: { duration: 0.5 } }}
+          >
+            <div style={{ opacity: 0 }}>Sign Up</div>
+            <motion.div
+              className={styles.left_button}
+              animate={leftButtonAnimation}
+              onClick={() => setToggleSign(!toggleSign)}
+            >
+              Sign Up
+            </motion.div>
+            <motion.div
+              className={styles.left_button1}
+              animate={leftButton1Animation}
+              onClick={() => setToggleSign(!toggleSign)}
+            >
+              Sign In
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <motion.div className={styles.header_container}>
         <motion.div
           className={styles.black_water_center}
@@ -235,7 +256,6 @@ function MobileLogIn({ device, height }) {
         >
           <Image src={"/black-water/05.png"} width={500} height={500} />
         </motion.div>
-
         <div className={styles.background_header}>
           <div
             className={styles.scroll_bottom_container}
@@ -301,30 +321,6 @@ function MobileLogIn({ device, height }) {
             </div>
           </div>
         </div>
-
-        {!signinView && (
-          <motion.div
-            className={styles.left_button_container}
-            layoutId="sign_button"
-            transition={{ duration: 1 }}
-          >
-            <div style={{ opacity: 0 }}>Sign Up</div>
-            <motion.div
-              className={styles.left_button}
-              animate={leftButtonAnimation}
-              onClick={() => setToggleSign(!toggleSign)}
-            >
-              Sign Up
-            </motion.div>
-            <motion.div
-              className={styles.left_button1}
-              animate={leftButton1Animation}
-              onClick={() => setToggleSign(!toggleSign)}
-            >
-              Sign In
-            </motion.div>
-          </motion.div>
-        )}
 
         <div
           className={styles.header_text_container}

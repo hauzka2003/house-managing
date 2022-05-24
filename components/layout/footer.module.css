@@ -1,0 +1,28 @@
+.footer_container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-color: #666666;
+  color: #f4f4f5;
+}
+
+.footer_links {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  flex-direction: column;
+  font-size: 2.3rem;
+  font-family: "Playfair Display", serif;
+}
+
+.footer_link_container {
+  margin: 0.5rem 0;
+  position: relative;
+  overflow: hidden;
+  font-weight: 300;
+}

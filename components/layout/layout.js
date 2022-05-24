@@ -10,6 +10,7 @@ import Notifications from "./notifications";
 function Layout({ children }) {
   const { inforModal } = useLayout();
   const { notifications, setNotifications } = useNotification();
+
   return (
     <SpotlightProvider actions={actions} searchPlaceholder="Search...">
       <div

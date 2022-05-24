@@ -1,10 +1,6 @@
-import Head from "next/head";
-import Image from "next/image";
-import Layout from "../components/layout/layout";
 import styles from "../styles/Home.module.css";
 import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import { useState } from "react";
-import { useEffect } from "react";
 import HeaderLayout from "../components/layout/header-layout";
 export default function Home() {
   const [isShown, setShown] = useState(false);
@@ -18,7 +14,8 @@ export default function Home() {
   }
 
   return (
-    <div className={styles.container}>
+    <>
+      <div style={{ width: "100%", height: "100vh" }}></div>
       {/* <div
         onClick={() => {
           setShown(!isShown);
@@ -51,7 +48,7 @@ export default function Home() {
           </motion.div>
         )}
       </AnimatePresence> */}
-    </div>
+    </>
   );
 }
 

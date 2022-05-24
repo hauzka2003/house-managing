@@ -1,7 +1,11 @@
 import HeaderLayout from "../../components/layout/header-layout";
 
 function Plans() {
-  return <div>ngu</div>;
+  return (
+    <>
+      <div style={{ width: "100%", height: "100vh" }}></div>
+    </>
+  );
 }
 Plans.getLayout = HeaderLayout;
 

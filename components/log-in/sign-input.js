@@ -123,6 +123,7 @@ function SignInput({
           duration: 0.5,
         },
       });
+      setShowConfirm(false);
       setShowArrow(false);
     }
 
@@ -299,46 +300,45 @@ function SignInput({
           </AnimatePresence>
         </motion.div>
 
-        {signinView && (
-          <motion.div className={styles.sign_input_header_container}>
-            <div style={{ opacity: 0 }}>Confirm it</div>
-            <AnimatePresence>
-              {toggleSign && !showConfirm && (
-                <motion.div
-                  className={styles.sign_input_header}
-                  key="sign-up-header"
-                  initial={{ x: -100 }}
-                  animate={{ x: 0, transition: { duration: 0.5 } }}
-                  exit={{ x: 100, transition: { duration: 0.5 } }}
-                >
-                  Sign Up
-                </motion.div>
-              )}
-              {!toggleSign && (
-                <motion.div
-                  className={styles.sign_input_header}
-                  key="sign-in-header"
-                  initial={{ x: -100 }}
-                  animate={{ x: 0, transition: { duration: 0.5 } }}
-                  exit={{ x: 100, transition: { duration: 0.5 } }}
-                >
-                  Sign In
-                </motion.div>
-              )}
-              {toggleSign && showConfirm && (
-                <motion.div
-                  className={styles.sign_input_header}
-                  key="confirm-header"
-                  initial={{ x: -100 }}
-                  animate={{ x: 0, transition: { duration: 0.5 } }}
-                  exit={{ x: 100, transition: { duration: 0.5 } }}
-                >
-                  Confirm
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
-        )}
+        <motion.div className={styles.sign_input_header_container}>
+          <div style={{ opacity: 0 }}>Confirm it</div>
+          <AnimatePresence>
+            {toggleSign && !showConfirm && (
+              <motion.div
+                className={styles.sign_input_header}
+                key="sign-up-header"
+                initial={{ x: -100 }}
+                animate={{ x: 0, transition: { duration: 0.5 } }}
+                exit={{ x: 100, transition: { duration: 0.5 } }}
+              >
+                Sign Up
+              </motion.div>
+            )}
+            {!toggleSign && (
+              <motion.div
+                className={styles.sign_input_header}
+                key="sign-in-header"
+                initial={{ x: -100 }}
+                animate={{ x: 0, transition: { duration: 0.5 } }}
+                exit={{ x: 100, transition: { duration: 0.5 } }}
+              >
+                Sign In
+              </motion.div>
+            )}
+            {toggleSign && showConfirm && (
+              <motion.div
+                className={styles.sign_input_header}
+                key="confirm-header"
+                initial={{ x: -100 }}
+                animate={{ x: 0, transition: { duration: 0.5 } }}
+                exit={{ x: 100, transition: { duration: 0.5 } }}
+              >
+                Confirm
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+
         <div className={styles.sign_changer_holder}>
           <motion.div
             className={styles.sign_changer_login}
@@ -516,6 +516,38 @@ function SignInput({
             )}
           </AnimatePresence>
         </div>
+
+        <div className={styles.forget_password_container}>
+          <div style={{ opacity: 0 }}>Forget Password?</div>
+          <AnimatePresence exitBeforeEnter>
+            {!toggleSign ? (
+              <motion.div
+                className={styles.forget_password}
+                initial={{ top: "-100%" }}
+                animate={{ top: "0", transition: { duration: 0.5 } }}
+                exit={{ top: "-100%", transition: { duration: 0.5 } }}
+                key="forget-password"
+              >
+                Forget Password?
+              </motion.div>
+            ) : (
+              <motion.div
+                className={styles.forget_password}
+                // style={{ top: "100%" }}
+                initial={{ top: "100%" }}
+                animate={{ top: "0%", transition: { duration: 0.5 } }}
+                exit={{ top: "100%", transition: { duration: 0.5 } }}
+                key="already-have-account"
+                onClick={() => {
+                  setToggleSign(false);
+                }}
+              >
+                Already Sign In?
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
         <motion.button
           className={styles.sign_button_container}
           onClick={() => {

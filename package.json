@@ -28,7 +28,9 @@
     "react-dom": "17.0.2",
     "react-scroll": "^1.8.7",
     "react-scroll-parallax": "^3.1.0",
-    "react-spring": "^9.4.3"
+    "react-spring": "^9.4.3",
+    "smooth-scrollbar": "^8.7.4",
+    "smooth-scrollbar-react": "^2.3.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.0",

@@ -33,15 +33,33 @@ function CustomMenuIcon({ style, device, height }) {
   const counterLineAnimation = useAnimation();
   const counterLineAnimation2 = useAnimation();
 
-  const { mobileNavState, setMobileNavState, scroll, setScrollLocked } =
-    useLayout();
+  const {
+    mobileNavState,
+    setMobileNavState,
+    scroll,
+    setScrollLocked,
+    totalHeight,
+    setInitalLoading,
+    initalLoading,
+    pageLoading,
+    scrollTo,
+    totalScroll,
+  } = useLayout();
 
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const [isLoading, setIsLoading] = useState(true);
-
   const countUpRef = useRef(null);
   const countUpRef2 = useRef(null);
+
+  function showMenu() {
+    if (scroll.y <= 300) {
+      return true;
+    }
+    if (totalScroll - totalHeight == 0) {
+      return true;
+    }
+    return false;
+  }
 
   const { start: initalStart } = useCountUp({
     ref: countUpRef2,
@@ -64,12 +82,12 @@ function CustomMenuIcon({ style, device, height }) {
         bottom: "100%",
         transition: { duration: 1 },
       });
-      setIsLoading(false);
+      setInitalLoading(false);
     },
   });
 
   const { reset, pauseResume } = useCountUp({
-    ref: countUpRef || "asd",
+    ref: countUpRef,
     start: 0,
     end: 100,
     duration: 1,
@@ -81,24 +99,69 @@ function CustomMenuIcon({ style, device, height }) {
       });
     },
   });
-
+  async function CloseBackGround() {
+    firstLoadBGAimation.start({
+      top: "-5000px",
+      transition: { duration: 2, ease: "easeInOut" },
+    });
+  }
+  async function CloseBackGround1() {
+    await counterLineAnimation.start({
+      height: "100%",
+      transition: { duration: 0.5, ease: "easeInOut" },
+    });
+    counterLineAnimation.start({
+      height: "0%",
+      bottom: "100%",
+      transition: { duration: 1, ease: "easeInOut" },
+    });
+    firstLoadBGAimation.start({
+      top: "-5000px",
+      transition: { duration: 2, ease: "easeInOut" },
+    });
+    counterLineAnimation2.start({
+      backgroundColor: "#fff",
+      transition: { duration: 0, delay: 1.5 },
+    });
+  }
+  async function loading() {
+    firstLoadBGAimation.start({
+      top: "1000px",
+      transition: { duration: 0 },
+    });
+    counterLineAnimation.start({
+      bottom: 0,
+      transition: { duration: 0 },
+    });
+    counterLineAnimation.start({
+      height: "10%",
+      transition: { duration: 0.5, ease: "easeInOut" },
+    });
+    firstLoadBGAimation.start({
+      top: "-1000px",
+      transition: { duration: 1.5, ease: "easeInOut" },
+    });
+  }
   useEffect(() => {
-    async function CloseBackGround() {
-      firstLoadBGAimation.start({
-        top: "-5000px",
-        transition: { duration: 2, ease: "easeInOut" },
-      });
-      initalStart();
+    if (!pageLoading.url) {
+      return CloseBackGround();
     }
+    // if (router?.pathname === pageLoading.url) {
+    //   setMobileNavState(false);
+    //   return;
+    // }
 
-    CloseBackGround();
-  }, []);
+    // console.log(pageLoading);
 
-  useEffect(() => {
-    router.events.on("routeChangeStart", (url) => {
-      if (router?.pathname === url) {
-        return;
+    if (pageLoading.loading) {
+      if (!mobileNavState) {
+        counterLineAnimation2.start({
+          backgroundColor: "#050505",
+          transition: { duration: 0.5, ease: "easeInOut" },
+        });
+        return loading();
       }
+
       // if (!mobileNavState) {
       if (countUpRef) {
         reset();
@@ -115,14 +178,18 @@ function CustomMenuIcon({ style, device, height }) {
         height: "10%",
         transition: { duration: 0.5, ease: "easeInOut" },
       });
-      // }
-    });
-    router.events.on("routeChangeComplete", (url) => {
-      setScrollLocked(false);
-      if (router?.pathname === url) {
-        setMobileNavState(false);
-        return;
+    }
+
+    if (!pageLoading.loading) {
+      if (!mobileNavState) {
+        setTimeout(() => {
+          scrollTo({ y: 0 });
+        }, 1000);
+
+        return CloseBackGround1();
       }
+
+      setScrollLocked(false);
 
       pauseResume();
 
@@ -130,18 +197,11 @@ function CustomMenuIcon({ style, device, height }) {
         height: "100%",
         transition: { duration: 1, ease: "easeInOut" },
       });
-    });
-
-    return () => {
-      router.events.off("routeChangeStart");
-      router.events.off("routeChangeComplete");
-    };
-  }, []);
+    }
+  }, [pageLoading]);
 
   useEffect(() => {
     async function openMenu() {
-      // console.log("mobileNavState", mobileNavState);
-
       if (mobileNavState) {
         counterAnimation.start({
           opacity: 0,
@@ -210,16 +270,18 @@ function CustomMenuIcon({ style, device, height }) {
         });
         line1.start({ y: -lineGap, rotate: 0, transition: { duration: 0.5 } });
         line3.start({ y: lineGap, rotate: 0, transition: { duration: 0.5 } });
-        line1.start({
-          backgroundColor: "#050505",
-          transition: { duration: 1.5 },
-        });
-        line3.start({
-          backgroundColor: "#050505",
-          transition: { duration: 1.5 },
-        });
 
-        if (!isLoading) {
+        if (!initalLoading) {
+          line1.start({
+            backgroundColor:
+              totalHeight - totalScroll == 0 ? "#fff" : "#050505",
+            transition: { duration: 1.5 },
+          });
+          line3.start({
+            backgroundColor:
+              totalHeight - totalScroll == 0 ? "#fff" : "#050505",
+            transition: { duration: 1.5 },
+          });
           counterLineAnimation.start({
             height: 0,
             bottom: "100%",
@@ -253,10 +315,15 @@ function CustomMenuIcon({ style, device, height }) {
   return (
     <>
       <AnimatePresence exitBeforeEnter>
-        {scroll.y <= 300 && (
+        {showMenu() && (
           <motion.div
             className={styles.text_nav_state}
             key={"text_nav_state"}
+            style={
+              totalHeight - totalScroll == 0
+                ? { color: "#fff" }
+                : { color: "#050505" }
+            }
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
@@ -312,7 +379,7 @@ function CustomMenuIcon({ style, device, height }) {
             </AnimatePresence>
           </motion.div>
         )}
-        {scroll.y <= 300 && (
+        {showMenu() && (
           <motion.div
             className={styles.container}
             style={style}
@@ -331,12 +398,30 @@ function CustomMenuIcon({ style, device, height }) {
                 className={styles.line}
                 initial={{ y: -lineGap }}
                 animate={line1}
+                style={
+                  totalHeight - totalScroll == 0
+                    ? { backgroundColor: "#fff" }
+                    : { backgroundColor: "#050505" }
+                }
               />
-              <motion.div className={styles.line} animate={line2} />
+              <motion.div
+                className={styles.line}
+                animate={line2}
+                style={
+                  totalHeight - totalScroll == 0
+                    ? { backgroundColor: "#fff" }
+                    : { backgroundColor: "#050505" }
+                }
+              />
               <motion.div
                 className={styles.line}
                 initial={{ y: lineGap }}
                 animate={line3}
+                style={
+                  totalHeight - totalScroll == 0
+                    ? { backgroundColor: "#fff" }
+                    : { backgroundColor: "#050505" }
+                }
               />
             </div>
           </motion.div>
@@ -411,12 +496,12 @@ function CustomMenuIcon({ style, device, height }) {
             className={styles.counter_line}
             animate={counterLineAnimation}
           />
-          {!isLoading && (
+          {!initalLoading && (
             <motion.div
               className={styles.counter_line}
               animate={counterLineAnimation2}
               style={{
-                top: `${(scroll.y / height) * 80}%`,
+                top: `${(scroll.y / (totalHeight - height)) * 80}%`,
                 height: "20%",
                 zIndex: 1,
                 // borderRadius: "2px",
@@ -427,7 +512,7 @@ function CustomMenuIcon({ style, device, height }) {
       </motion.div>
 
       <AnimatePresence>
-        {isLoading && (
+        {initalLoading && (
           <motion.div
             ref={countUpRef2}
             className={styles.counter1}

@@ -305,3 +305,21 @@
   left: 50%;
   transform: translateX(-50%);
 }
+
+.forget_password_container {
+  position: absolute;
+  bottom: 5%;
+  left: 1%;
+  font-size: 0.9rem;
+  font-family: "Roboto", sans-serif;
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  overflow: hidden;
+  color: #686666fc;
+}
+
+.forget_password {
+  position: absolute;
+  cursor: pointer;
+}

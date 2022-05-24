@@ -35,7 +35,7 @@ function Header() {
       {currentDimension !== "desktop" && (
         <FrontProfile device={currentDimension} width={width} height={height} />
       )}
-      {currentDimension === "tablet" && (
+      {/* {currentDimension === "tablet" && (
         <CustomMenuIcon
           style={{
             width: "30px",
@@ -51,8 +51,8 @@ function Header() {
           width={width}
           height={height}
         />
-      )}
-      {currentDimension === "mobile" && (
+      )} */}
+      {currentDimension !== "desktop" && (
         <CustomMenuIcon
           style={{
             width: "30px",
@@ -64,7 +64,7 @@ function Header() {
             zIndex: "105",
           }}
           links={links}
-          device={"mobile"}
+          device={currentDimension}
           width={width}
           height={height}
         />

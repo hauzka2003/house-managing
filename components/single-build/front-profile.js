@@ -21,6 +21,18 @@ function FrontProfile({ device, width, height }) {
   const loginAnimation = useAnimation();
   const login1Animation = useAnimation();
 
+  const { totalHeight, scroll, totalScroll } = useLayout();
+
+  function showLogin() {
+    if (scroll.y <= 300) {
+      return true;
+    }
+    if (totalScroll - totalHeight == 0) {
+      return true;
+    }
+    return false;
+  }
+
   useEffect(() => {
     setUser(loggedUser);
   }, [loggedUser]);
@@ -37,11 +49,12 @@ function FrontProfile({ device, width, height }) {
         },
       });
 
-      if (router.pathname === "/log-in") {
+      if (router.pathname !== "/log-in") {
         loginAnimation.start({
           top: "-100%",
           transition: {
             duration: 1,
+            ease: "easeInOut",
           },
         });
       }
@@ -132,7 +145,7 @@ function FrontProfile({ device, width, height }) {
 
   return (
     <>
-      <AnimatePresence>
+      <AnimatePresence exitBeforeEnter>
         {user ? (
           <motion.div
             className={styles.container}
@@ -142,6 +155,15 @@ function FrontProfile({ device, width, height }) {
                 : { width: "60px", height: "60px" }
             }
             animate={containerAnimation}
+            key="user-profile"
+            exit={{
+              opacity: 0,
+              y: -20,
+              transition: {
+                duration: 0.5,
+                ease: "easeInOut",
+              },
+            }}
           >
             <Link href={"/dashboard"}>
               <div className={styles.relative_container}>
@@ -168,18 +190,41 @@ function FrontProfile({ device, width, height }) {
             </Link>
           </motion.div>
         ) : (
-          router.pathname !== "/log-in" && (
-            <motion.div className={styles.log_in_container}>
+          router.pathname !== "/log-in" &&
+          showLogin() && (
+            <motion.div
+              className={styles.log_in_container}
+              style={
+                totalHeight - totalScroll == 0
+                  ? { color: "#fff" }
+                  : { color: "#050505" }
+              }
+              key="log-in"
+              initial={{
+                opacity: 0,
+                y: -20,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                transition: {
+                  duration: 0.5,
+                  ease: "easeInOut",
+                },
+              }}
+              exit={{
+                opacity: 0,
+                y: -20,
+                transition: {
+                  duration: 0.5,
+                  ease: "easeInOut",
+                },
+              }}
+            >
               <div className={styles.log_in_holder}>Log in</div>
               <motion.div
                 className={styles.log_in}
                 animate={loginAnimation}
-                // exit={{
-                //   top: "100%",
-                //   transition: { duration: 0.5, delay: 1 },
-                //   opacity: 0,
-                //   display: "none",
-                // }}
                 key="login-button"
               >
                 <Link href={"/log-in"}>Log in</Link>
