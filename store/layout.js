@@ -35,7 +35,7 @@ export function LayoutContextProvider({ children }) {
   const [mobileNavState, setMobileNavState] = useState(false);
   const [scroll, scrollTo] = useWindowScroll();
   const [scrollLocked, setScrollLocked] = useScrollLock();
-  const [totalHeight, setTotalHeight] = useState(0);
+  const [totalHeight, setTotalHeight] = useState();
   const [pageLoading, setPageLoading] = useState({
     loading: false,
     url: null,
@@ -51,7 +51,6 @@ export function LayoutContextProvider({ children }) {
 
   useEffect(() => {
     setCurrentPage(getTitle(router.pathname.split("/").pop()));
-    setTotalHeight(window.document.documentElement.scrollHeight);
   }, [router.pathname]);
 
   useEffect(() => {
@@ -95,7 +94,7 @@ export function LayoutContextProvider({ children }) {
 
   let totalSection = Math.round(totalHeight - currentDevice.height);
 
-  console.log(totalHeight);
+  // console.log(totalHeight);
 
   let totalScroll =
     Math.abs(totalSection - scroll.y) <= 2 ? totalHeight : scroll.y;
@@ -121,6 +120,7 @@ export function LayoutContextProvider({ children }) {
     setInitalLoading,
     currentDevice,
     totalScroll,
+    setTotalHeight,
   };
 
   return (

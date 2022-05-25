@@ -7,6 +7,7 @@ import { useErrorModal } from "../../store/error_modal";
 import HeaderLayout from "../../components/layout/header-layout";
 import useWindowDimensions from "../../components/hooks/use-dimension";
 import dynamic from "next/dynamic";
+import { useLayout } from "../../store/layout";
 
 const MobileLogIn = dynamic(() =>
   import("../../components/log-in/mobile-login")
@@ -22,10 +23,22 @@ function LogInPage() {
   const { error, setError } = useErrorModal();
   const [currentDimensions, setCurrentDimensions] = useState();
   const { currentDevice, width, height } = useWindowDimensions();
-
+  const { setTotalHeight } = useLayout();
   useEffect(() => {
     setCurrentDimensions(currentDevice);
   }, [currentDevice]);
+
+  useEffect(() => {
+    setTotalHeight(window.document.documentElement.scrollHeight);
+
+    const id = setInterval(() => {
+      setTotalHeight(window.document.documentElement.scrollHeight);
+    }, 3000);
+
+    return () => {
+      clearInterval(id);
+    };
+  }, []);
 
   if (user) {
     router.push("/dashboard");

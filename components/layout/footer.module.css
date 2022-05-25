@@ -10,7 +10,7 @@
 }
 
 .footer_links {
-  width: 80%;
+  width: 70%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,9 +20,24 @@
   font-family: "Playfair Display", serif;
 }
 
+.footer_link {
+  position: absolute;
+  z-index: 1;
+}
+
 .footer_link_container {
-  margin: 0.5rem 0;
   position: relative;
   overflow: hidden;
   font-weight: 300;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: #f4f4f5 solid 1px;
+  border-bottom: #f4f4f5 solid 1px;
+  padding: 10px 0;
+}
+
+.footer_link_container:nth-child(2) {
+  border: none;
 }
