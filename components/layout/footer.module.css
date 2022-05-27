@@ -12,7 +12,7 @@
 
 .black_water_center {
   position: absolute;
-  opacity: 0.9;
+  opacity: 0.8;
   z-index: 1;
 }
 
@@ -26,7 +26,7 @@
 }
 
 .footer_links {
-  width: 70%;
+  width: 80%;
   display: flex;
   justify-content: center;
   align-items: center;
