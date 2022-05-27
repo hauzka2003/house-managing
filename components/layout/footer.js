@@ -36,6 +36,15 @@ function Footer() {
   });
 
   const x = useTransform(scrollY, [totalHeight - 450, totalHeight], [400, 0]);
+  const rotate = useTransform(
+    scrollY,
+    [totalHeight - 450, totalHeight],
+    [-30, 0]
+  );
+  const springrotate = useSpring(totalHeight ? rotate : null, {
+    stiffness: 400,
+    damping: 90,
+  });
 
   const stringx1 = useSpring(totalHeight ? x : null, {
     stiffness: 400,
@@ -76,9 +85,11 @@ function Footer() {
         className={styles.black_water_center}
         style={{
           y: string,
+          rotate: springrotate,
         }}
         initial={{
           y: -450,
+          scale: 1.1,
         }}
       >
         <Image src={"/black-water/01.png"} width={550} height={400} />
