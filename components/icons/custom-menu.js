@@ -67,8 +67,6 @@ function CustomMenuIcon({ style, device, height }) {
       return true;
     }
 
-    console.log("totalScroll", totalScroll);
-
     if (totalScroll - totalHeight == 0) {
       return true;
     }

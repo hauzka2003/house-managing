@@ -39,25 +39,25 @@ function HeaderLayout({ children }) {
           </div>
         </SmoothScroll>
       ) : (
-        <SmoothScroll>
-          <div
-            style={
-              currentDimension === "desktop"
-                ? {
-                    marginTop: "3rem",
-                    overflowX: "hidden",
-                    width: "100%",
-                  }
-                : {
-                    overflowX: "hidden",
-                    width: "100%",
-                  }
-            }
-          >
-            {children}
-            <Footer />
-          </div>
-        </SmoothScroll>
+        // <SmoothScroll>
+        <div
+          style={
+            currentDimension === "desktop"
+              ? {
+                  marginTop: "3rem",
+                  overflowX: "hidden",
+                  width: "100%",
+                }
+              : {
+                  overflowX: "hidden",
+                  width: "100%",
+                }
+          }
+        >
+          {children}
+          <Footer />
+        </div>
+        // </SmoothScroll>
       )}
     </>
   );
