@@ -1,11 +1,16 @@
 import styles from "./footer.module.css";
-import Link from "next/link";
 
 import { useRouter } from "next/router";
 import { useLayout } from "../../store/layout";
-import { useState, useEffect, useRef, useLayoutEffect } from "react";
-import { motion, useViewportScroll, useTransform } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import {
+  motion,
+  useTransform,
+  useViewportScroll,
+  useSpring,
+} from "framer-motion";
 import FooterLink from "./footer-link";
+import Image from "next/image";
 
 const links = [
   { name: "PLANS", url: "/plans" },
@@ -16,56 +21,32 @@ const links = [
 
 function Footer() {
   const router = useRouter();
-  const contactRef = useRef();
-  const aboutusRef = useRef();
-  const supportRef = useRef();
-  const planRef = useRef();
+  const { scrollY } = useViewportScroll();
+  const currentRouteRef = useRef(null);
+  const currentRouteRef1 = useRef(null);
 
   const { pageLoading, currentDevice, totalHeight } = useLayout();
   const [currentRoute, setCurrentRoute] = useState(router.pathname);
 
-  // const contactParallax = useParallax({
-  //   translateY: [100, 0],
-  //   shouldAlwaysCompleteAnimation: true,
-  // });
-  // const aboutusParallax = useParallax({
-  //   translateY: [100, 0],
-  //   shouldAlwaysCompleteAnimation: true,
-  // });
-  // const supportParallax = useParallax({
-  //   translateY: [100, 0],
-  //   shouldAlwaysCompleteAnimation: true,
-  // });
-  const [elementTop, setElementTop] = useState(0);
-  const ref = useRef(null);
-  // const [totalHeight, setTotalHeight] = useState(0);
-  const { scrollY } = useViewportScroll();
-  // start animating our element when we've scrolled it into view
+  const y = useTransform(scrollY, [totalHeight - 450, totalHeight], [-400, 0]);
 
-  // end our animation when we've scrolled the offset specified
+  const stringx = useSpring(totalHeight ? y : null, {
+    stiffness: 400,
+    damping: 90,
+  });
 
-  const y = useTransform(scrollY, [totalHeight - 2000, totalHeight], [200, 0]);
+  const x = useTransform(scrollY, [totalHeight - 450, totalHeight], [400, 0]);
 
-  // console.log("initial", initial);
-  // console.log("final", final);
-  // console.log("totalHeight", totalHeight);
+  const stringx1 = useSpring(totalHeight ? x : null, {
+    stiffness: 400,
+    damping: 90,
+  });
 
-  useLayoutEffect(() => {
-    const element = ref.current;
-    // save our layout measurements in a function in order to trigger
-    // it both on mount and on resize
-    const onResize = () => {
-      // use getBoundingClientRect instead of offsetTop in order to
-      // get the offset relative to the viewport
-      setElementTop(
-        element?.getBoundingClientRect().top + window.scrollY ||
-          window.pageYOffset
-      );
-    };
-    onResize();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, [ref]);
+  const string = useSpring(totalHeight ? y : null, {
+    stiffness: 400,
+    damping: 90,
+  });
+
   function getPageName() {
     if (currentRoute === "/plans") {
       return "PLANS";
@@ -81,8 +62,6 @@ function Footer() {
     }
   }
 
-  // console.log(contactRef.current?.getBoundingClientRect());
-
   useEffect(() => {
     if (pageLoading.loading) {
       setTimeout(() => {
@@ -93,7 +72,43 @@ function Footer() {
 
   return (
     <div className={styles.footer_container}>
-      {/* <div className={styles.current_link}>{getPageName()}</div> */}
+      <motion.div
+        className={styles.black_water_center}
+        style={{
+          y: string,
+        }}
+        initial={{
+          y: -450,
+        }}
+      >
+        <Image src={"/black-water/01.png"} width={550} height={400} />
+      </motion.div>
+
+      <motion.div
+        className={styles.current_link}
+        ref={currentRouteRef}
+        style={{
+          x: stringx,
+          left: `-${
+            currentRouteRef.current?.getBoundingClientRect().width / 2
+          }px`,
+        }}
+      >
+        {getPageName()}
+      </motion.div>
+      <motion.div
+        className={styles.current_link}
+        ref={currentRouteRef1}
+        style={{
+          x: stringx1,
+          right: `-${
+            currentRouteRef.current?.getBoundingClientRect().width / 2
+          }px`,
+          top: "55%",
+        }}
+      >
+        {getPageName()}
+      </motion.div>
       <div className={styles.footer_links}>
         {/* {links.map((link) => {
           if (link.url === router.pathname) {

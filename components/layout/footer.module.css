@@ -7,6 +7,22 @@
   position: relative;
   background-color: #666666;
   color: #f4f4f5;
+  overflow: hidden;
+}
+
+.black_water_center {
+  position: absolute;
+  opacity: 0.9;
+  z-index: 1;
+}
+
+.current_link {
+  position: absolute;
+  color: rgba(244, 244, 245, 0.5);
+  filter: blur(2px);
+  font-size: 8rem;
+  top: 15%;
+  font-family: "Playfair Display", serif;
 }
 
 .footer_links {
@@ -18,11 +34,13 @@
   flex-direction: column;
   font-size: 2.3rem;
   font-family: "Playfair Display", serif;
+  z-index: 10;
+  color: #fff;
 }
 
 .footer_link {
   position: absolute;
-  z-index: 1;
+  z-index: 10;
 }
 
 .footer_link_container {

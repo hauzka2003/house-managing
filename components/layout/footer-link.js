@@ -1,6 +1,11 @@
 import styles from "./footer.module.css";
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
-import { motion, useViewportScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useViewportScroll,
+  useTransform,
+  useSpring,
+} from "framer-motion";
 import Link from "next/link";
 
 function FooterLink({ href, name, currentDevice, left, right, totalHeight }) {
@@ -11,6 +16,10 @@ function FooterLink({ href, name, currentDevice, left, right, totalHeight }) {
   const [elementTop, setElementTop] = useState(0);
 
   const y = useTransform(scrollY, [totalHeight - 2000, totalHeight], [200, 0]);
+  const spring = useSpring(totalHeight ? y : null, {
+    stiffness: 200,
+    damping: 50,
+  });
 
   useLayoutEffect(() => {
     const element = ref.current;
@@ -35,7 +44,7 @@ function FooterLink({ href, name, currentDevice, left, right, totalHeight }) {
         className={styles.footer_link}
         ref={ref}
         style={{
-          y: y,
+          y: spring,
         }}
       >
         <Link

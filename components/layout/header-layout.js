@@ -57,7 +57,7 @@ function HeaderLayout({ children }) {
           {children}
           <Footer />
         </div>
-        // </SmoothScroll>
+        // {/* </SmoothScroll> */}
       )}
     </>
   );

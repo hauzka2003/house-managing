@@ -53,6 +53,13 @@ export function LayoutContextProvider({ children }) {
 
   useEffect(() => {
     setCurrentPage(getTitle(router.pathname.split("/").pop()));
+
+    if (currentDevice.currentDevice === "desktop") {
+      setTotalHeight(
+        window.document.documentElement.scrollHeight - currentDevice.height
+      );
+    }
+
     // console.log(
     //   "totalHeight - currentDevice.height",
     //   totalHeight - currentDevice.height
