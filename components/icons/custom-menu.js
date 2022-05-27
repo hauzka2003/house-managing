@@ -1,10 +1,15 @@
 import styles from "./custom-menu.module.css";
-import { AnimatePresence, motion, useAnimation } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useAnimation,
+  useViewportScroll,
+} from "framer-motion";
 import { useState } from "react";
 import CustomMenuLink from "./custom-menu-link";
 import { useLayout } from "../../store/layout";
 import { useEffect } from "react";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import { useCountUp } from "react-countup";
 import { useRef } from "react";
 import Link from "next/link";
@@ -18,7 +23,11 @@ const links = [
 
 function CustomMenuIcon({ style, device, height }) {
   const lineGap = device === "mobile" ? 8 : 10;
-  const router = useRouter();
+  // const router = useRouter();
+
+  const [scrollY, setScrollY] = useState(0);
+
+  const { scrollYProgress } = useViewportScroll();
 
   const line1 = useAnimation();
   const line2 = useAnimation();
@@ -39,11 +48,13 @@ function CustomMenuIcon({ style, device, height }) {
     scroll,
     setScrollLocked,
     totalHeight,
+    setTotalHeight,
     setInitalLoading,
     initalLoading,
     pageLoading,
     scrollTo,
     totalScroll,
+    currentDevice,
   } = useLayout();
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -55,6 +66,9 @@ function CustomMenuIcon({ style, device, height }) {
     if (scroll.y <= 300) {
       return true;
     }
+
+    console.log("totalScroll", totalScroll);
+
     if (totalScroll - totalHeight == 0) {
       return true;
     }
@@ -97,13 +111,20 @@ function CustomMenuIcon({ style, device, height }) {
         scale: [1, 1.2, 1],
         transition: { duration: 0.5, ease: "easeInOut" },
       });
+      setTotalHeight(
+        window.document.documentElement.scrollHeight - currentDevice.height
+      );
     },
   });
   async function CloseBackGround() {
-    firstLoadBGAimation.start({
+    await firstLoadBGAimation.start({
       top: "-5000px",
       transition: { duration: 2, ease: "easeInOut" },
     });
+
+    setTotalHeight(
+      window.document.documentElement.scrollHeight - currentDevice.height
+    );
   }
   async function CloseBackGround1() {
     await counterLineAnimation.start({
@@ -123,6 +144,9 @@ function CustomMenuIcon({ style, device, height }) {
       backgroundColor: "#fff",
       transition: { duration: 0, delay: 1.5 },
     });
+    setTotalHeight(
+      window.document.documentElement.scrollHeight - currentDevice.height
+    );
   }
   async function loading() {
     firstLoadBGAimation.start({
@@ -142,6 +166,17 @@ function CustomMenuIcon({ style, device, height }) {
       transition: { duration: 1.5, ease: "easeInOut" },
     });
   }
+
+  useEffect(() => {
+    scrollYProgress.onChange((progress) => {
+      setScrollY(progress);
+    });
+
+    return () => {
+      scrollYProgress.clearListeners();
+    };
+  }, []);
+
   useEffect(() => {
     if (!pageLoading.url) {
       return CloseBackGround();
@@ -501,7 +536,7 @@ function CustomMenuIcon({ style, device, height }) {
               className={styles.counter_line}
               animate={counterLineAnimation2}
               style={{
-                top: `${(scroll.y / (totalHeight - height)) * 80}%`,
+                top: `${scrollY * 80}%`,
                 height: "20%",
                 zIndex: 1,
                 // borderRadius: "2px",

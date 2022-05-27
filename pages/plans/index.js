@@ -3,10 +3,10 @@ import { useLayout } from "../../store/layout";
 import { useEffect } from "react";
 
 function Plans() {
-  const { setTotalHeight } = useLayout();
-  useEffect(() => {
-    setTotalHeight(window.document.documentElement.scrollHeight);
-  }, []);
+  // const { setTotalHeight } = useLayout();
+  // useEffect(() => {
+  //   setTotalHeight(window.document.documentElement.scrollHeight);
+  // }, []);
 
   return (
     <>

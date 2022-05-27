@@ -4,9 +4,17 @@ import { useLayout } from "../../store/layout";
 
 function ContactPage() {
   const { setTotalHeight } = useLayout();
-  useEffect(() => {
-    setTotalHeight(window.document.documentElement.scrollHeight);
-  }, []);
+  // useEffect(() => {
+  //   setTotalHeight(window.document.documentElement.scrollHeight);
+
+  //   const id = setInterval(() => {
+  //     setTotalHeight(window.document.documentElement.scrollHeight);
+  //   }, 10000);
+
+  //   return () => {
+  //     clearInterval(id);
+  //   };
+  // }, []);
 
   return (
     <>

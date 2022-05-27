@@ -1,9 +1,16 @@
 import styles from "../styles/Home.module.css";
 import { AnimatePresence, motion, useAnimation } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import HeaderLayout from "../components/layout/header-layout";
+import { useLayout } from "../store/layout";
 export default function Home() {
   const [isShown, setShown] = useState(false);
+
+  // const { setTotalHeight } = useLayout();
+
+  // useEffect(() => {
+  //   setTotalHeight(window.document.documentElement.scrollHeight);
+  // }, []);
 
   const animation = useAnimation();
   async function sequence() {

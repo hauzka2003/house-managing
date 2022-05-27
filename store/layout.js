@@ -49,8 +49,21 @@ export function LayoutContextProvider({ children }) {
 
   const [inforModal, setInforModal] = useState(false);
 
+  // console.log(totalHeight);
+
   useEffect(() => {
     setCurrentPage(getTitle(router.pathname.split("/").pop()));
+    // console.log(
+    //   "totalHeight - currentDevice.height",
+    //   totalHeight - currentDevice.height
+    // );
+    // console.log(
+    //   "window.document.documentElement.scrollHeight",
+    //   window.document.documentElement.scrollHeight
+    // );
+    // setTotalHeight(
+    //   window.document.documentElement.scrollHeight - currentDevice.height
+    // );
   }, [router.pathname]);
 
   useEffect(() => {
@@ -71,6 +84,10 @@ export function LayoutContextProvider({ children }) {
 
     router.events.on("routeChangeComplete", (url) => {
       setScrollLocked(false);
+      // console.log(
+      //   "window.document.documentElement.scrollHeight",
+      //   window.document.documentElement.clientHeight
+      // );
       // scrollTo({ y: 0 });
       setPageLoading({
         loading: false,
@@ -92,12 +109,12 @@ export function LayoutContextProvider({ children }) {
     setCurrentPage(page);
   }
 
-  let totalSection = Math.round(totalHeight - currentDevice.height);
+  // let totalSection = Math.round(totalHeight - currentDevice.height);
 
   // console.log(totalHeight);
 
-  let totalScroll =
-    Math.abs(totalSection - scroll.y) <= 2 ? totalHeight : scroll.y;
+  // let totalScroll =
+  //   Math.abs(totalSection - scroll.y) <= 2 ? totalHeight : scroll.y;
 
   const content = {
     navClosed: navClosed,
@@ -119,7 +136,7 @@ export function LayoutContextProvider({ children }) {
     initalLoading,
     setInitalLoading,
     currentDevice,
-    totalScroll,
+    // totalScroll,
     setTotalHeight,
   };
 
