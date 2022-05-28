@@ -27,7 +27,7 @@ function FrontProfile({ device, width, height }) {
     if (scroll.y <= 300) {
       return true;
     }
-    if (totalScroll - totalHeight == 0) {
+    if (scroll.y - totalHeight > -1) {
       return true;
     }
     return false;
@@ -195,7 +195,7 @@ function FrontProfile({ device, width, height }) {
             <motion.div
               className={styles.log_in_container}
               style={
-                totalHeight - totalScroll == 0
+                scroll.y - totalHeight > -1
                   ? { color: "#fff" }
                   : { color: "#050505" }
               }

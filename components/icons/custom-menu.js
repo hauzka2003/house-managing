@@ -67,7 +67,7 @@ function CustomMenuIcon({ style, device, height }) {
       return true;
     }
 
-    if (totalScroll - totalHeight == 0) {
+    if (scroll.y - totalHeight > -1) {
       return true;
     }
     return false;
@@ -353,7 +353,7 @@ function CustomMenuIcon({ style, device, height }) {
             className={styles.text_nav_state}
             key={"text_nav_state"}
             style={
-              totalHeight - totalScroll == 0
+              scroll.y - totalHeight > -1
                 ? { color: "#fff" }
                 : { color: "#050505" }
             }
@@ -432,7 +432,7 @@ function CustomMenuIcon({ style, device, height }) {
                 initial={{ y: -lineGap }}
                 animate={line1}
                 style={
-                  totalHeight - totalScroll == 0
+                  scroll.y - totalHeight > -1
                     ? { backgroundColor: "#fff" }
                     : { backgroundColor: "#050505" }
                 }
@@ -441,7 +441,7 @@ function CustomMenuIcon({ style, device, height }) {
                 className={styles.line}
                 animate={line2}
                 style={
-                  totalHeight - totalScroll == 0
+                  scroll.y - totalHeight > -1
                     ? { backgroundColor: "#fff" }
                     : { backgroundColor: "#050505" }
                 }
@@ -451,7 +451,7 @@ function CustomMenuIcon({ style, device, height }) {
                 initial={{ y: lineGap }}
                 animate={line3}
                 style={
-                  totalHeight - totalScroll == 0
+                  scroll.y - totalHeight > -1
                     ? { backgroundColor: "#fff" }
                     : { backgroundColor: "#050505" }
                 }

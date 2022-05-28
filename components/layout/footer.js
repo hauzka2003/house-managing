@@ -11,6 +11,7 @@ import {
 } from "framer-motion";
 import FooterLink from "./footer-link";
 import Image from "next/image";
+import Link from "next/link";
 
 const links = [
   { name: "PLANS", url: "/plans" },
@@ -25,7 +26,8 @@ function Footer() {
   const currentRouteRef = useRef(null);
   const currentRouteRef1 = useRef(null);
 
-  const { pageLoading, currentDevice, totalHeight } = useLayout();
+  const { pageLoading, currentDevice, totalHeight, mobileNavState } =
+    useLayout();
   const [currentRoute, setCurrentRoute] = useState(router.pathname);
 
   const y = useTransform(scrollY, [totalHeight - 450, totalHeight], [-400, 0]);
@@ -81,6 +83,13 @@ function Footer() {
 
   return (
     <div className={styles.footer_container}>
+      <div className={styles.mailto}>
+        <Link href={"mailto:contact@subsica.co.vn"}>contact@subsica.co.vn</Link>
+      </div>
+      <div className={styles.tel}>
+        <Link href={"tel:+84-8252-9108"}>+84-8252-9108</Link>
+      </div>
+      <div className={styles.side_brand}>Subsica Co,.Ltd.© 2022</div>
       <motion.div
         className={styles.black_water_center}
         style={{
@@ -91,6 +100,21 @@ function Footer() {
           y: -450,
           scale: 1.1,
         }}
+        animate={
+          mobileNavState
+            ? {
+                zIndex: 103,
+                transition: {
+                  delay: 1.4,
+                },
+              }
+            : {
+                zIndex: 1,
+                transition: {
+                  delay: 1.4,
+                },
+              }
+        }
       >
         <Image src={"/black-water/01.png"} width={550} height={400} />
       </motion.div>
