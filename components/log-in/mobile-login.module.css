@@ -212,7 +212,7 @@
 .black_water_end {
   position: absolute;
   top: 0;
-  right: 0;
+  right: -50px;
   z-index: 1;
   transform-origin: 90% 70%;
 }

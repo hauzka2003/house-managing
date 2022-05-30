@@ -1,5 +1,11 @@
 import styles from "./mobile-login.module.css";
-import { AnimatePresence, motion, useAnimation } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useAnimation,
+  useViewportScroll,
+  useTransform,
+} from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { useParallax } from "react-scroll-parallax";
 import { useLayout } from "../../store/layout";
@@ -11,7 +17,10 @@ function MobileLogIn({ device, height }) {
   const [toggleSign, setToggleSign] = useState(false);
   const [signinView, setSigninView] = useState(false);
 
-  const { scroll, mobileNavState } = useLayout();
+  const { scroll, mobileNavState, totalHeight, currentDevice } = useLayout();
+  const { scrollY } = useViewportScroll();
+
+  const y = useTransform(scrollY, [0, currentDevice.height], [0, 400]);
 
   const leftButtonAnimation = useAnimation();
   const leftButton1Animation = useAnimation();
@@ -43,10 +52,6 @@ function MobileLogIn({ device, height }) {
     speed: -15,
     translateY: [0, 200, "easeInCubic"],
     // shouldAlwaysCompleteAnimation: true,
-  });
-
-  const waterCenter = useParallax({
-    speed: -30,
   });
 
   useEffect(() => {
@@ -241,7 +246,7 @@ function MobileLogIn({ device, height }) {
       <motion.div className={styles.header_container}>
         <motion.div
           className={styles.black_water_center}
-          ref={waterCenter.ref}
+          style={{ y }}
           animate={
             mobileNavState
               ? {
@@ -409,6 +414,8 @@ function MobileLogIn({ device, height }) {
         animateSignButton={animateSignButton}
         toggleSign={toggleSign}
         setToggleSign={setToggleSign}
+        scrollY={scrollY}
+        currentDevice={currentDevice}
       />
     </>
   );

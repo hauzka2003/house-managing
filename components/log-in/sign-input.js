@@ -1,13 +1,18 @@
-import { motion, AnimatePresence, useAnimation } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useAnimation,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import Image from "next/image";
 import LockClosedFill from "../icons/lock-closed-fill";
 import PersonFillIcon from "../icons/person-fill";
 import styles from "./mobile-login.module.css";
-import { useParallax } from "react-scroll-parallax";
 import LoginFill from "../icons/log-in-fill";
 import PeopleFillIcon from "../icons/people-fill";
 import StoreInput, { LogIn, SignUp } from "./ultility/login-input";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useUser } from "../../store/user";
 import ArrowForwardIcon from "../icons/arrow-forward";
 
@@ -23,26 +28,39 @@ function frontUserCheck(userName, password) {
 }
 
 function SignInput({
-  scroll,
   forwardedRef,
   setSigninView,
-  signinView,
   animateSignButton,
   toggleSign,
   setToggleSign,
+  scrollY,
+  currentDevice,
 }) {
-  const blackWater = useParallax({
-    speed: -10,
-    easing: "easeInOutQuad",
-    rotate: [45, 90, 0],
-    shouldAlwaysCompleteAnimation: true,
-  });
-
   const { dispatch, state } = StoreInput();
   const [loading, setLoading] = useState(false);
   const { signIn } = useUser();
   const lineLoading = useAnimation();
   const arrowAnimation = useAnimation();
+  const blackwaterRef = useRef(null);
+  const [location, setLocation] = useState(null);
+
+  const blackwaterY = useTransform(
+    scrollY,
+    [location - currentDevice.height - 200, currentDevice.height * 2],
+    [-200, 100]
+  );
+
+  const blackwaterRotate = useTransform(
+    scrollY,
+    [location - currentDevice.height - 100, currentDevice.height * 2],
+    [0, 60]
+  );
+
+  useEffect(() => {
+    if (blackwaterRef) {
+      setLocation(blackwaterRef.current.getBoundingClientRect().top);
+    }
+  }, [blackwaterRef]);
 
   const [error, setError] = useState(null);
   const [signInerror, setSignInerror] = useState(null);
@@ -52,8 +70,6 @@ function SignInput({
   const [showLine, setShowLine] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [showArrow, setShowArrow] = useState(false);
-
-  // console.log("showArrow", showArrow);
 
   async function signInHandler() {
     // console.log("signInHandler");
@@ -194,9 +210,16 @@ function SignInput({
 
   return (
     <motion.div className={styles.sign_container} ref={forwardedRef}>
-      <div className={styles.black_water_end} ref={blackWater.ref}>
+      <motion.div
+        className={styles.black_water_end}
+        ref={blackwaterRef}
+        style={{
+          y: blackwaterY,
+          rotate: blackwaterRotate,
+        }}
+      >
         <Image src={"/black-water/01.png"} width={200} height={200} />
-      </div>
+      </motion.div>
       <motion.div
         className={styles.sign_input_container}
         initial={{ y: 30, opacity: 0 }}
