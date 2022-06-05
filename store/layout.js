@@ -22,6 +22,7 @@ function getTitle(title) {
 }
 
 export function LayoutContextProvider({ children }) {
+  const hasWindow = typeof window !== "undefined";
   const router = useRouter();
   const [navClosed, setNavClosed] = useState(false);
   const [currentPage, setCurrentPage] = useState(
@@ -107,6 +108,12 @@ export function LayoutContextProvider({ children }) {
       router.events.off("routeChangeComplete");
     };
   }, []);
+
+  useEffect(() => {
+    setTotalHeight(
+      window.document.documentElement.scrollHeight - currentDevice.height
+    );
+  }, [hasWindow.document?.documentElement?.scrollHeight]);
 
   function toggleNav() {
     setNavClosed(!navClosed);

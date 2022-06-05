@@ -58,6 +58,8 @@ function Footer() {
     damping: 90,
   });
 
+  console.log(y);
+
   function getPageName() {
     if (currentRoute === "/plans") {
       return "PLANS";
