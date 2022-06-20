@@ -15,6 +15,7 @@ import StoreInput, { LogIn, SignUp } from "./ultility/login-input";
 import { useState, useEffect, useRef } from "react";
 import { useUser } from "../../store/user";
 import ArrowForwardIcon from "../icons/arrow-forward";
+import { useRouter } from "next/router";
 
 function frontUserCheck(userName, password) {
   if (
@@ -43,6 +44,7 @@ function SignInput({
   const arrowAnimation = useAnimation();
   const blackwaterRef = useRef(null);
   const [location, setLocation] = useState(null);
+  const router = useRouter();
 
   const blackwaterY = useTransform(
     scrollY,
@@ -83,6 +85,11 @@ function SignInput({
       setLoading(false);
       setError(response);
       setSignInerror(response);
+
+      if (response.type === "success") {
+        router.push("/dashboard");
+      }
+
       setShowError(true);
     } else {
       setError({ message: "Please fill in all fields", type: "error" });

@@ -1,6 +1,4 @@
-import axios from "axios";
 import { useState, useEffect, useContext, createContext } from "react";
-import { supabase } from "../../utils/supabase";
 
 const PING_RESOURCE = "/api/test-ping";
 const TIMEOUT_TIME_MS = 3000;

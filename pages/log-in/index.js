@@ -28,21 +28,20 @@ function LogInPage() {
     setCurrentDimensions(currentDevice);
   }, [currentDevice]);
 
-  // useEffect(() => {
-  //   setTotalHeight(window.document.documentElement.scrollHeight);
+  useEffect(() => {
+    // setTotalHeight(window.document.documentElement.scrollHeight);
 
-  //   const id = setInterval(() => {
-  //     setTotalHeight(window.document.documentElement.scrollHeight);
-  //   }, 3000);
+    // const id = setInterval(() => {
+    //   setTotalHeight(window.document.documentElement.scrollHeight);
+    // }, 3000);
 
-  //   return () => {
-  //     clearInterval(id);
-  //   };
-  // }, []);
-
-  if (user) {
-    router.push("/dashboard");
-  }
+    // return () => {
+    //   clearInterval(id);
+    // };
+    if (user) {
+      router.push("/dashboard");
+    }
+  }, [user]);
 
   const [moved, setMoved] = useState(false);
   function onMovedHandler(event) {

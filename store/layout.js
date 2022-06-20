@@ -83,7 +83,7 @@ export function LayoutContextProvider({ children }) {
 
   useEffect(() => {
     router.events.on("routeChangeStart", (url) => {
-      setScrollLocked(true);
+      // setScrollLocked(true);
       setPageLoading({
         loading: true,
         url,
@@ -114,6 +114,8 @@ export function LayoutContextProvider({ children }) {
       window.document.documentElement.scrollHeight - currentDevice.height
     );
   }, [hasWindow.document?.documentElement?.scrollHeight]);
+
+  // console.log(totalHeight);
 
   function toggleNav() {
     setNavClosed(!navClosed);

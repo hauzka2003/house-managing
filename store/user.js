@@ -66,10 +66,11 @@ export function UserContextProvider({ children }) {
   }
 
   async function signIn(email, password) {
-    const { user, error, session } = await supabase.auth.signIn({
+    const { user, error } = await supabase.auth.signIn({
       email: email,
       password: password,
     });
+
     if (error) {
       return error;
     }

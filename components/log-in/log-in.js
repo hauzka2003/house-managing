@@ -62,10 +62,12 @@ function LogIn(props) {
       }
     }
     const user = await signIn(data?.email ?? userName, password);
+
     if (user?.status === 400) {
       setError({ message: "Incorrect email or password", type: "error" });
       return;
     }
+
     if (user) {
       setError(null);
       router.push("/dashboard");

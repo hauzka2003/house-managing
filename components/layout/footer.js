@@ -30,6 +30,8 @@ function Footer() {
     useLayout();
   const [currentRoute, setCurrentRoute] = useState(router.pathname);
 
+  console.log(totalHeight);
+
   const y = useTransform(scrollY, [totalHeight - 450, totalHeight], [-400, 0]);
 
   const stringx = useSpring(totalHeight ? y : null, {
@@ -58,7 +60,7 @@ function Footer() {
     damping: 90,
   });
 
-  console.log(y);
+  // console.log(y);
 
   function getPageName() {
     if (currentRoute === "/plans") {
