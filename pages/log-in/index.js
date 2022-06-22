@@ -14,11 +14,8 @@ const MobileLogIn = dynamic(() =>
 );
 const LogIn = dynamic(() => import("../../components/log-in/log-in"));
 
-const ErrorModal = dynamic(
-  () => import("../../components/layout/error_notify"),
-  {
-    suspense,
-  }
+const ErrorModal = dynamic(() =>
+  import("../../components/layout/error_notify")
 );
 function LogInPage() {
   const router = useRouter();
