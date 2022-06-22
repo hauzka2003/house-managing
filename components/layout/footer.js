@@ -26,7 +26,7 @@ function Footer() {
   const currentRouteRef = useRef(null);
   const currentRouteRef1 = useRef(null);
 
-  const { pageLoading, currentDevice, totalHeight, mobileNavState } =
+  const { pageLoading, currentDevice, totalHeight, mobileNavState, scrollTo } =
     useLayout();
   const [currentRoute, setCurrentRoute] = useState(router.pathname);
 
@@ -80,10 +80,11 @@ function Footer() {
   useEffect(() => {
     if (pageLoading.loading) {
       setTimeout(() => {
-        setCurrentRoute(pageLoading.url);
-      }, 1000);
+        setCurrentRoute(router.pathname);
+        scrollTo({ y: 0 });
+      }, 900);
     }
-  }, [pageLoading]);
+  }, [router.pathname]);
 
   return (
     <div className={styles.footer_container}>
@@ -109,7 +110,7 @@ function Footer() {
             ? {
                 zIndex: 103,
                 transition: {
-                  delay: 1.4,
+                  delay: 0.2,
                 },
               }
             : {
@@ -169,6 +170,7 @@ function Footer() {
             right={"ABOUT"}
             name={"ABOUT US"}
             totalHeight={totalHeight}
+            scrollTo={scrollTo}
           />
         )}
         {currentRoute !== "/contact" && (
@@ -179,6 +181,7 @@ function Footer() {
             right={"CONTACT"}
             name={"CONTACT"}
             totalHeight={totalHeight}
+            scrollTo={scrollTo}
           />
         )}
         {currentRoute !== "/support" && (
@@ -189,6 +192,7 @@ function Footer() {
             right={"SUPPORT"}
             name={"SUPPORT"}
             totalHeight={totalHeight}
+            scrollTo={scrollTo}
           />
         )}
         {currentRoute !== "/plans" && (
@@ -199,6 +203,7 @@ function Footer() {
             right={"PLANS"}
             name={"PLANS"}
             totalHeight={totalHeight}
+            scrollTo={scrollTo}
           />
         )}
       </div>

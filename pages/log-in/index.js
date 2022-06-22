@@ -14,8 +14,11 @@ const MobileLogIn = dynamic(() =>
 );
 const LogIn = dynamic(() => import("../../components/log-in/log-in"));
 
-const ErrorModal = dynamic(() =>
-  import("../../components/layout/error_notify")
+const ErrorModal = dynamic(
+  () => import("../../components/layout/error_notify"),
+  {
+    suspense,
+  }
 );
 function LogInPage() {
   const router = useRouter();
@@ -24,6 +27,7 @@ function LogInPage() {
   const [currentDimensions, setCurrentDimensions] = useState();
   const { currentDevice, width, height } = useWindowDimensions();
   const { setTotalHeight } = useLayout();
+
   useEffect(() => {
     setCurrentDimensions(currentDevice);
   }, [currentDevice]);

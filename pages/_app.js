@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps, router }) {
                         <AnimatePresence exitBeforeEnter>
                           {Component.getLayout ? (
                             <Component.getLayout>
-                              <Component {...pageProps} key={router.pathname} />
+                              <Component {...pageProps} />
                             </Component.getLayout>
                           ) : (
                             <Component {...pageProps} key={router.pathname} />

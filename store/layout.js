@@ -38,7 +38,7 @@ export function LayoutContextProvider({ children }) {
   const [scrollLocked, setScrollLocked] = useScrollLock();
   const [totalHeight, setTotalHeight] = useState();
   const [pageLoading, setPageLoading] = useState({
-    loading: false,
+    loading: true,
     url: null,
   });
   const [initalLoading, setInitalLoading] = useState(true);
@@ -83,7 +83,7 @@ export function LayoutContextProvider({ children }) {
 
   useEffect(() => {
     router.events.on("routeChangeStart", (url) => {
-      // setScrollLocked(true);
+      setScrollLocked(true);
       setPageLoading({
         loading: true,
         url,
@@ -92,16 +92,23 @@ export function LayoutContextProvider({ children }) {
 
     router.events.on("routeChangeComplete", (url) => {
       setScrollLocked(false);
+
       // console.log(
       //   "window.document.documentElement.scrollHeight",
       //   window.document.documentElement.clientHeight
       // );
-      // scrollTo({ y: 0 });
       setPageLoading({
         loading: false,
         url,
       });
     });
+
+    setTimeout(() => {
+      setPageLoading({
+        loading: false,
+        url: null,
+      });
+    }, 2000);
 
     return () => {
       router.events.off("routeChangeStart");
@@ -152,7 +159,7 @@ export function LayoutContextProvider({ children }) {
     initalLoading,
     setInitalLoading,
     currentDevice,
-    // totalScroll,
+    setPageLoading,
     setTotalHeight,
   };
 

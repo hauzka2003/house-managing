@@ -7,8 +7,17 @@ import {
   useSpring,
 } from "framer-motion";
 import Link from "next/link";
+import FrontLink from "../link/front-link";
 
-function FooterLink({ href, name, currentDevice, left, right, totalHeight }) {
+function FooterLink({
+  href,
+  name,
+  currentDevice,
+  left,
+  right,
+  totalHeight,
+  scrollTo,
+}) {
   const ref = useRef(null);
   const ref1 = useRef(null);
 
@@ -47,12 +56,15 @@ function FooterLink({ href, name, currentDevice, left, right, totalHeight }) {
           y: spring,
         }}
       >
-        <Link
+        <FrontLink
           href={href}
-          scroll={currentDevice.currentDevice === "desktop" ? true : false}
+          // scroll={currentDevice.currentDevice === "desktop" ? true : false}
+          style={{
+            cursor: "pointer",
+          }}
         >
           {name}
-        </Link>
+        </FrontLink>
       </motion.div>
       <div
         className={styles.footer_link}

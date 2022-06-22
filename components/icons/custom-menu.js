@@ -55,6 +55,7 @@ function CustomMenuIcon({ style, device, height }) {
     scrollTo,
     totalScroll,
     currentDevice,
+    setPageLoading,
   } = useLayout();
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -215,10 +216,6 @@ function CustomMenuIcon({ style, device, height }) {
 
     if (!pageLoading.loading) {
       if (!mobileNavState) {
-        setTimeout(() => {
-          scrollTo({ y: 0 });
-        }, 1000);
-
         return CloseBackGround1();
       }
 
@@ -278,7 +275,10 @@ function CustomMenuIcon({ style, device, height }) {
         });
         line1.start({ backgroundColor: "#fff", transition: { duration: 2 } });
         line3.start({ backgroundColor: "#fff", transition: { duration: 2 } });
-
+        line2.start({
+          backgroundColor: scroll.y - totalHeight > -1 ? "#fff" : "#050505",
+          transition: { duration: 1.5 },
+        });
         await line2.start({ left: "100%", transition: { duration: 0.5 } });
         linkAnimation.start({
           left: "0%",
@@ -304,17 +304,19 @@ function CustomMenuIcon({ style, device, height }) {
         line1.start({ y: -lineGap, rotate: 0, transition: { duration: 0.5 } });
         line3.start({ y: lineGap, rotate: 0, transition: { duration: 0.5 } });
 
+        line1.start({
+          backgroundColor: scroll.y - totalHeight > -1 ? "#fff" : "#050505",
+          transition: { duration: 1.5 },
+        });
+        line2.start({
+          backgroundColor: scroll.y - totalHeight > -1 ? "#fff" : "#050505",
+          transition: { duration: 1.5 },
+        });
+        line3.start({
+          backgroundColor: scroll.y - totalHeight > -1 ? "#fff" : "#050505",
+          transition: { duration: 1.5 },
+        });
         if (!initalLoading) {
-          line1.start({
-            backgroundColor:
-              totalHeight - totalScroll == 0 ? "#fff" : "#050505",
-            transition: { duration: 1.5 },
-          });
-          line3.start({
-            backgroundColor:
-              totalHeight - totalScroll == 0 ? "#fff" : "#050505",
-            transition: { duration: 1.5 },
-          });
           counterLineAnimation.start({
             height: 0,
             bottom: "100%",
@@ -363,6 +365,10 @@ function CustomMenuIcon({ style, device, height }) {
             transition={{ duration: 0.5, ease: "easeInOut" }}
             onClick={() => {
               setMobileNavState((prevState) => !prevState);
+              setPageLoading((prevState) => ({
+                ...prevState,
+                loading: !prevState.loading,
+              }));
               setScrollLocked((prevState) => !prevState);
             }}
           >
@@ -419,6 +425,10 @@ function CustomMenuIcon({ style, device, height }) {
             onClick={() => {
               setMobileNavState((prevState) => !prevState);
               setScrollLocked((prevState) => !prevState);
+              setPageLoading((prevState) => ({
+                ...prevState,
+                loading: !prevState.loading,
+              }));
             }}
             key={"mobilenavMenu"}
             initial={{ opacity: 0, y: -10 }}
@@ -460,7 +470,7 @@ function CustomMenuIcon({ style, device, height }) {
           </motion.div>
         )}
       </AnimatePresence>
-      <motion.div className={styles.mobile_nav} animate={bgHolderAnimation}>
+      {/* <motion.div className={styles.mobile_nav} animate={bgHolderAnimation}>
         <div className={styles.fixed_content} style={{ zIndex: "102" }}>
           <motion.div
             className={styles.mobile_nav_bg}
@@ -468,7 +478,7 @@ function CustomMenuIcon({ style, device, height }) {
             animate={backgroundAnimation}
           />
         </div>
-      </motion.div>
+      </motion.div> */}
       <motion.div className={styles.mobile_nav} animate={bgHolderAnimation}>
         <div className={styles.fixed_content}>
           <div
@@ -510,11 +520,11 @@ function CustomMenuIcon({ style, device, height }) {
           />
         </div>
       </motion.div>
-      <motion.div
+      {/* <motion.div
         className={styles.first_load_bg}
         //   initial={{ scale: 2 }}
         animate={firstLoadBGAimation}
-      />
+      /> */}
       <motion.div className={styles.counter_line_container}>
         {/* <div>asdasdasda</div> */}
         <div

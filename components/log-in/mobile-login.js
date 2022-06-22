@@ -5,6 +5,7 @@ import {
   useAnimation,
   useViewportScroll,
   useTransform,
+  useSpring,
 } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { useParallax } from "react-scroll-parallax";
@@ -21,6 +22,11 @@ function MobileLogIn({ device, height }) {
   const { scrollY } = useViewportScroll();
 
   const y = useTransform(scrollY, [0, currentDevice.height], [0, 400]);
+
+  const stringx = useSpring(y, {
+    stiffness: 400,
+    damping: 90,
+  });
 
   const leftButtonAnimation = useAnimation();
   const leftButton1Animation = useAnimation();
@@ -243,10 +249,22 @@ function MobileLogIn({ device, height }) {
           </motion.div>
         )}
       </AnimatePresence>
-      <motion.div className={styles.header_container}>
+      <motion.div
+        className={styles.header_container}
+        initial={{
+          y: 100,
+        }}
+        animate={{
+          y: 0,
+          transition: {
+            delay: 1,
+            duration: 1,
+          },
+        }}
+      >
         <motion.div
           className={styles.black_water_center}
-          style={{ y }}
+          style={{ y: stringx }}
           animate={
             mobileNavState
               ? {
@@ -359,7 +377,7 @@ function MobileLogIn({ device, height }) {
               }
               ref={index.ref}
             >
-              05
+              06
             </div>
           </div>
           <div style={{ display: "flex" }} ref={header.ref}>

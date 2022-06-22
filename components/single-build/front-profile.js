@@ -6,6 +6,7 @@ import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import FrontLink from "../link/front-link";
 
 function FrontProfile({ device, width, height }) {
   const { user: loggedUser } = useUser();
@@ -165,7 +166,12 @@ function FrontProfile({ device, width, height }) {
               },
             }}
           >
-            <Link href={"/dashboard"}>
+            <FrontLink
+              href={"/dashboard"}
+              style={{
+                cursor: "pointer",
+              }}
+            >
               <div className={styles.relative_container}>
                 <AvatarUser
                   email={user?.email}
@@ -187,7 +193,7 @@ function FrontProfile({ device, width, height }) {
                   animate={background2Animation}
                 />
               </div>
-            </Link>
+            </FrontLink>
           </motion.div>
         ) : (
           router.pathname !== "/log-in" &&
@@ -227,7 +233,14 @@ function FrontProfile({ device, width, height }) {
                 animate={loginAnimation}
                 key="login-button"
               >
-                <Link href={"/log-in"}>Log in</Link>
+                <FrontLink
+                  href={"/log-in"}
+                  style={{
+                    cursor: "pointer",
+                  }}
+                >
+                  Log in
+                </FrontLink>
               </motion.div>
               <motion.div
                 className={styles.log_in1}
